@@ -85,3 +85,5 @@ names(r.2.2)[2] <- "Country"
 df_recovered <- r.2.2[2:3]
 
 
+
+
