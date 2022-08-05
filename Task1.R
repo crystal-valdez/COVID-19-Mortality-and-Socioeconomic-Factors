@@ -10,7 +10,9 @@ totalconfirmed_deaths <- content(res)$deaths
 totalconfirmed_recovered <- content(res)$recovered
 
 
-#Confirmed Counts by Country
+############################
+#Confirmed Cases by Country
+############################
 library(httr)
 res <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases/country/confirmed")
 country_list <- list()
@@ -32,6 +34,69 @@ for (i in 1:length(unlisted_res)) {
     count_list <- c(count_list,unlisted_res[i])
   }
 }
+
+confirmed_cases_country <- do.call(rbind, Map(cbind, count_list, country_list))
+
+
+############################
+#Confirmed Deaths by Country
+############################
+library(httr)
+res_deaths <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases/country/deaths")
+country_list_deaths <- list()
+count_list_deaths <- list()
+
+#removing 1 row of list 
+unlisted_res_deaths <- unlist(content(res_deaths),recursive=FALSE)
+
+#adding countries to separate list 
+for (i in 1:length(unlisted_res_deaths)) {
+  if (i %% 2 == 0) {
+    country_list_deaths <- c(country_list_deaths,unlisted_res_deaths[i])
+  }
+}
+
+#adding counts to separate list 
+for (i in 1:length(unlisted_res_deaths)) {
+  if (i %% 2 != 0) {
+    count_list_deaths <- c(count_list_deaths,unlisted_res_deaths[i])
+  }
+}
+
+confirmed_deaths_country <- do.call(rbind, Map(cbind, count_list_deaths, country_list_deaths))
+
+
+
+
+
+############################
+#Confirmed Recovered by Country
+############################
+library(httr)
+res_recovered <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases/country/recovered")
+country_list_recovered <- list()
+count_list_recovered <- list()
+
+#removing 1 row of list 
+unlisted_res_recovered <- unlist(content(res_recovered),recursive=FALSE)
+
+#adding countries to separate list 
+for (i in 1:length(unlisted_res_recovered)) {
+  if (i %% 2 == 0) {
+    country_list_recovered <- c(country_list_recovered,unlisted_res_recovered[i])
+  }
+}
+
+#adding counts to separate list 
+for (i in 1:length(unlisted_res_recovered)) {
+  if (i %% 2 != 0) {
+    count_list_recovered <- c(count_list_recovered,unlisted_res_recovered[i])
+  }
+}
+confirmed_recovered_country <- do.call(rbind, Map(cbind, count_list_recovered, country_list_recovered))
+
+
+
 
 
 
