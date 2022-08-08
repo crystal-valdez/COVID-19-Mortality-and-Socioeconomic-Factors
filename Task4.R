@@ -63,7 +63,10 @@ View(gini)
 na_count <-sapply(gini, function(y) sum(length(which(is.na(y)))))
 na_count <- data.frame(na_count) # Lets use the year 2018 for this (most data points)
 
-gini_clean <- gini %>% select(`Country Name`, `Country Code`, `2018`) %>% filter(!is.na(`2018`))
+gini_clean <- gini %>%
+  tidyr::fill('2018') %>%
+  select(`Country Name`, `Country Code`, `2018`) %>%
+  filter(!is.na(`2018`))
 View(gini_clean)
 
 # Making gini categories 
@@ -83,7 +86,8 @@ View(gini_categories)
 pop.density <- read_excel("density.xls", skip = 3)
 View(pop.density)
 
-pop.density_clean <- pop.density %>%
+pop.density_clean <- pop.density %>% 
+  tidyr::fill('2021') %>%
   select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
 View(pop.density_clean)
@@ -142,6 +146,8 @@ View(confirmed_cases_country)
 library(plyr)
 df_covid_gini <- left_join(confirmed_cases_country,gini_categories,by=c("Country" = "Country Name"))
 View(df_covid_gini)
+
+plot(x=df_covid_gini$gini_equaltiy, y=df_covid_gini$Number, type="plot") 
 
 
 df_covid_pop_density <- left_join(confirmed_cases_country,pop.density_categories,by=c("Country" = "Country Name"))
