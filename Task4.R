@@ -172,11 +172,17 @@ confirmed_cases_country$Country[confirmed_cases_country$Country == 'Micronesia']
 
 #decide to what to do with taiwan
 
+###covid gini data - summarizing and looking at median values
 library(plyr)
 df_covid_gini <- left_join(confirmed_cases_country,gini_categories,by=c("Country" = "Country Name"))
 View(df_covid_gini)
-plot(x=df_covid_gini$gini_equaltiy, y=df_covid_gini$Number, type="plot") 
+df_covid_gini <- as.data.frame(df_covid_gini)
+df_covid_gini$Number <- as.numeric(df_covid_gini$Number)
+df_covid_gini$gini_equaltiy <- as.factor(df_covid_gini$gini_equaltiy)
 
+summarized_data <- df_covid_gini %>% group_by(gini_equaltiy) %>% dplyr::summarise(median_number <- median(Number))
+
+plot(x=df_covid_gini$gini_equaltiy, y=df_covid_gini$Number, type="plot") 
 
 df_covid_pop_density <- left_join(confirmed_cases_country,pop.density_categories,by=c("Country" = "Country Name"))
 View(df_covid_pop_density)
