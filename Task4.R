@@ -134,7 +134,10 @@ for (i in 1:length(unlisted_res)) {
 
 confirmed_cases_country <- do.call(rbind, Map(cbind, count_list, country_list))
 confirmed_cases_country <- as.data.frame(confirmed_cases_country)
-confirmed_cases_country %>% mutate(Country = V2) %>% mutate(Number = V1)  %>% select(-V2) %>% select(-V1)
+confirmed_cases_country$Country <- confirmed_cases_country$V2
+confirmed_cases_country$Number <- confirmed_cases_country$V1
+confirmed_cases_country <- confirmed_cases_country %>% select(-V2) %>% select(-V1)
+View(confirmed_cases_country)
 
 library(plyr)
 df_covid_gini <- left_join(confirmed_cases_country,gini_categories,by=c("Country" = "Country Name"))
