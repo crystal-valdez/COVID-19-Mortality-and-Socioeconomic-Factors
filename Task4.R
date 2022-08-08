@@ -63,7 +63,10 @@ View(gini)
 na_count <-sapply(gini, function(y) sum(length(which(is.na(y)))))
 na_count <- data.frame(na_count) # Lets use the year 2018 for this (most data points)
 
-gini_clean <- gini %>% select(`Country Name`, `Country Code`, `2018`) %>% filter(!is.na(`2018`))
+gini_clean <- gini %>%
+  tidyr::fill('2018') %>%
+  select(`Country Name`, `Country Code`, `2018`) %>%
+  filter(!is.na(`2018`))
 View(gini_clean)
 
 # Making gini categories 
@@ -83,7 +86,8 @@ View(gini_categories)
 pop.density <- read_excel("density.xls", skip = 3)
 View(pop.density)
 
-pop.density_clean <- pop.density %>%
+pop.density_clean <- pop.density %>% 
+  tidyr::fill('2021') %>%
   select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
 View(pop.density_clean)
@@ -139,12 +143,46 @@ confirmed_cases_country$Number <- confirmed_cases_country$V1
 confirmed_cases_country <- confirmed_cases_country %>% select(-V2) %>% select(-V1)
 View(confirmed_cases_country)
 
+#replacing 30 countries names for matching - second column is what you are changing it to 
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'United States'] <- 'US'
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Korea, Rep.'] <- 'Korea, South'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "People's Rep."] <- 'Korea, North'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Russian Federation"] <- 'Russia'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Turkiye"] <- 'Turkey'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Islamic Rep."] <- 'Iran'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Czech Republic"] <- 'Czechia'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Slovak Republic"] <- 'Slovakia'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Myanmar"] <- 'Burma'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Venezuela, RB"] <- 'Venezuela'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Egypt, Arab Rep."] <- 'Egypt'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Kyrgyz Republic"] <- 'Kyrgyzstan'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Lao PDR"] <- 'Laos'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Congo, Dem. Rep."] <- 'Congo (Kinshasa)'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Syrian Arab Republic"] <- 'Syria'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Bahamas, The"] <- 'Bahamas'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Congo, Rep."] <- 'Congo (Brazzaville)'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Brunei Darussalam"] <- 'Brunei'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "St. Lucia"] <- 'Saint Lucia'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Gambia, The"] <- 'Gambia'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Yemen, Rep."] <- 'Yemen'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "St. Vincent and the Grenadines"] <- 'Saint Vincent and the Grenadines'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "St. Kitts and Nevis"] <- 'Saint Kitts and Nevis'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "St. Kitts and Nevis"] <- 'Saint Kitts and Nevis'
+confirmed_cases_country$Country[confirmed_cases_country$Country == "Micronesia, Fed. Sts."] <- 'Micronesia'
+
+#decide to what to do with taiwan
+
 library(plyr)
 df_covid_gini <- left_join(confirmed_cases_country,gini_categories,by=c("Country" = "Country Name"))
 View(df_covid_gini)
+
+plot(x=df_covid_gini$gini_equaltiy, y=df_covid_gini$Number, type="plot") 
 
 
 df_covid_pop_density <- left_join(confirmed_cases_country,pop.density_categories,by=c("Country" = "Country Name"))
 View(df_covid_pop_density)
 
+
+#trial to see what's missing
+df_covid_mismatch <- anti_join(confirmed_cases_country,pop.density_categories,by=c("Country" = "Country Name"))
 
