@@ -144,40 +144,37 @@ confirmed_cases_country <- confirmed_cases_country %>% select(-V2) %>% select(-V
 View(confirmed_cases_country)
 
 #replacing 30 countries names for matching - second column is what you are changing it to 
-confirmed_cases_country$Country[confirmed_cases_country$Country == 'United States'] <- 'US'
-confirmed_cases_country$Country[confirmed_cases_country$Country == 'Korea, Rep.'] <- 'Korea, South'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "People's Rep."] <- 'Korea, North'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Russian Federation"] <- 'Russia'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Turkiye"] <- 'Turkey'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Islamic Rep."] <- 'Iran'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Czech Republic"] <- 'Czechia'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Slovak Republic"] <- 'Slovakia'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Myanmar"] <- 'Burma'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Venezuela, RB"] <- 'Venezuela'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Egypt, Arab Rep."] <- 'Egypt'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Kyrgyz Republic"] <- 'Kyrgyzstan'
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'US'] <- 'United States'
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Korea, South'] <- 'Korea, Rep.'
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Korea, North'] <- "People's Rep."
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Russia'] <- "Russian Federation"
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Turkey'] <- "Turkiye"
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Iran'] <- "Islamic Rep."
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Czechia'] <- "Czech Republic"
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Slovakia'] <- "Slovak Republic" 
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Burma'] <- "Myanmar"
+confirmed_cases_country$Country[confirmed_cases_country$Country ==  'Venezuela'] <-"Venezuela, RB"
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Egypt'] <- "Egypt, Arab Rep."
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Kyrgyzstan'] <- "Kyrgyz Republic"
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Laos'] <- "Lao PDR"
 
-
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Lao PDR"] <- 'Laos'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Congo, Dem. Rep."] <- 'Congo (Kinshasa)'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Syrian Arab Republic"] <- 'Syria'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Bahamas, The"] <- 'Bahamas'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Congo, Rep."] <- 'Congo (Brazzaville)'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Brunei Darussalam"] <- 'Brunei'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "St. Lucia"] <- 'Saint Lucia'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Gambia, The"] <- 'Gambia'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Yemen, Rep."] <- 'Yemen'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "St. Vincent and the Grenadines"] <- 'Saint Vincent and the Grenadines'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "St. Kitts and Nevis"] <- 'Saint Kitts and Nevis'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "St. Kitts and Nevis"] <- 'Saint Kitts and Nevis'
-confirmed_cases_country$Country[confirmed_cases_country$Country == "Micronesia, Fed. Sts."] <- 'Micronesia'
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Congo (Kinshasa)'] <- "Congo, Dem. Rep."
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Syria'] <- "Syrian Arab Republic"
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Bahamas'] <- "Bahamas, The"
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Congo (Brazzaville)'] <- "Congo, Rep."
+confirmed_cases_country$Country[confirmed_cases_country$Country ==  'Brunei'] <-"Brunei Darussalam"
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Saint Lucia'] <- "St. Lucia"
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Gambia'] <- "Gambia, The"
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Yemen'] <- "Yemen, Rep."
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Saint Vincent and the Grenadines'] <- "St. Vincent and the Grenadines"
+confirmed_cases_country$Country[confirmed_cases_country$Country ==  'Saint Kitts and Nevis'] <-"St. Kitts and Nevis"
+confirmed_cases_country$Country[confirmed_cases_country$Country == 'Micronesia'] <- "Micronesia, Fed. Sts."
 
 #decide to what to do with taiwan
 
 library(plyr)
 df_covid_gini <- left_join(confirmed_cases_country,gini_categories,by=c("Country" = "Country Name"))
 View(df_covid_gini)
-
 plot(x=df_covid_gini$gini_equaltiy, y=df_covid_gini$Number, type="plot") 
 
 
