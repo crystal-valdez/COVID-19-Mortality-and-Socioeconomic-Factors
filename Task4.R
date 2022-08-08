@@ -8,6 +8,7 @@ library(httr)
 library(stringr)
 library(tidyr)
 library(jsonlite)
+library(readxl)
 
 pops2021 <- as.data.frame(wb_data("SP.POP.TOTL", country = "all", start_date = 2021, end_date = 2021))
 
@@ -62,9 +63,7 @@ View(gini)
 na_count <-sapply(gini, function(y) sum(length(which(is.na(y)))))
 na_count <- data.frame(na_count) # Lets use the year 2018 for this (most data points)
 
-gini_clean <- gini %>%
-  select(`Country Name`, `Country Code`, `2018`) %>%
-  filter(!is.na(`2018`))
+gini_clean <- gini %>% select(`Country Name`, `Country Code`, `2018`) %>% filter(!is.na(`2018`))
 View(gini_clean)
 
 # Making gini categories 
