@@ -101,7 +101,7 @@ pop.density_categories <- pop.density_clean %>%
     `2021` <= 250 ~ "Low",
     `2021` <= 500 ~ "Moderate",
     `2021` <= 1000 ~ "High",
-    `2021` > 1000 ~ "Very gap"
+    `2021` > 1000 ~ "Very high"
   ))
 View(pop.density_categories)
 
