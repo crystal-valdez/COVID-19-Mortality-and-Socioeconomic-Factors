@@ -15,12 +15,12 @@ pops2021_2 <- filter(pops2021, !grepl("[0-9]", iso2c))
 pops2021_2 <- pops2021_2[!is.na(pops2021_2$iso2c),]
 pops2021_2 <- pops2021_2 %>% drop_na(iso2c)
 
-pops2021_2 <- filter(pops2021, !grepl("[countries]", country)) 
-pops2021_2 <- filter(pops2021, !grepl("[only]", country)) 
-pops2021_2 <- filter(pops2021, !grepl("[income]", country)) 
-pops2021_2 <- filter(pops2021, !grepl("[total]", country)) 
-pops2021_2 <- filter(pops2021, !grepl("[blend]", country)) 
-pops2021_2 <- filter(pops2021, !grepl("[union]", country))  
+pops2021_2 <- filter(pops2021_2, !grepl("countries", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("only", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("income", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("total", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("blend", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("Union", country))  
 
 View(pops2021_2)
 
