@@ -156,6 +156,8 @@ confirmed_cases_country$Country[confirmed_cases_country$Country == "Myanmar"] <-
 confirmed_cases_country$Country[confirmed_cases_country$Country == "Venezuela, RB"] <- 'Venezuela'
 confirmed_cases_country$Country[confirmed_cases_country$Country == "Egypt, Arab Rep."] <- 'Egypt'
 confirmed_cases_country$Country[confirmed_cases_country$Country == "Kyrgyz Republic"] <- 'Kyrgyzstan'
+
+
 confirmed_cases_country$Country[confirmed_cases_country$Country == "Lao PDR"] <- 'Laos'
 confirmed_cases_country$Country[confirmed_cases_country$Country == "Congo, Dem. Rep."] <- 'Congo (Kinshasa)'
 confirmed_cases_country$Country[confirmed_cases_country$Country == "Syrian Arab Republic"] <- 'Syria'
@@ -181,7 +183,7 @@ plot(x=df_covid_gini$gini_equaltiy, y=df_covid_gini$Number, type="plot")
 
 df_covid_pop_density <- left_join(confirmed_cases_country,pop.density_categories,by=c("Country" = "Country Name"))
 View(df_covid_pop_density)
-
+View(pop.density_categories)
 
 #trial to see what's missing
 df_covid_mismatch <- anti_join(confirmed_cases_country,pop.density_categories,by=c("Country" = "Country Name"))
