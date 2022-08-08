@@ -36,7 +36,8 @@ for (i in 1:length(unlisted_res)) {
 }
 
 confirmed_cases_country <- do.call(rbind, Map(cbind, count_list, country_list))
-
+confirmed_cases_country <- as.data.frame(confirmed_cases_country)
+confirmed_cases_country %>% mutate(Country = V2) %>% mutate(Number = V1) %>% select(-V2)
 
 ############################
 #Confirmed Deaths by Country
@@ -64,7 +65,8 @@ for (i in 1:length(unlisted_res_deaths)) {
 }
 
 confirmed_deaths_country <- do.call(rbind, Map(cbind, count_list_deaths, country_list_deaths))
-
+confirmed_deaths_country <- as.data.frame(confirmed_deaths_country)
+confirmed_deaths_country %>% mutate(Country = V2) %>% mutate(Number = V1) %>% select(-V2)
 
 
 
@@ -94,9 +96,7 @@ for (i in 1:length(unlisted_res_recovered)) {
   }
 }
 confirmed_recovered_country <- do.call(rbind, Map(cbind, count_list_recovered, country_list_recovered))
-
-
-
-
+confirmed_recovered_country <- as.data.frame(confirmed_recovered_country)
+confirmed_recovered_country %>% mutate(Country = V2) %>% mutate(Number = V1) %>% select(-V2)
 
 
