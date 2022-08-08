@@ -184,10 +184,15 @@ summarized_data <- df_covid_gini %>% group_by(gini_equaltiy) %>% dplyr::summaris
 
 plot(x=df_covid_gini$gini_equaltiy, y=df_covid_gini$Number, type="plot") 
 
+
+#covid pop density - median 
 df_covid_pop_density <- left_join(confirmed_cases_country,pop.density_categories,by=c("Country" = "Country Name"))
 View(df_covid_pop_density)
 View(pop.density_categories)
 
-#trial to see what's missing
-df_covid_mismatch <- anti_join(confirmed_cases_country,pop.density_categories,by=c("Country" = "Country Name"))
+df_covid_pop_density <- as.data.frame(df_covid_pop_density)
+df_covid_pop_density$Number <- as.numeric(df_covid_pop_density$Number)
+df_covid_pop_density$pop.density_categories <- as.factor(df_covid_pop_density$pop.density_categories)
+summarized_data_pop <- df_covid_pop_density %>% group_by(pop.density_categories) %>% dplyr::summarise(median_number <- median(Number))
+
 
