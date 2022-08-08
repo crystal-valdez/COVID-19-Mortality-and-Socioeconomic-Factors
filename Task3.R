@@ -28,11 +28,7 @@ pops2021_2 <- filter(pops2021_2, !grepl("North America", country))
 pops2021_2 <- filter(pops2021_2, !grepl("Sub", country))  
 pops2021_2 <- filter(pops2021_2, !grepl("Union", country))  
 
-
-
-View(pops2021_2)
-
 # sum of population for 2021 
-sum(as.numeric(pops2021$SP.POP.TOTL), na.rm = T)
+world_pop <- sum(as.numeric(pops2021$SP.POP.TOTL), na.rm = T)
 
 
