@@ -20,7 +20,15 @@ pops2021_2 <- filter(pops2021_2, !grepl("only", country))
 pops2021_2 <- filter(pops2021_2, !grepl("income", country)) 
 pops2021_2 <- filter(pops2021_2, !grepl("total", country)) 
 pops2021_2 <- filter(pops2021_2, !grepl("blend", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("Union", country))
+pops2021_2 <- filter(pops2021_2, !grepl("&", country))
+pops2021_2 <- filter(pops2021_2, !grepl("area", country))  
+pops2021_2 <- filter(pops2021_2, !grepl("members", country))  
+pops2021_2 <- filter(pops2021_2, !grepl("North America", country))  
+pops2021_2 <- filter(pops2021_2, !grepl("Sub", country))  
 pops2021_2 <- filter(pops2021_2, !grepl("Union", country))  
+
+
 
 View(pops2021_2)
 
