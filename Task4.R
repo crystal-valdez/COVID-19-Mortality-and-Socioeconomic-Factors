@@ -105,7 +105,13 @@ pop.density_categories <- pop.density_clean %>%
   ))
 View(pop.density_categories)
 
+###MERGING COVID and COUNTRY-CATEGORIES by Country
+library(plyr)
+df_covid_gini <- left_join(confirmed_cases_country,gini_categories,by=c("Country" = "Country Name"))
+View(df_covid_gini)
 
 
+df_covid_pop_density <- left_join(confirmed_cases_country,pop.density_categories,by=c("Country" = "Country Name"))
+View(df_covid_pop_density)
 
 
