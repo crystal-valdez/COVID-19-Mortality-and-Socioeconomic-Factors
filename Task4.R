@@ -106,6 +106,36 @@ pop.density_categories <- pop.density_clean %>%
 View(pop.density_categories)
 
 ###MERGING COVID and COUNTRY-CATEGORIES by Country
+
+############################
+#Confirmed Cases by Country
+############################
+library(httr)
+res <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases/country/confirmed")
+country_list <- list()
+count_list <- list()
+
+#removing 1 row of list 
+unlisted_res <- unlist(content(res),recursive=FALSE)
+
+#adding countries to separate list 
+for (i in 1:length(unlisted_res)) {
+  if (i %% 2 == 0) {
+    country_list <- c(country_list,unlisted_res[i])
+  }
+}
+
+#adding counts to separate list 
+for (i in 1:length(unlisted_res)) {
+  if (i %% 2 != 0) {
+    count_list <- c(count_list,unlisted_res[i])
+  }
+}
+
+confirmed_cases_country <- do.call(rbind, Map(cbind, count_list, country_list))
+confirmed_cases_country <- as.data.frame(confirmed_cases_country)
+confirmed_cases_country %>% mutate(Country = V2) %>% mutate(Number = V1)  %>% select(-V2) %>% select(-V1)
+
 library(plyr)
 df_covid_gini <- left_join(confirmed_cases_country,gini_categories,by=c("Country" = "Country Name"))
 View(df_covid_gini)
