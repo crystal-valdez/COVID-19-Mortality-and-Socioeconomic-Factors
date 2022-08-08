@@ -7,6 +7,7 @@ library("wbstats")
 library(httr)
 library(stringr)
 library(tidyr)
+library(jsonlite)
 
 pops2021 <- as.data.frame(wb_data("SP.POP.TOTL", country = "all", start_date = 2021, end_date = 2021))
 
@@ -51,5 +52,27 @@ world_pop/totalconfirmed_recovered
 
 # Task 4
 
+# Adding excel file of gini rates (from world bank)
+gini <- read_excel("gini.xls", skip = 3)
+View(gini)   
 
+na_count <-sapply(gini, function(y) sum(length(which(is.na(y)))))
+na_count <- data.frame(na_count) # Lets use the year 2018 for this (most data points)
+
+gini_clean <- gini %>%
+  select(`Country Name`, `Country Code`, `2018`) %>%
+  filter(!is.na(`2018`))
+View(gini_clean)
+
+
+#############
+
+# Adding population density 
+pop.density <- read_excel("density.xls", skip = 3)
+View(pop.density)
+
+pop.density_clean <- pop.density %>%
+  select(`Country Name`, `Country Code`, `2021`) %>%
+  filter(!is.na(`2021`))
+View(pop.density_clean)
 
