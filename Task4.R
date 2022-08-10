@@ -205,6 +205,117 @@ summarized_data_pop$pop.density_categories <- ordered(summarized_data_pop$pop.de
 plot(summarized_data_pop)
 
 
+############################
+# Deathhs Cases by Country
+############################
+library(httr)
+res <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases/country/deaths")
+country_list <- list()
+count_list <- list()
+
+#removing 1 row of list 
+unlisted_res <- unlist(content(res),recursive=FALSE)
+
+#adding countries to separate list 
+for (i in 1:length(unlisted_res)) {
+  if (i %% 2 == 0) {
+    country_list <- c(country_list,unlisted_res[i])
+  }
+}
+
+#adding counts to separate list 
+for (i in 1:length(unlisted_res)) {
+  if (i %% 2 != 0) {
+    count_list <- c(count_list,unlisted_res[i])
+  }
+}
+
+death_cases_country <- do.call(rbind, Map(cbind, count_list, country_list))
+death_cases_country <- as.data.frame(death_cases_country)
+death_cases_country$Country <- death_cases_country$V2
+death_cases_country$Number <- death_cases_country$V1
+death_cases_country <- death_cases_country %>% select(-V2) %>% select(-V1)
+View(death_cases_country)
+
+#replacing 30 countries names for matching - second column is what you are changing it to 
+death_cases_country$Country[death_cases_country$Country == 'US'] <- 'United States'
+death_cases_country$Country[death_cases_country$Country =='Korea, South'] <- 'Korea, Rep.'
+death_cases_country$Country[death_cases_country$Country == 'Korea, North'] <- "People's Rep."
+death_cases_country$Country[death_cases_country$Country == 'Russia'] <- "Russian Federation"
+death_cases_country$Country[death_cases_country$Country == 'Turkey'] <- "Turkiye"
+death_cases_country$Country[death_cases_country$Country == 'Iran'] <- "Islamic Rep."
+death_cases_country$Country[death_cases_country$Country == 'Czechia'] <- "Czech Republic"
+death_cases_country$Country[death_cases_country$Country == 'Slovakia'] <- "Slovak Republic" 
+death_cases_country$Country[death_cases_country$Country == 'Burma'] <- "Myanmar"
+death_cases_country$Country[death_cases_country$Country ==  'Venezuela'] <-"Venezuela, RB"
+death_cases_country$Country[death_cases_country$Country == 'Egypt'] <- "Egypt, Arab Rep."
+death_cases_country$Country[death_cases_country$Country == 'Kyrgyzstan'] <- "Kyrgyz Republic"
+death_cases_country$Country[death_cases_country$Country == 'Laos'] <- "Lao PDR"
+
+death_cases_country$Country[death_cases_country$Country == 'Congo (Kinshasa)'] <- "Congo, Dem. Rep."
+death_cases_country$Country[death_cases_country$Country == 'Syria'] <- "Syrian Arab Republic"
+death_cases_country$Country[death_cases_country$Country == 'Bahamas'] <- "Bahamas, The"
+death_cases_country$Country[death_cases_country$Country == 'Congo (Brazzaville)'] <- "Congo, Rep."
+death_cases_country$Country[death_cases_country$Country == 'Brunei'] <-"Brunei Darussalam"
+death_cases_country$Country[death_cases_country$Country == 'Saint Lucia'] <- "St. Lucia"
+death_cases_country$Country[death_cases_country$Country == 'Gambia'] <- "Gambia, The"
+death_cases_country$Country[death_cases_country$Country == 'Yemen'] <- "Yemen, Rep."
+death_cases_country$Country[death_cases_country$Country == 'Saint Vincent and the Grenadines'] <- "St. Vincent and the Grenadines"
+death_cases_country$Country[death_cases_country$Country ==  'Saint Kitts and Nevis'] <-"St. Kitts and Nevis"
+death_cases_country$Country[death_cases_country$Country == 'Micronesia'] <- "Micronesia, Fed. Sts."
+
+#decide to what to do with taiwan
+
+###covid gini data - summarizing and looking at median values
+library(plyr)
+df_covid_gini_mort <- left_join(death_cases_country,gini_categories,by=c("Country" = "Country Name"))
+View(df_covid_gini_mort)
+df_covid_gini_mort <- as.data.frame(df_covid_gini_mort)
+df_covid_gini_mort$Number <- as.numeric(df_covid_gini_mort$Number)
+df_covid_gini_mort$gini_equaltiy <- as.factor(df_covid_gini_mort$gini_equaltiy)
+
+summarized_data_mort <- df_covid_gini_mort %>% group_by(gini_equaltiy) %>% dplyr::summarise(median_number <- median(Number))
+
+plot(x=df_covid_gini_mort$gini_equaltiy, y=df_covid_gini_mort$Number, type="plot") 
+
+
+#covid pop density - median 
+df_covid_pop_density.mort <- left_join(death_cases_country,pop.density_categories,by=c("Country" = "Country Name"))
+View(df_covid_pop_density.mort)
+View(df_covid_pop_density.mort)
+
+df_covid_pop_density.mort <- as.data.frame(df_covid_pop_density.mort)
+df_covid_pop_density.mort$Number <- as.numeric(df_covid_pop_density.mort$Number)
+df_covid_pop_density.mort$pop.density_categories <- as.factor(df_covid_pop_density.mort$pop.density_categories)
+
+summarized_data_pop_mort <- df_covid_pop_density.mort %>% 
+  group_by(pop.density_categories) %>% 
+  dplyr::summarise(median_number <- median(Number))
+
+levels(summarized_data_pop_mort$pop.density_categories)
+summarized_data_pop_mort$pop.density_categories <- ordered(summarized_data_pop_mort$pop.density_categories, levels = c("Extremely low",
+                                                                                                             "Low",
+                                                                                                             "Moderate",
+                                                                                                             "High",
+                                                                                                             "Very high",
+                                                                                                             "NA"))
+plot(summarized_data_pop_mort)
+
+####################################
+# Confirmed cases  by GDP 
+####################################
+
+# Adding GDP 
+GDP <- read_excel("GDP.xls", skip = 3)
+View(GDP)
+
+pop.density_clean <- pop.density %>% 
+  tidyr::fill('2021') %>%
+  select(`Country Name`, `Country Code`, `2021`) %>%
+  filter(!is.na(`2021`))
+View(pop.density_clean)
+
+
 
 
 
