@@ -59,7 +59,6 @@ world_pop/totalconfirmed_recovered
 #Gini index < 0.2 represents perfect income equality, 0.2–0.3 relative equality, 
 #0.3–0.4 adequate equality, 0.4–0.5 big income gap, and above 0.5 represents severe income gap.
 gini <- read_excel("gini.xls", skip = 3)
-View(gini)   
 
 na_count <-sapply(gini, function(y) sum(length(which(is.na(y)))))
 na_count <- data.frame(na_count) # Lets use the year 2018 for this (most data points)
@@ -68,7 +67,7 @@ gini_clean <- gini %>%
   tidyr::fill('2018') %>%
   select(`Country Name`, `Country Code`, `2018`) %>%
   filter(!is.na(`2018`))
-View(gini_clean)
+
 
 # Making gini categories 
 gini_categories <- gini_clean %>%
@@ -79,19 +78,19 @@ gini_categories <- gini_clean %>%
     `2018` <= 50 ~ "Big gap",
     `2018` > 50 ~ "Severe gap"
   ))
-View(gini_categories)
+
 
 #############
 
 # Adding population density 
 pop.density <- read_excel("density.xls", skip = 3)
-View(pop.density)
+
 
 pop.density_clean <- pop.density %>% 
   tidyr::fill('2021') %>%
   select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
-View(pop.density_clean)
+
 
 # Making populaiton density categories
 # <= 100 - extremely  low
@@ -108,7 +107,7 @@ pop.density_categories <- pop.density_clean %>%
     `2021` <= 1000 ~ "High",
     `2021` > 1000 ~ "Very high"
   ))
-View(pop.density_categories)
+
 
 ###MERGING COVID and COUNTRY-CATEGORIES by Country
 
@@ -142,7 +141,7 @@ confirmed_cases_country <- as.data.frame(confirmed_cases_country)
 confirmed_cases_country$Country <- confirmed_cases_country$V2
 confirmed_cases_country$Number <- confirmed_cases_country$V1
 confirmed_cases_country <- confirmed_cases_country %>% select(-V2) %>% select(-V1)
-View(confirmed_cases_country)
+
 
 #replacing 30 countries names for matching - second column is what you are changing it to 
 confirmed_cases_country$Country[confirmed_cases_country$Country == 'US'] <- 'United States'
@@ -176,7 +175,7 @@ confirmed_cases_country$Country[confirmed_cases_country$Country == 'Micronesia']
 ###covid gini data - summarizing and looking at median values
 library(plyr)
 df_covid_gini <- left_join(confirmed_cases_country,gini_categories,by=c("Country" = "Country Name"))
-View(df_covid_gini)
+
 df_covid_gini <- as.data.frame(df_covid_gini)
 df_covid_gini$Number <- as.numeric(df_covid_gini$Number)
 df_covid_gini$gini_equaltiy <- as.factor(df_covid_gini$gini_equaltiy)
@@ -188,8 +187,7 @@ plot(x=df_covid_gini$gini_equaltiy, y=df_covid_gini$Number, type="plot")
 
 #covid pop density - median 
 df_covid_pop_density <- left_join(confirmed_cases_country,pop.density_categories,by=c("Country" = "Country Name"))
-View(df_covid_pop_density)
-View(pop.density_categories)
+
 
 df_covid_pop_density <- as.data.frame(df_covid_pop_density)
 df_covid_pop_density$Number <- as.numeric(df_covid_pop_density$Number)
@@ -205,8 +203,18 @@ summarized_data_pop$pop.density_categories <- ordered(summarized_data_pop$pop.de
 plot(summarized_data_pop)
 
 
+#covid income levels 
+#add column for each country being part of low or middle or high income categories
 
-
-
-
-
+pop_income <- read.csv("income_world_data_country.csv")
+df_covid_pop_income <- left_join(confirmed_cases_country,pop_income,by=c("Country" = "Country"))
+View(df_covid_pop_income)
+df_covid_pop_income$Number <- as.numeric(df_covid_pop_income$Number)
+df_covid_pop_income$Income.group <- as.factor(df_covid_pop_income$Income.group)
+levels(df_covid_pop_income$Income.group)
+df_covid_pop_income$Income.group <- ordered(df_covid_pop_income$Income.group, levels = c("Low income",
+                                                                                                             "Lower middle income",
+                                                                                                             "Upper middle income",
+                                                                                                             "High income",
+                                                                                                             ""))
+plot(x=df_covid_pop_income$Income.group, y=df_covid_pop_income$Number, type="plot") 
