@@ -218,3 +218,51 @@ df_covid_pop_income$Income.group <- ordered(df_covid_pop_income$Income.group, le
                                                                                                              "High income",
                                                                                                              ""))
 plot(x=df_covid_pop_income$Income.group, y=df_covid_pop_income$Number, type="plot") 
+
+
+
+
+##MORTALITY AND CATEGROIES - TEST 
+
+###copied code from Task 1: 
+############################
+#Confirmed Deaths by Country
+############################
+library(httr)
+res_deaths <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases/country/deaths")
+country_list_deaths <- list()
+count_list_deaths <- list()
+
+#removing 1 row of list 
+unlisted_res_deaths <- unlist(content(res_deaths),recursive=FALSE)
+
+#adding countries to separate list 
+for (i in 1:length(unlisted_res_deaths)) {
+  if (i %% 2 == 0) {
+    country_list_deaths <- c(country_list_deaths,unlisted_res_deaths[i])
+  }
+}
+
+#adding counts to separate list 
+for (i in 1:length(unlisted_res_deaths)) {
+  if (i %% 2 != 0) {
+    count_list_deaths <- c(count_list_deaths,unlisted_res_deaths[i])
+  }
+}
+
+confirmed_deaths_country <- do.call(rbind, Map(cbind, count_list_deaths, country_list_deaths))
+confirmed_deaths_country <- as.data.frame(confirmed_deaths_country)
+confirmed_deaths_country <- confirmed_deaths_country %>% mutate(Country = V2) %>% mutate(Number = V1) %>% select(-V2) %>% select(-V1)
+
+
+df_covid_deaths_pop_income <- left_join(confirmed_deaths_country,pop_income,by=c("Country" = "Country"))
+View(df_covid_deaths_pop_income)
+df_covid_deaths_pop_income$Number <- as.numeric(df_covid_deaths_pop_income$Number)
+df_covid_deaths_pop_income$Income.group <- as.factor(df_covid_deaths_pop_income$Income.group)
+levels(df_covid_deaths_pop_income$Income.group)
+df_covid_deaths_pop_income$Income.group <- ordered(df_covid_deaths_pop_income$Income.group, levels = c("Low income",
+                                                                                         "Lower middle income",
+                                                                                         "Upper middle income",
+                                                                                         "High income",
+                                                                                         ""))
+plot(x=df_covid_deaths_pop_income$Income.group, y=df_covid_deaths_pop_income$Number, type="plot") 
