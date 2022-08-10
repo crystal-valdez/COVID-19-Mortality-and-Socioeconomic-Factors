@@ -9,6 +9,7 @@ library(stringr)
 library(tidyr)
 library(jsonlite)
 library(readxl)
+library(dplyr)
 
 pops2021 <- as.data.frame(wb_data("SP.POP.TOTL", country = "all", start_date = 2021, end_date = 2021))
 
@@ -194,5 +195,24 @@ df_covid_pop_density <- as.data.frame(df_covid_pop_density)
 df_covid_pop_density$Number <- as.numeric(df_covid_pop_density$Number)
 df_covid_pop_density$pop.density_categories <- as.factor(df_covid_pop_density$pop.density_categories)
 summarized_data_pop <- df_covid_pop_density %>% group_by(pop.density_categories) %>% dplyr::summarise(median_number <- median(Number))
+levels(summarized_data_pop$pop.density_categories)
+summarized_data_pop$pop.density_categories <- ordered(summarized_data_pop$pop.density_categories, levels = c("Extremely low",
+                                                                                        "Low",
+                                                                                        "Moderate",
+                                                                                        "High",
+                                                                                        "Very high",
+                                                                                        "NA"))
+plot(summarized_data_pop)
+
+
+
+
+
+
+
+
+
+
+
 
 
