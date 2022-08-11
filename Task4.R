@@ -309,17 +309,50 @@ plot(summarized_data_pop_mort)
 GDP <- read_excel("GDP.xls", skip = 3)
 View(GDP)
 
-pop.density_clean <- pop.density %>% 
+GDP.clean <- GDP %>% 
   tidyr::fill('2021') %>%
   select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
-View(pop.density_clean)
+View(GDP.clean)
+
+# Side by side df of GDP and confirmed cases
+df_GDP_conf <- left_join(confirmed_cases_country,GDP.clean,by=c("Country" = "Country Name"))
+View(df_GDP_conf)
+df_GDP_conf <- as.data.frame(df_GDP_conf)
+df_GDP_conf$Number <- as.numeric(df_GDP_conf$Number)
+df_GDP_conf$`2021` <- as.numeric(df_GDP_conf$`2021`)
+
+#Lower Range = Q1 -(1.5 * IQR) - Number
+#Upper Range = Q3 + (1.5 * IQR) - Number
+23532 - (1.5* (761937 - 23532))
+761937 + (1.5* (761937 - 23532))
 
 
+plot(x=df_GDP_conf$`2021`, y=df_GDP_conf$Number, type="plot", xlim = c(0,7.72175e+11)) 
 
+####################################
+# Confirmed cases  by Healthcare expenditure (% of GDP) 
+####################################
 
+# Adding GDP 
+Health_exp <- read_excel("Health.exp.xls", 
+                         skip = 3)
+View(Health_exp)
 
+Health_exp <- GDP %>% 
+  tidyr::fill('2021') %>%
+  select(`Country Name`, `Country Code`, `2021`) %>%
+  filter(!is.na(`2021`))
+View(Health_exp)
 
+# Side by side df of GDP and confirmed cases
+df_health_conf <- left_join(death_cases_country,Health_exp,by=c("Country" = "Country Name"))
+View(df_health_conf)
+df_health_conf <- as.data.frame(df_health_conf)
+df_health_conf$Number <- as.numeric(df_health_conf$Number)
+df_health_conf$`2021` <- as.numeric(df_health_conf$`2021`)
+
+plot(x=df_health_conf$`2021`, y=df_health_conf$Number, type="plot", xlim = c(0,4e+11)) 
 
 
 
