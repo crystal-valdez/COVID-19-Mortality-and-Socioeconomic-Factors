@@ -191,7 +191,7 @@ death_cases_country$Country[death_cases_country$Country == 'Micronesia'] <- "Mic
 ####0.3–0.4 adequate equality, 0.4–0.5 big income gap, and above 0.5 represents severe income gap.
 
 gini <- read_excel("gini.xls", skip = 3)
-View(gini)   
+View(gini)
 
 na_count <-sapply(gini, function(y) sum(length(which(is.na(y)))))
 na_count <- data.frame(na_count) # USing 2018 as it has the msot info
@@ -214,26 +214,41 @@ gini_categories <- gini_clean %>%
 View(gini_categories)
 
 #############
-
 # Confirmed cases plots
-df_covid_gini <- left_join(confirmed_cases_country,gini_clean,by=c("Country" = "Country Name"))
-View(df_covid_gini)
+#############
+
+#creating df with both cases and countries called cases_countries
+#creating df with both deaths and countries called deaths_countries
+cases_countries <- left_join(confirmed_cases_country,pops2021_2, by=c("Country"="country"))
+deaths_countries <- left_join(death_cases_country,pops2021_2, by=c("Country"="country"))
+
+############# GINI #############
+df_covid_gini <- left_join(cases_countries,gini_clean,by=c("Country" = "Country Name"))
+
 df_covid_gini <- as.data.frame(df_covid_gini)
 df_covid_gini$Number <- as.numeric(df_covid_gini$Number)
-df_covid_gini$`2018` <- as.numeric(df_covid_gini$`2018`)
+df_covid_gini$SP.POP.TOTL <- as.numeric(df_covid_gini$SP.POP.TOTL)
+
+df_covid_gini$cases_per_capita <- as.numeric(df_covid_gini$Number)/as.numeric(df_covid_gini$SP.POP.TOTL)
+df_covid_gini$cases_per_capita <- as.numeric(df_covid_gini$cases_per_capita)
+df_covid_gini$`2018` <- as.numeric(df_covid_gini$`2018`) #remember to rename to another  metric-name 
 
 
-plot(x=log(df_covid_gini$`2018`), y=log(df_covid_gini$Number), type="plot") 
+plot(x=log(df_covid_gini$`2018`), y=log(df_covid_gini$cases_per_capita), type="plot") 
+
 
 # Mortality Plots
-df_covid_gini_mort <- left_join(death_cases_country,gini_clean,by=c("Country" = "Country Name"))
-View(df_covid_gini_mort)
+df_covid_gini_mort <- left_join(deaths_countries,gini_clean,by=c("Country" = "Country Name"))
+
 df_covid_gini_mort <- as.data.frame(df_covid_gini_mort)
+df_covid_gini_mort$SP.POP.TOTL <- as.numeric(df_covid_gini_mort$SP.POP.TOTL)
 df_covid_gini_mort$Number <- as.numeric(df_covid_gini_mort$Number)
+
+df_covid_gini_mort$deaths_per_capita <- as.numeric(df_covid_gini_mort$Number)/as.numeric(df_covid_gini_mort$SP.POP.TOTL)
 df_covid_gini_mort$`2018` <- as.numeric(df_covid_gini_mort$`2018`)
+df_covid_gini_mort$deaths_per_capita <- as.numeric(df_covid_gini_mort$deaths_per_capita)
 
-
-plot(x=log(df_covid_gini_mort$`2018`), y=log(df_covid_gini_mort$Number), type="plot") 
+plot(x=log(df_covid_gini_mort$`2018`), y=log(df_covid_gini_mort$deaths_per_capita), type="plot") 
 
 ###########
 # POPULATION DENSITY VARIABLE
@@ -268,34 +283,41 @@ pop.density_categories <- pop.density_clean %>%
 View(pop.density_categories)
 
 #Confirmed cases plots
-df_covid_pop_density <- left_join(confirmed_cases_country,pop.density_clean,by=c("Country" = "Country Name"))
+df_covid_pop_density <- left_join(cases_countries,pop.density_clean,by=c("Country" = "Country Name"))
 View(df_covid_pop_density)
 View(pop.density_clean)
 
-df_covid_pop_density <- as.data.frame(df_covid_pop_density)
+df_covid_pop_density$SP.POP.TOTL <- as.numeric(df_covid_pop_density$SP.POP.TOTL)
 df_covid_pop_density$Number <- as.numeric(df_covid_pop_density$Number)
+df_covid_pop_density$cases_per_capita <- as.numeric(df_covid_pop_density$Number)/as.numeric(df_covid_pop_density$SP.POP.TOTL)
 df_covid_pop_density$`2021` <- as.numeric(df_covid_pop_density$`2021`)
+
+df_covid_pop_density <- as.data.frame(df_covid_pop_density)
 
 
 # #summarized_data_pop <- df_covid_pop_density %>% group_by(pop.density_categories) %>% dplyr::summarise(median_number <- median(Number))
 # #levels(summarized_data_pop$pop.density_categories)
 # #summarized_data_pop$pop.density_categories <- ordered(summarized_data_pop$pop.density_categories, levels = c("Extremely low",
 #                                                                                         "Low",
-#                                                                                         "Moderate",
-#                                                                                         "High",
-#                                                                                         "Very high",
-#                                                                                         "NA"))
 
-plot(x=log(df_covid_pop_density$`2021`), y=log(df_covid_pop_density$Number), type="plot") 
+plot(x=log(df_covid_pop_density$`2021`), y=log(df_covid_pop_density$cases_per_capita), type="plot") 
 
 
 #Mortality plots
-df_covid_pop_density.mort <- left_join(death_cases_country,pop.density_clean,by=c("Country" = "Country Name"))
+df_covid_pop_density.mort <- left_join(deaths_countries,pop.density_clean,by=c("Country" = "Country Name"))
 View(df_covid_pop_density.mort)
 
 df_covid_pop_density.mort <- as.data.frame(df_covid_pop_density.mort)
+df_covid_pop_density.mort$SP.POP.TOTL <- as.numeric(df_covid_pop_density.mort$SP.POP.TOTL)
 df_covid_pop_density.mort$Number <- as.numeric(df_covid_pop_density.mort$Number)
 df_covid_pop_density.mort$`2021` <- as.numeric(df_covid_pop_density.mort$`2021`)
+df_covid_pop_density.mort$deaths_per_capita <- as.numeric(df_covid_pop_density.mort$Number)/as.numeric(df_covid_pop_density.mort$SP.POP.TOTL)
+
+df_covid_pop_density$cases_per_capita <- as.numeric(df_covid_pop_density$Number)/as.numeric(df_covid_pop_density$SP.POP.TOTL)
+df_covid_pop_density$`2021` <- as.numeric(df_covid_pop_density$`2021`)
+
+df_covid_pop_density <- as.data.frame(df_covid_pop_density)
+
 
 # summarized_data_pop_mort <- df_covid_pop_density.mort %>% 
 #   group_by(pop.density_categories) %>% 
@@ -310,14 +332,14 @@ df_covid_pop_density.mort$`2021` <- as.numeric(df_covid_pop_density.mort$`2021`)
 #                                                                                                             "NA"))
 
 
-plot(x=log(df_covid_pop_density.mort$`2021`), y=log(df_covid_pop_density.mort$Number), type="plot") 
+plot(x=log(df_covid_pop_density.mort$`2021`), y=log(df_covid_pop_density.mort$deaths_per_capita), type="plot") 
 
 ####################################
 # GDP PER CAP  
 ####################################
 
 # Confirmed cases 
-GDP_cap <- read_excel("GDP.capita.xls", skip = 3)
+GDP_cap <- read_excel("GDP.capita.xls", skip = 3) ###UPLOAD THIS FILE
 View(GDP_cap)
 
 GDP_cap.clean <- GDP_cap %>% 
@@ -327,18 +349,22 @@ GDP_cap.clean <- GDP_cap %>%
 View(GDP_cap.clean)
 
 # Side by side df of GDP and confirmed cases
-df_GDP_conf <- left_join(confirmed_cases_country,GDP_cap.clean,by=c("Country" = "Country Name"))
+df_GDP_conf <- left_join(cases_countries,GDP_cap.clean,by=c("Country" = "Country Name"))
 View(df_GDP_conf)
-df_GDP_conf <- as.data.frame(df_GDP_conf)
+
+df_GDP_conf$SP.POP.TOTL <- as.numeric(df_GDP_conf$SP.POP.TOTL)
+df_GDP_conf$cases_per_capita <- as.numeric(df_GDP_conf$Number)/as.numeric(df_GDP_conf$SP.POP.TOTL)
+df_GDP_conf$cases_per_capita <- as.numeric(df_GDP_conf$cases_per_capita)
 df_GDP_conf$Number <- as.numeric(df_GDP_conf$Number)
 df_GDP_conf$`2021` <- as.numeric(df_GDP_conf$`2021`)
+df_GDP_conf <- as.data.frame(df_GDP_conf)
 
 
-plot(x=log(df_GDP_conf$`2021`), y=log(df_GDP_conf$Number), type="plot") 
+plot(x=log(df_GDP_conf$`2021`), y=log(df_GDP_conf$cases_per_capita), type="plot") 
 
 
 
-#Mortality plots
+#Mortality plots ###UPLOAD THIS FILE
 df_GDP_mort <- left_join(death_cases_country,GDP_cap.clean,by=c("Country" = "Country Name"))
 View(df_GDP_mort)
 df_GDP_mort <- as.data.frame(df_GDP_mort)
@@ -353,7 +379,7 @@ plot(x=log(df_GDP_mort$`2021`), y=log(df_GDP_mort$Number), type="plot")
 # Healthcare expenditure (% of GDP) 
 ####################################
 
-# Confirmed cases  
+# Confirmed cases   ###UPLOAD THIS FILE
 Health_exp <- read_excel("Health.exp.xls", 
                          skip = 3)
 View(Health_exp)
@@ -364,7 +390,7 @@ Health_exp <- GDP %>%
   filter(!is.na(`2021`))
 View(Health_exp)
 
-# Side by side df of GDP and confirmed cases
+# Side by side df of GDP and confirmed cases ###UPLOAD THIS FILE
 df_health_conf <- left_join(death_cases_country,Health_exp,by=c("Country" = "Country Name"))
 View(df_health_conf)
 df_health_conf <- as.data.frame(df_health_conf)
