@@ -419,22 +419,22 @@ df_health_mort$deaths_per_capita <- as.numeric(df_health_mort$deaths_per_capita)
 plot(x=log(df_health_mort$`2021`), y=log(df_health_mort$deaths_per_capita), type="plot") 
 
 ####################################
-# Literacy (female above 15 yrs)
+# Literacy (female above 15 yrs) - 
 ####################################
 
 # Confirmed cases 
-labour <- read_excel("labour_ratio.xls", 
+lit2 <- read_excel("female_unemployed.xls", 
                               skip = 3)
-View(labour)
+View(lit2)
 
-labour <- labour %>% 
+lit <- lit2 %>% 
   tidyr::fill(`2021`) %>%
   select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
-View(labour)
+View(lit)
 
 # Side by side df of GDP and confirmed cases ###UPLOAD THIS FILE
-df_lit_conf <- left_join(cases_countries,labour,by=c("Country" = "Country Name"))
+df_lit_conf <- left_join(cases_countries,lit,by=c("Country" = "Country Name"))
 View(df_lit_conf)
 df_lit_conf <- as.data.frame(df_lit_conf)
 df_lit_conf$Number <- as.numeric(df_lit_conf$Number)
