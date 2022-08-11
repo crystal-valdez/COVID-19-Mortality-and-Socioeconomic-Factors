@@ -196,11 +196,22 @@ View(gini)
 na_count <-sapply(gini, function(y) sum(length(which(is.na(y)))))
 na_count <- data.frame(na_count) # USing 2018 as it has the msot info
 
-gini_clean <- gini %>%
-  tidyr::fill('2018') %>%
-  select(`Country Name`, `Country Code`, `2018`) %>%
-  filter(!is.na(`2018`))
-View(gini_clean)
+#impute horizontally based on previous-years' values 
+gini <- gini %>% relocate(`Country Name`, .after = last_col())
+gini <- gini %>% relocate(`Country Code`, .after = last_col())
+gini <- gini %>% relocate(`Indicator Name`, .after = last_col())
+gini <- gini %>% relocate(`Indicator Code`, .after = last_col())
+
+gini <- gini %>% 
+  t() %>%   # Transpose 
+  na.locf(na.rm=F) %>% # fill columns with previous non NA value
+  t() 
+gini <- as.data.frame(gini)
+
+gini_clean <- gini %>% select(`Country Name`, `Country Code`, `2021`) %>%
+  filter(!is.na(`2021`))
+
+
 
 # Making gini categories 
 gini_categories <- gini_clean %>%
@@ -259,11 +270,20 @@ plot(x=log(df_covid_gini_mort$`2018`), y=log(df_covid_gini_mort$deaths_per_capit
 pop.density <- read_excel("density.xls", skip = 3)
 View(pop.density)
 
-pop.density_clean <- pop.density %>% 
-  tidyr::fill('2021') %>%
-  select(`Country Name`, `Country Code`, `2021`) %>%
+#impute horizontally based on previous-years' values 
+pop.density <- pop.density %>% relocate(`Country Name`, .after = last_col())
+pop.density <- pop.density %>% relocate(`Country Code`, .after = last_col())
+pop.density <- pop.density %>% relocate(`Indicator Name`, .after = last_col())
+pop.density <- pop.density %>% relocate(`Indicator Code`, .after = last_col())
+
+pop.density <- pop.density %>% 
+  t() %>%   # Transpose 
+  na.locf(na.rm=F) %>% # fill columns with previous non NA value
+  t() 
+pop.density <- as.data.frame(pop.density)
+
+pop.density_clean <- pop.density %>% select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
-View(pop.density_clean)
 
 # Making populaiton density categories
 # <= 100 - extremely  low
@@ -342,11 +362,21 @@ plot(x=log(df_covid_pop_density.mort$`2021`), y=log(df_covid_pop_density.mort$de
 GDP_cap <- read_excel("GDP.capita.xls", skip = 3) ###UPLOAD THIS FILE
 View(GDP_cap)
 
-GDP_cap.clean <- GDP_cap %>% 
-  tidyr::fill('2021') %>%
-  select(`Country Name`, `Country Code`, `2021`) %>%
+#impute horizontally based on previous-years' values 
+GDP_cap <- GDP_cap %>% relocate(`Country Name`, .after = last_col())
+GDP_cap <- GDP_cap %>% relocate(`Country Code`, .after = last_col())
+GDP_cap <- GDP_cap %>% relocate(`Indicator Name`, .after = last_col())
+GDP_cap <- GDP_cap %>% relocate(`Indicator Code`, .after = last_col())
+
+GDP_cap <- GDP_cap %>% 
+  t() %>%   # Transpose 
+  na.locf(na.rm=F) %>% # fill columns with previous non NA value
+  t() 
+GDP_cap <- as.data.frame(GDP_cap)
+
+GDP_cap.clean <- GDP_cap %>% select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
-View(GDP_cap.clean)
+
 
 # Side by side df of GDP and confirmed cases
 df_GDP_conf <- left_join(cases_countries,GDP_cap.clean,by=c("Country" = "Country Name"))
@@ -383,15 +413,23 @@ plot(x=log(df_GDP_mort$`2021`), y=log(df_GDP_mort$deaths_per_capita), type="plot
 ####################################
 
 # Confirmed cases   ###UPLOAD THIS FILE
-Health_exp <- read_excel("Health.exp.xls", 
-                         skip = 3)
-View(Health_exp)
+Health_exp <- read_excel("Health.exp.xls", skip = 3)
 
-Health_exp <- GDP %>% 
-  tidyr::fill('2021') %>%
-  select(`Country Name`, `Country Code`, `2021`) %>%
+#impute horizontally based on previous-years' values 
+Health_exp <- Health_exp %>% relocate(`Country Name`, .after = last_col())
+Health_exp <- Health_exp %>% relocate(`Country Code`, .after = last_col())
+Health_exp <- Health_exp %>% relocate(`Indicator Name`, .after = last_col())
+Health_exp <- Health_exp %>% relocate(`Indicator Code`, .after = last_col())
+
+Health_exp <- Health_exp %>% 
+  t() %>%   # Transpose 
+  na.locf(na.rm=F) %>% # fill columns with previous non NA value
+  t() 
+Health_exp <- as.data.frame(Health_exp)
+
+Health_exp <- Health_exp %>% select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
-View(Health_exp)
+
 
 # Side by side df of GDP and confirmed cases ###UPLOAD THIS FILE
 df_health_conf <- left_join(cases_countries,Health_exp,by=c("Country" = "Country Name"))
@@ -419,6 +457,6 @@ df_health_mort$deaths_per_capita <- as.numeric(df_health_mort$deaths_per_capita)
 plot(x=log(df_health_mort$`2021`), y=log(df_health_mort$deaths_per_capita), type="plot") 
 
 
-
+##REGION
 
 
