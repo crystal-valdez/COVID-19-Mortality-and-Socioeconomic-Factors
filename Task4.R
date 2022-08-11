@@ -234,7 +234,7 @@ df_covid_gini$cases_per_capita <- as.numeric(df_covid_gini$cases_per_capita)
 df_covid_gini$`2018` <- as.numeric(df_covid_gini$`2018`) #remember to rename to another  metric-name 
 
 
-plot(x=log(df_covid_gini$`2018`), y=log(df_covid_gini$cases_per_capita), type="plot") 
+plot(x=df_covid_gini$`2018`, y=df_covid_gini$cases_per_capita, type="plot") 
 
 
 # Mortality Plots
@@ -248,7 +248,7 @@ df_covid_gini_mort$deaths_per_capita <- as.numeric(df_covid_gini_mort$Number)/as
 df_covid_gini_mort$`2018` <- as.numeric(df_covid_gini_mort$`2018`)
 df_covid_gini_mort$deaths_per_capita <- as.numeric(df_covid_gini_mort$deaths_per_capita)
 
-plot(x=log(df_covid_gini_mort$`2018`), y=log(df_covid_gini_mort$deaths_per_capita), type="plot") 
+plot(x=df_covid_gini_mort$`2018`, y=df_covid_gini_mort$deaths_per_capita, type="plot") 
 
 ###########
 # POPULATION DENSITY VARIABLE
@@ -405,7 +405,7 @@ df_GDP_conf$Number <- as.numeric(df_GDP_conf$Number)
 df_GDP_conf$`2021` <- as.numeric(df_GDP_conf$`2021`)
 df_GDP_conf <- as.data.frame(df_GDP_conf)
 
-plot(x=log(df_health_conf$`2021`), y=log(df_health_conf$cases_per_capita), type="plot") 
+plot(x=log(df_health_mort$`2021`), y=log(df_health_mort$cases_per_capita), type="plot") 
 
 # Mortality plots
 df_health_mort <- left_join(deaths_countries,Health_exp,by=c("Country" = "Country Name"))
@@ -417,6 +417,43 @@ df_health_mort$deaths_per_capita <- as.numeric(df_health_mort$Number)/as.numeric
 df_health_mort$deaths_per_capita <- as.numeric(df_health_mort$deaths_per_capita)
 
 plot(x=log(df_health_mort$`2021`), y=log(df_health_mort$deaths_per_capita), type="plot") 
+
+####################################
+# Literacy (female above 15 yrs)
+####################################
+
+# Confirmed cases 
+labour <- read_excel("labour_ratio.xls", 
+                              skip = 3)
+View(labour)
+
+labour <- labour %>% 
+  tidyr::fill(`2021`) %>%
+  select(`Country Name`, `Country Code`, `2021`) %>%
+  filter(!is.na(`2021`))
+View(labour)
+
+# Side by side df of GDP and confirmed cases ###UPLOAD THIS FILE
+df_lit_conf <- left_join(cases_countries,labour,by=c("Country" = "Country Name"))
+View(df_lit_conf)
+df_lit_conf <- as.data.frame(df_lit_conf)
+df_lit_conf$Number <- as.numeric(df_lit_conf$Number)
+df_lit_conf$`2021` <- as.numeric(df_lit_conf$`2021`)
+df_lit_conf$cases_per_capita <- as.numeric(df_lit_conf$Number)/as.numeric(df_lit_conf$SP.POP.TOTL)
+df_lit_conf$cases_per_capita <- as.numeric(df_lit_conf$cases_per_capita)
+df_lit_conf$Number <- as.numeric(df_lit_conf$Number)
+df_lit_conf$`2021` <- as.numeric(df_lit_conf$`2021`)
+df_lit_conf <- as.data.frame(df_lit_conf)
+
+
+plot(x=df_lit_conf$`2021`, y=df_lit_conf$cases_per_capita, type="plot") 
+
+
+
+
+
+
+
 
 
 
