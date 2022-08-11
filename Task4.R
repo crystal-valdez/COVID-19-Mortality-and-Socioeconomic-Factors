@@ -365,14 +365,17 @@ plot(x=log(df_GDP_conf$`2021`), y=log(df_GDP_conf$cases_per_capita), type="plot"
 
 
 #Mortality plots ###UPLOAD THIS FILE
-df_GDP_mort <- left_join(death_cases_country,GDP_cap.clean,by=c("Country" = "Country Name"))
+df_GDP_mort <- left_join(deaths_countries,GDP_cap.clean,by=c("Country" = "Country Name"))
 View(df_GDP_mort)
-df_GDP_mort <- as.data.frame(df_GDP_mort)
 df_GDP_mort$Number <- as.numeric(df_GDP_mort$Number)
 df_GDP_mort$`2021` <- as.numeric(df_GDP_mort$`2021`)
+df_GDP_mort$deaths_per_capita <- as.numeric(df_GDP_mort$Number)/as.numeric(df_GDP_mort$SP.POP.TOTL)
+df_GDP_mort$deaths_per_capita <- as.numeric(df_GDP_mort$deaths_per_capita)
+df_GDP_mort <- as.data.frame(df_GDP_mort)
 
 
-plot(x=log(df_GDP_mort$`2021`), y=log(df_GDP_mort$Number), type="plot") 
+
+plot(x=log(df_GDP_mort$`2021`), y=log(df_GDP_mort$deaths_per_capita), type="plot") 
 
 
 ####################################
@@ -391,22 +394,29 @@ Health_exp <- GDP %>%
 View(Health_exp)
 
 # Side by side df of GDP and confirmed cases ###UPLOAD THIS FILE
-df_health_conf <- left_join(death_cases_country,Health_exp,by=c("Country" = "Country Name"))
+df_health_conf <- left_join(cases_countries,Health_exp,by=c("Country" = "Country Name"))
 View(df_health_conf)
 df_health_conf <- as.data.frame(df_health_conf)
 df_health_conf$Number <- as.numeric(df_health_conf$Number)
 df_health_conf$`2021` <- as.numeric(df_health_conf$`2021`)
+df_health_conf$cases_per_capita <- as.numeric(df_health_conf$Number)/as.numeric(df_health_conf$SP.POP.TOTL)
+df_health_conf$cases_per_capita <- as.numeric(df_health_conf$cases_per_capita)
+df_GDP_conf$Number <- as.numeric(df_GDP_conf$Number)
+df_GDP_conf$`2021` <- as.numeric(df_GDP_conf$`2021`)
+df_GDP_conf <- as.data.frame(df_GDP_conf)
 
-plot(x=log(df_health_conf$`2021`), y=log(df_health_conf$Number), type="plot") 
+plot(x=log(df_health_conf$`2021`), y=log(df_health_conf$cases_per_capita), type="plot") 
 
 # Mortality plots
-df_health_mort <- left_join(death_cases_country,Health_exp,by=c("Country" = "Country Name"))
+df_health_mort <- left_join(deaths_countries,Health_exp,by=c("Country" = "Country Name"))
 View(df_health_mort)
 df_health_mort <- as.data.frame(df_health_mort)
 df_health_mort$Number <- as.numeric(df_health_mort$Number)
 df_health_mort$`2021` <- as.numeric(df_health_mort$`2021`)
+df_health_mort$deaths_per_capita <- as.numeric(df_health_mort$Number)/as.numeric(df_health_mort$SP.POP.TOTL)
+df_health_mort$deaths_per_capita <- as.numeric(df_health_mort$deaths_per_capita)
 
-plot(x=log(df_health_mort$`2021`), y=log(df_health_mort$Number), type="plot") 
+plot(x=log(df_health_mort$`2021`), y=log(df_health_mort$deaths_per_capita), type="plot") 
 
 
 
