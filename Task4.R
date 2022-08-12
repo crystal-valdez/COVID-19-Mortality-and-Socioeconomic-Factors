@@ -11,7 +11,7 @@ library(jsonlite)
 library(readxl)
 library(dplyr)
 library(plyr)
-
+library(zoo)
 
 pops2021 <- as.data.frame(wb_data("SP.POP.TOTL", country = "all", start_date = 2021, end_date = 2021))
 
@@ -549,20 +549,33 @@ Health_exp <- as.data.frame(Health_exp)
 Health_exp <- Health_exp %>% select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
 
+Health_exp$`2021` <- as.numeric(Health_exp$`2021`)
+
+Health_exp_categories <- Health_exp %>%
+  mutate(category = case_when(
+    `2021` <= 4 ~ "Low",
+    `2021` <= 7 ~ "Moderate",
+    `2021` <= 10 ~ "High",
+    `2021` > 10 ~ "Very high"))
+
+
 
 # Side by side df of GDP and confirmed cases ###UPLOAD THIS FILE
-df_health_conf <- left_join(cases_countries,Health_exp,by=c("Country" = "Country Name"))
+df_health_conf <- left_join(cases_countries,Health_exp_categories,by=c("Country" = "Country Name"))
 
 df_health_conf <- as.data.frame(df_health_conf)
 df_health_conf$Number <- as.numeric(df_health_conf$Number)
 df_health_conf$`2021` <- as.numeric(df_health_conf$`2021`)
 df_health_conf$cases_per_capita <- as.numeric(df_health_conf$Number)/as.numeric(df_health_conf$SP.POP.TOTL)
 df_health_conf$cases_per_capita <- as.numeric(df_health_conf$cases_per_capita)
-df_GDP_conf$Number <- as.numeric(df_GDP_conf$Number)
-df_GDP_conf$`2021` <- as.numeric(df_GDP_conf$`2021`)
-df_GDP_conf <- as.data.frame(df_GDP_conf)
+df_health_conf$category <- as.factor(df_health_conf$category)
 
-plot(x=log(df_health_mort$`2021`), y=log(df_health_mort$cases_per_capita), type="plot") 
+df_health_conf$category <- ordered(df_health_conf$category, levels = c("Low",
+                                                                       "Moderate",
+                                                                       "High",
+                                                                       "Very high"))
+                                                        
+plot(x=df_health_conf$category, y=df_health_conf$cases_per_capita, type="plot") 
 
 # Mortality plots
 df_health_mort <- left_join(deaths_countries,Health_exp,by=c("Country" = "Country Name"))
