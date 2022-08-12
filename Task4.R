@@ -281,6 +281,8 @@ boxplot(death_countries2$Number ~ death_countries2$Region, ylim=c(0,80000))
 # Number of cases per capita 
 boxplot(death_countries2$cases_per_capita ~ case_countries2$Region)
 
+levels(death_countries2$Region)
+
 ###########
 # GINI VARIABLE
 ###########
@@ -409,8 +411,7 @@ pop.density_categories <- pop.density_clean %>%
     `2021` <= 100 ~ "Extremely low",
     `2021` <= 250 ~ "Low",
     `2021` <= 500 ~ "Moderate",
-    `2021` <= 1000 ~ "High",
-    `2021` > 1000 ~ "Very high"
+    `2021` > 500 ~ "High",
   ))
 
 
@@ -429,8 +430,7 @@ df_covid_pop_density <- as.data.frame(df_covid_pop_density)
 df_covid_pop_density$pop.density_categories <- ordered(df_covid_pop_density$pop.density_categories, levels = c("Extremely low", 
                                                                                          "Low", 
                                                                                          "Moderate",
-                                                                                         "High",
-                                                                                         "Very high"))                                                                                  
+                                                                                         "High"))                                                                                  
 
 
 
@@ -451,8 +451,8 @@ df_covid_pop_density.mort <- as.data.frame(df_covid_pop_density.mort)
 df_covid_pop_density.mort$pop.density_categories <- ordered(df_covid_pop_density$pop.density_categories, levels = c("Extremely low", 
                                                                                              "Low", 
                                                                                              "Moderate",
-                                                                                             "High",
-                                                                                             "Very high"))
+                                                                                             "High"
+                                                                                      ))
 # BOXPLOT FOR CONFIRMED POP.DENSITY CASES
 
 # Number of cases
@@ -467,7 +467,7 @@ boxplot(df_covid_pop_density$cases_per_capita ~ df_covid_pop_density$pop.density
 # Number of case
 boxplot(df_covid_pop_density.mort$Number ~ df_covid_pop_density.mort$pop.density_categories, ylim=c(0,50000))
 
-# Number of cases per capita 
+# Number of deaths per capita 
 boxplot(df_covid_pop_density.mort$deaths_per_capita ~ df_covid_pop_density.mort$pop.density_categories)
 
 
