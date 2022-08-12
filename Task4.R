@@ -256,6 +256,13 @@ boxplot(death_countries2$Number ~ death_countries2$Income.group, ylim=c(0,55000)
 # Number of cases per capita 
 boxplot(death_countries2$cases_per_capita ~ death_countries2$Income.group)
 
+##INCOME -- ANOVA - #1
+one.way <- aov(death_countries2$cases_per_capita ~ death_countries2$Income.group, data = death_countries2)
+summary(one.way)
+
+tukey.test_income <- TukeyHSD(one.way)
+tukey.test_income
+
 #############
 #Regions level
 #############
@@ -379,7 +386,10 @@ boxplot(df_covid_gini_mort$Number ~ df_covid_gini_mort$gini_equaltiy, ylim=c(0,1
 # Number of cases per capita 
 boxplot(df_covid_gini_mort$cases_per_capita ~ df_covid_gini_mort$gini_equaltiy)
 
-
+one.way <- aov(df_covid_gini_mort$deaths_per_capita ~ df_covid_gini_mort$gini_equaltiy, data = df_covid_gini_mort)
+one.way <- aov(df_covid_gini_mort$deaths_per_capita ~ df_covid_gini_mort$gini_equaltiy, data = df_covid_gini_mort)
+kruskal.test(df_covid_gini_mort$deaths_per_capita ~ df_covid_gini_mort$gini_equaltiy, data = df_covid_gini_mort)
+summary(one.way)
 
 
 ###########
@@ -470,6 +480,11 @@ boxplot(df_covid_pop_density.mort$Number ~ df_covid_pop_density.mort$pop.density
 # Number of deaths per capita 
 boxplot(df_covid_pop_density.mort$deaths_per_capita ~ df_covid_pop_density.mort$pop.density_categories)
 
+##ANOVA/KRUSKAl DOESN'T WORK - 
+one.way <- aov(df_covid_pop_density.mort$deaths_per_capita ~ df_covid_pop_density.mort$pop.density_categories, data = df_covid_pop_density.mort)
+summary(one.way)
+
+kruskal.test(df_covid_pop_density.mort$deaths_per_capita ~ df_covid_pop_density.mort$pop.density_categories, data = df_covid_pop_density.mort)
 
 
 
@@ -615,6 +630,17 @@ plot(x=health_categories_death$df_health_conf_categories, y=health_categories_de
 
 
 
+##ANOVA/KRUSKAl ##2 -- 3 categories are significant 
+one.way_health <- aov(health_categories_death$deaths_per_capita ~ health_categories_death$df_health_conf_categories, data = health_categories_death)
+summary(one.way_health)
+
+tukey.test_healthexp <- TukeyHSD(one.way_health)
+tukey.test_healthexp
+
+kruskal.test(df_covid_pop_density.mort$deaths_per_capita ~ df_covid_pop_density.mort$pop.density_categories, data = df_covid_pop_density.mort)
+
+
+
 ####################################
 # Literacy (female above 15 yrs) - 
 ####################################
@@ -651,8 +677,73 @@ df_lit_conf$Number <- as.numeric(df_lit_conf$Number)
 df_lit_conf$`2021` <- as.numeric(df_lit_conf$`2021`)
 df_lit_conf <- as.data.frame(df_lit_conf)
 
+quantile_literacy = df_lit_conf$`2021`    
+quantile(quantile_literacy, na.rm=T)
 
-plot(x=df_lit_conf$`2021`, y=df_lit_conf$cases_per_capita, type="plot") 
+literacy_categories_df <- df_lit_conf %>%
+  mutate(literacy_categories_new = case_when(
+    `2021` <= 0.5200 ~ "Extremely low",
+    `2021` <= 3.8950 ~ "Low",
+    `2021` <= 6.5400 ~ "Moderate",
+    `2021` <= 11.8775 ~ "High",
+    `2021` > 11.8775 ~ "Very high"
+  ))
+
+literacy_categories_df$literacy_categories_new <- ordered(literacy_categories_df$literacy_categories_new, levels = c("Extremely low", 
+                                                                                                                     "Low", 
+                                                                                                                     "Moderate",
+                                                                                                                     "High",
+                                                                                                                     "Very high"))   
+
+literacy_categories_df$literacy_categories_new <- as.factor(literacy_categories_df$literacy_categories_new)
+
+
+plot(x=literacy_categories_df$literacy_categories_new, y=literacy_categories_df$cases_per_capita, type="plot") 
+
+##deaths
+
+df_lit_conf_deaths <- left_join(deaths_countries,lit,by=c("Country" = "Country Name"))
+View(df_lit_conf_deaths)
+df_lit_conf_deaths <- as.data.frame(df_lit_conf_deaths)
+df_lit_conf_deaths$Number <- as.numeric(df_lit_conf_deaths$Number)
+df_lit_conf_deaths$`2021` <- as.numeric(df_lit_conf_deaths$`2021`)
+df_lit_conf_deaths$deaths_per_capita <- as.numeric(df_lit_conf_deaths$Number)/as.numeric(df_lit_conf_deaths$SP.POP.TOTL)
+df_lit_conf_deaths$deaths_per_capita <- as.numeric(df_lit_conf_deaths$deaths_per_capita)
+df_lit_conf_deaths$Number <- as.numeric(df_lit_conf_deaths$Number)
+df_lit_conf_deaths$`2021` <- as.numeric(df_lit_conf_deaths$`2021`)
+df_lit_conf_deaths <- as.data.frame(df_lit_conf_deaths)
+
+
+
+quantile_literacy_deaths = df_lit_conf_deaths$`2021`    
+quantile(quantile_literacy_deaths, na.rm=T)
+
+literacy_categories_df_deaths <- df_lit_conf_deaths %>%
+  mutate(literacy_categories_new_deaths = case_when(
+    `2021` <= 0.5200 ~ "Extremely low",
+    `2021` <= 3.8950 ~ "Low",
+    `2021` <= 6.5400 ~ "Moderate",
+    `2021` <= 11.8775 ~ "High",
+    `2021` > 11.8775 ~ "Very high"
+  ))
+
+literacy_categories_df_deaths$literacy_categories_new_deaths <- ordered(literacy_categories_df_deaths$literacy_categories_new_deaths, levels = c("Extremely low", 
+                                                                                                                                                 "Low", 
+                                                                                                                                                 "Moderate",
+                                                                                                                                                 "High",
+                                                                                                                                                 "Very high"))   
+
+
+literacy_categories_df_deaths$literacy_categories_new_deaths <- as.factor(literacy_categories_df_deaths$literacy_categories_new_deaths)
+
+plot(x=literacy_categories_df_deaths$literacy_categories_new_deaths, y=literacy_categories_df_deaths$deaths_per_capita, type="plot") 
+
+
+
+##ANOVA/KRUSKAl ##3  
+one.way <- aov(literacy_categories_df_deaths$deaths_per_capita ~ literacy_categories_df_deaths$literacy_categories_new_deaths, data = literacy_categories_df_deaths)
+summary(one.way)
+
 
 
 
