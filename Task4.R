@@ -549,33 +549,38 @@ Health_exp <- as.data.frame(Health_exp)
 Health_exp <- Health_exp %>% select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
 
-Health_exp$`2021` <- as.numeric(Health_exp$`2021`)
-
-Health_exp_categories <- Health_exp %>%
-  mutate(category = case_when(
-    `2021` <= 4 ~ "Low",
-    `2021` <= 7 ~ "Moderate",
-    `2021` <= 10 ~ "High",
-    `2021` > 10 ~ "Very high"))
-
-
-
 # Side by side df of GDP and confirmed cases ###UPLOAD THIS FILE
-df_health_conf <- left_join(cases_countries,Health_exp_categories,by=c("Country" = "Country Name"))
+df_health_conf <- left_join(cases_countries,Health_exp,by=c("Country" = "Country Name"))
 
 df_health_conf <- as.data.frame(df_health_conf)
 df_health_conf$Number <- as.numeric(df_health_conf$Number)
 df_health_conf$`2021` <- as.numeric(df_health_conf$`2021`)
 df_health_conf$cases_per_capita <- as.numeric(df_health_conf$Number)/as.numeric(df_health_conf$SP.POP.TOTL)
 df_health_conf$cases_per_capita <- as.numeric(df_health_conf$cases_per_capita)
-df_health_conf$category <- as.factor(df_health_conf$category)
+df_health_conf$Number <- as.numeric(df_health_conf$Number)
+df_health_conf$`2021` <- as.numeric(df_health_conf$`2021`)
+df_health_conf <- as.data.frame(df_health_conf)
+View(df_health_conf)
+View(health_categories)
+quantile_cases = df_health_conf$`2021`    
 
-df_health_conf$category <- ordered(df_health_conf$category, levels = c("Low",
-                                                                       "Moderate",
-                                                                       "High",
-                                                                       "Very high"))
-                                                        
-plot(x=df_health_conf$category, y=df_health_conf$cases_per_capita, type="plot") 
+quantile(quantile_cases, na.rm=T)
+
+health_categories <- df_health_conf %>%
+  mutate(df_health_conf_categories = case_when(
+    `2021` <= 1.525117 ~ "Extremely low",
+    `2021` <= 4.346481 ~ "Low",
+    `2021` <= 6.073806 ~ "Moderate",
+    `2021` <= 8.027737 ~ "High",
+    `2021` > 8.027737 ~ "Very high"
+  ))
+
+health_categories$df_health_conf_categories <- ordered(health_categories$df_health_conf_categories, levels = c("Extremely low", 
+                                                                                                               "Low", 
+                                                                                                               "Moderate",
+                                                                                                               "High",
+                                                                                                               "Very high"))   
+plot(x=health_categories$df_health_conf_categories, y=health_categories$cases_per_capita, type="plot") 
 
 # Mortality plots
 df_health_mort <- left_join(deaths_countries,Health_exp,by=c("Country" = "Country Name"))
@@ -586,7 +591,29 @@ df_health_mort$`2021` <- as.numeric(df_health_mort$`2021`)
 df_health_mort$deaths_per_capita <- as.numeric(df_health_mort$Number)/as.numeric(df_health_mort$SP.POP.TOTL)
 df_health_mort$deaths_per_capita <- as.numeric(df_health_mort$deaths_per_capita)
 
-plot(x=log(df_health_mort$`2021`), y=log(df_health_mort$deaths_per_capita), type="plot") 
+quantile_cases_morts_health = df_health_mort$`2021`    
+quantile(quantile_cases_morts_health, na.rm=T)
+
+health_categories_death <- df_health_mort %>%
+  mutate(df_health_conf_categories = case_when(
+    `2021` <= 1.525117 ~ "Extremely low",
+    `2021` <= 4.346481 ~ "Low",
+    `2021` <= 6.073806 ~ "Moderate",
+    `2021` <= 8.027737 ~ "High",
+    `2021` > 8.027737 ~ "Very high"
+  ))
+
+health_categories_death$df_health_conf_categories <- ordered(health_categories_death$df_health_conf_categories, levels = c("Extremely low", 
+                                                                                                                           "Low", 
+                                                                                                                           "Moderate",
+                                                                                                                           "High",
+                                                                                                                           "Very high"))   
+
+
+health_categories_death$df_health_conf_categories <- as.factor(health_categories_death$df_health_conf_categories)
+plot(x=health_categories_death$df_health_conf_categories, y=health_categories_death$deaths_per_capita, type="plot") 
+
+
 
 ####################################
 # Literacy (female above 15 yrs) - 
@@ -594,7 +621,7 @@ plot(x=log(df_health_mort$`2021`), y=log(df_health_mort$deaths_per_capita), type
 
 # Confirmed cases 
 lit <- read_excel("female_unemployed.xls", 
-                              skip = 3)
+                  skip = 3)
 View(lit)
 
 #impute horizontally based on previous-years' values 
@@ -625,74 +652,8 @@ df_lit_conf$`2021` <- as.numeric(df_lit_conf$`2021`)
 df_lit_conf <- as.data.frame(df_lit_conf)
 
 
-##quartile 
-quantile_literacy = df_lit_conf$`2021`    
-quantile(quantile_literacy, na.rm=T)
-
-literacy_categories_df <- df_lit_conf %>%
-  mutate(literacy_categories_new = case_when(
-    `2021` <= 0.5200 ~ "Extremely low",
-    `2021` <= 3.8950 ~ "Low",
-    `2021` <= 6.5400 ~ "Moderate",
-    `2021` <= 11.8775 ~ "High",
-    `2021` > 11.8775 ~ "Very high"
-  ))
-
-literacy_categories_df$literacy_categories_new <- ordered(literacy_categories_df$literacy_categories_new, levels = c("Extremely low", 
-                                                                                                                           "Low", 
-                                                                                                                           "Moderate",
-                                                                                                                           "High",
-                                                                                                                           "Very high"))   
+plot(x=df_lit_conf$`2021`, y=df_lit_conf$cases_per_capita, type="plot") 
 
 
-literacy_categories_df$literacy_categories_new <- as.factor(literacy_categories_df$literacy_categories_new)
-
-
-plot(x=literacy_categories_df$literacy_categories_new, y=literacy_categories_df$cases_per_capita, type="plot") 
-
-
-####deaths 
-df_lit_conf_deaths <- left_join(deaths_countries,lit,by=c("Country" = "Country Name"))
-View(df_lit_conf_deaths)
-df_lit_conf_deaths <- as.data.frame(df_lit_conf_deaths)
-df_lit_conf_deaths$Number <- as.numeric(df_lit_conf_deaths$Number)
-df_lit_conf_deaths$`2021` <- as.numeric(df_lit_conf_deaths$`2021`)
-df_lit_conf_deaths$deaths_per_capita <- as.numeric(df_lit_conf_deaths$Number)/as.numeric(df_lit_conf_deaths$SP.POP.TOTL)
-df_lit_conf_deaths$deaths_per_capita <- as.numeric(df_lit_conf_deaths$deaths_per_capita)
-df_lit_conf_deaths$Number <- as.numeric(df_lit_conf_deaths$Number)
-df_lit_conf_deaths$`2021` <- as.numeric(df_lit_conf_deaths$`2021`)
-df_lit_conf_deaths <- as.data.frame(df_lit_conf_deaths)
-
-
-
-##quartile 
-quantile_literacy_deaths = df_lit_conf_deaths$`2021`    
-quantile(quantile_literacy_deaths, na.rm=T)
-
-literacy_categories_df_deaths <- df_lit_conf_deaths %>%
-  mutate(literacy_categories_new_deaths = case_when(
-    `2021` <= 0.5200 ~ "Extremely low",
-    `2021` <= 3.8950 ~ "Low",
-    `2021` <= 6.5400 ~ "Moderate",
-    `2021` <= 11.8775 ~ "High",
-    `2021` > 11.8775 ~ "Very high"
-  ))
-
-literacy_categories_df_deaths$literacy_categories_new_deaths <- ordered(literacy_categories_df_deaths$literacy_categories_new_deaths, levels = c("Extremely low", 
-                                                                                                                     "Low", 
-                                                                                                                     "Moderate",
-                                                                                                                     "High",
-                                                                                                                     "Very high"))   
-
-
-literacy_categories_df_deaths$literacy_categories_new_deaths <- as.factor(literacy_categories_df_deaths$literacy_categories_new_deaths)
-
-plot(x=literacy_categories_df_deaths$literacy_categories_new_deaths, y=literacy_categories_df_deaths$deaths_per_capita, type="plot") 
-
-
-
-
-
-##REGION
 
 
