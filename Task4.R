@@ -597,6 +597,8 @@ health_categories$df_health_conf_categories <- ordered(health_categories$df_heal
                                                                                                                "Very high"))   
 plot(x=health_categories$df_health_conf_categories, y=health_categories$cases_per_capita, type="plot") 
 
+saveRDS(health_categories, file = "df_health_expenditure_cases.RDS")
+
 # Mortality plots
 df_health_mort <- left_join(deaths_countries,Health_exp,by=c("Country" = "Country Name"))
 
@@ -628,6 +630,8 @@ health_categories_death$df_health_conf_categories <- ordered(health_categories_d
 health_categories_death$df_health_conf_categories <- as.factor(health_categories_death$df_health_conf_categories)
 plot(x=health_categories_death$df_health_conf_categories, y=health_categories_death$deaths_per_capita, type="plot") 
 
+
+saveRDS(health_categories_death, file = "df_health_expenditure_deaths.RDS")
 
 
 ##ANOVA/KRUSKAl ##2 -- 3 categories are significant 
