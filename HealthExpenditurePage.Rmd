@@ -4,23 +4,54 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+runtime: shiny
 ---
 ##Deweena and Papiha - Dashboard Page 3
 #Add health expenditure info
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(ggplot2)
+library(dplyr)
+library(shiny)
 ```
 
-Column {data-width=650}
+Column {.tabset}
 -----------------------------------------------------------------------
 
-### Chart A
+### Boxplot 
 
 ```{r}
-health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
+#health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
 
 health_exp_deaths <- readRDS("df_health_expenditure_deaths.RDS")
+
+health_exp_deaths$deaths_per_hundredk <- health_exp_deaths$deaths_per_capita * 100000
+
+health_exp_deaths <- health_exp_deaths %>%
+  filter(!is.na(health_exp_deaths$df_health_conf_categories))
+
+colors <- c("brown2", "green", "darkslategray1", "coral", "bisque" )
+
+box <- ggplot(health_exp_deaths, aes(x = df_health_conf_categories, y = deaths_per_hundredk)) +
+  geom_boxplot(fill = colors) + 
+  labs(y="Deaths per 100000",
+       x="Healthcare Expenditure by % of GDP",   
+       title="COVID mortality rate and Healthcare expenditure by % of GDP")
+
+renderPlot(box)
+```
+
+
+### Scatter Plot
+```{r}
+scatter <- ggplot(health_exp_deaths, aes(x = `2021`, y = deaths_per_hundredk)) + geom_point(aes(col=df_health_conf_categories)) +
+  labs(y="Deaths per 100000",
+       x="Healthcare Expenditure by % of GDP",   
+       title="COVID mortality rate and Healthcare expenditure by % of GDP") +
+  guides(col=guide_legend("Healthcare Expenditure"))
+
+renderPlot(scatter)
 ```
 
 Column {data-width=350}
