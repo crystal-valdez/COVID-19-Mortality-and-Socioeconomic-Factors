@@ -40,9 +40,7 @@ pops2021_2 <- filter(pops2021_2, !grepl("Union", country))
 world_pop <- sum(as.numeric(pops2021$SP.POP.TOTL), na.rm = T)
 
 
-#copying code from Task 1, afterwards import in RDS object to obtain confirmed, deaths and recovered 
-library(httr)
-
+#Copying code from Task 1, afterwards import to RDS object to obtain confirmed, deaths and recovered 
 res <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases?")
 
 cat(content(res, 'text'))
