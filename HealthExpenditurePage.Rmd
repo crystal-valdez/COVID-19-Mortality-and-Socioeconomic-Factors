@@ -6,8 +6,7 @@ output:
     vertical_layout: fill
 runtime: shiny
 ---
-##Deweena and Papiha - Dashboard Page 3
-#Add health expenditure info
+# COVID cases and Healthcare expenditure worldwide
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
