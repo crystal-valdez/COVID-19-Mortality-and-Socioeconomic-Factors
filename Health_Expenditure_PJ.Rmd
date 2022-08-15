@@ -1,12 +1,11 @@
 ---
-  title: "Health Expenditure_PJ"
+title: "Health Expenditure_PJ"
 output: 
   flexdashboard::flex_dashboard:
   orientation: columns
 vertical_layout: fill
 ---
-##Deweena and Papiha - Dashboard Page 3
-##Add health expenditure info
+Health Expenditure
   
 ```{r setup, include=FALSE}
 library(flexdashboard)
