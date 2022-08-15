@@ -9,29 +9,42 @@ Health Expenditure
   
 ```{r setup, include=FALSE}
 library(flexdashboard)
+install.packages("tmap")
+
+install.packages("stars")
+library("stars")
+
+remotes::install_github("r-spatial/stars")
+remotes::install_github("r-spatial/sf")
 ```
 
-Column {data-width=650}
------------------------------------------------------------------------
-  
-  ### Chart A
-  
-  ```{r}
 
-```
 
-Column {data-width=350}
------------------------------------------------------------------------
-  
-  ### Chart B
-  
-  ```{r}
-
-```
-
-### Chart C
 
 ```{r}
+health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
+View(health_exp_cases)
+health_exp_deaths <- readRDS("df_health_expenditure_deaths.RDS")
+
+tmap::tm_shape(World) +
+    tm_polygons("HPI")
+
+tmap_mode("view")
+library(maps)
+data(world.cities)
+
+```
+
+
+```{r}
+devtools::install_github("rstudio/leaflet")
+
+library(leaflet)
+
+m <- leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=174.768, lat=-36.852, popup="The birthplace of R")
+m  # Print the map
 
 ```
 
