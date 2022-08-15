@@ -18,7 +18,9 @@ Column {data-width=650}
 ### Chart A
 
 ```{r}
+health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
 
+health_exp_deaths <- readRDS("df_health_expenditure_deaths.RDS")
 ```
 
 Column {data-width=350}
