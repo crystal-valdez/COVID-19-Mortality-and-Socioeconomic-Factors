@@ -2,7 +2,7 @@
 #(confirmed, recovered, death/mortality-rate) to the population 
 #(mortality rate = # of deaths in population per unit of time) 
 
-# task 3 
+#Importing necessary libraries
 library("wbstats")
 library(httr)
 library(stringr)
@@ -13,13 +13,15 @@ library(dplyr)
 library(plyr)
 library(zoo)
 
+#Loading in world-bank data library and labelling as pops2021 object
 pops2021 <- as.data.frame(wb_data("SP.POP.TOTL", country = "all", start_date = 2021, end_date = 2021))
 
-###removing iso2c columns including numbers and NA-values 
+#Filtering out or removing values with digits in iso2c column, along with NA values
 pops2021_2 <- filter(pops2021, !grepl("[0-9]", iso2c)) 
 pops2021_2 <- pops2021_2[!is.na(pops2021_2$iso2c),]
 pops2021_2 <- pops2021_2 %>% drop_na(iso2c)
 
+#Removing columns from country-column that have select labels
 pops2021_2 <- filter(pops2021_2, !grepl("countries", country)) 
 pops2021_2 <- filter(pops2021_2, !grepl("only", country)) 
 pops2021_2 <- filter(pops2021_2, !grepl("income", country)) 
@@ -34,7 +36,7 @@ pops2021_2 <- filter(pops2021_2, !grepl("Sub", country))
 pops2021_2 <- filter(pops2021_2, !grepl("Union", country))  
 
 
-# sum of population for 2021 
+#Taking sum of population for all countries to get global world population
 world_pop <- sum(as.numeric(pops2021$SP.POP.TOTL), na.rm = T)
 
 
