@@ -10,9 +10,14 @@ Health Expenditure
 ```{r setup, include=FALSE}
 library(flexdashboard)
 install.packages("tmap")
+install.packages("terra")
+library(tmap)
+library(terra)
 
+install.packages("sf")
 install.packages("stars")
 library("stars")
+library("sf")
 
 remotes::install_github("r-spatial/stars")
 remotes::install_github("r-spatial/sf")
@@ -26,12 +31,15 @@ health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
 View(health_exp_cases)
 health_exp_deaths <- readRDS("df_health_expenditure_deaths.RDS")
 
-tmap::tm_shape(World) +
+data("World")
+tm_shape(World) +
     tm_polygons("HPI")
 
 tmap_mode("view")
 library(maps)
 data(world.cities)
+tm_shape(World) +
+    tm_polygons("HPI")
 
 ```
 
