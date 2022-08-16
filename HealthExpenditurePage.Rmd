@@ -9,8 +9,9 @@ runtime: shiny
 # COVID cases and Healthcare expenditure worldwide
 
 ```{r setup, include=FALSE}
-#remotes::install_github("r-spatial/stars")
-#remotes::install_github("r-spatial/sf")
+# remotes::install_github("r-spatial/stars")
+# remotes::install_github("r-spatial/sf")
+
 library(flexdashboard)
 library(ggplot2)
 library(dplyr)
@@ -19,6 +20,7 @@ library(tmap)
 library(terra)
 library(stars)
 library(sf)
+
 library(rgeos)
 ```
 
@@ -104,6 +106,9 @@ Column {data-width=350}
 ### Chart C
 
 ```{r}
-
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org"
+options(repos = r)
+install.packages("weatherData")
 ```
 
