@@ -23,43 +23,43 @@ Column {.tabset}
 -----------------------------------------
 
 
-### Boxplot 
+### Median Mortality 
 
-```{r boxplot, echo = FALSE}
+```{r boxplot_death, echo = FALSE}
 #health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
 
 health_exp_deaths <- readRDS("df_health_expenditure_deaths.RDS")
 
-health_exp_deaths$deaths_per_hundredk <- health_exp_deaths$deaths_per_capita * 100000
+health_exp_deaths$`Deaths per 100000` <- health_exp_deaths$deaths_per_capita * 100000
 
 health_exp_deaths <- health_exp_deaths %>%
   filter(!is.na(health_exp_deaths$df_health_conf_categories))
 
 colors <- c("brown2", "green", "darkslategray1", "coral", "bisque" )
 
-box <- ggplot(health_exp_deaths, aes(x = df_health_conf_categories, y = deaths_per_hundredk)) +
+box_1 <- ggplot(health_exp_deaths, aes(x = df_health_conf_categories, y = `Deaths per 100000`)) +
   geom_boxplot(fill = colors) + 
   labs(y="Deaths per 100000",
        x="Healthcare Expenditure by % of GDP",   
        title="COVID mortality rate and Healthcare expenditure by % of GDP")
-box
+box_1
 ```
 
 
-### Scatter Plot
-```{r scatterplot, echo = FALSE}
-scatter <- ggplot(health_exp_deaths, aes(x = `2021`, y = deaths_per_hundredk)) + geom_point(aes(col=df_health_conf_categories)) +
+### Spread of Mortality
+```{r scatterplot_death, echo = FALSE}
+scatter_1 <- ggplot(health_exp_deaths, aes(x = `2021`, y = `Deaths per 100000`)) + geom_point(aes(col=df_health_conf_categories)) +
   labs(y="Deaths per 100000",
        x="Healthcare Expenditure by % of GDP",   
        title="COVID mortality rate and Healthcare expenditure by % of GDP") +
   guides(col=guide_legend("Healthcare Expenditure"))
 
-scatter
+scatter_1
 ```
 
 
-### Tmap
-```{r tmap, echo = FALSE}
+### World map of COVID mortality
+```{r tmap_death, echo = FALSE}
 # Joining the tmap world data and our mortality data using common iso3 name coloumn
 data("World")
 death_geom <- left_join(health_exp_deaths,World, by = c("iso3c" = "iso_a3"))
@@ -70,16 +70,18 @@ death_geom <- st_as_sf(death_geom)
 # Removing NA's from the sf-df: the coloumn gd was missing data when there were no coordinates.
 death_geom_clean <- death_geom %>%
   filter(!is.na(gdp_cap_est))
+# Changing coloumn name for aestheitc reasons
+death_geom_clean$`Healthcare Expenditure` <- death_geom_clean$df_health_conf_categories
 
-# Settign up a gradient color for mortality
+# Setting up a gradient color for mortality
 
 tmap_1 <- tm_shape(death_geom_clean) + 
-    tm_polygons("income_grp", palette = "-Blues", title = "Income Categories", contrast =0.5, clustering = FALSE) + tm_text("iso3c", size = 0.5) + 
+    tm_polygons("Healthcare Expenditure", palette = "Blues", title = "Healthcare expenditure", contrast =0.5, clustering = FALSE) + tm_text("iso3c", size = 0.5) + 
     tm_shape(death_geom_clean) +
-    tm_bubbles("deaths_per_hundredk",
+    tm_bubbles("Deaths per 100000",
                border.col = "black", border.alpha = .5, style="fixed",
                breaks=c(0, 50,100,150,200,Inf),
-               col="deaths_per_hundredk",
+               col="Deaths per 100000",
                n = 6,
                clustering = FALSE,
  title.size="Mortality per 100000", title.col="COVID Mortality") +
@@ -91,17 +93,80 @@ tmap_1
 
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
 
-### Chart B
+Column {.tabset}
+-----------------------------------------
 
-```{r}
+
+### Median Confirmed cases 
+
+```{r boxplot_cases, echo = FALSE}
+health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
+
+health_exp_cases$`Cases per 100000` <- health_exp_cases$cases_per_capita * 100000
+
+health_exp_cases <- health_exp_cases %>%
+  filter(!is.na(health_exp_cases$df_health_conf_categories))
+
+colors <- c("brown2", "green", "darkslategray1", "coral", "bisque" )
+
+box_2 <- ggplot(health_exp_cases, aes(x = df_health_conf_categories, y = `Cases per 100000`)) +
+  geom_boxplot(fill = colors) + 
+  labs(y="Cases per 100000",
+       x="Healthcare Expenditure by % of GDP",   
+       title="COVID confirmed cases rate and Healthcare expenditure by % of GDP")
+box_2
+```
+
+
+### Spread of Confrimed cases
+```{r scatterplot_cases, echo = FALSE}
+scatter_2 <- ggplot(health_exp_cases, aes(x = `2021`, y = `Cases per 100000`)) + geom_point(aes(col=df_health_conf_categories)) +
+  labs(y="Cases per 100000",
+       x="Healthcare Expenditure by % of GDP",   
+       title="COVID confirmed cases rate and Healthcare expenditure by % of GDP") +
+  guides(col=guide_legend("Healthcare Expenditure"))
+
+scatter_2
+```
+
+
+### World map of COVID cases
+```{r tmap_cases, echo = FALSE}
+# Joining the tmap world data and our mortality data using common iso3 name coloumn
+data("World")
+cases_geom <- left_join(health_exp_cases,World, by = c("iso3c" = "iso_a3"))
+
+# Converting the new dataset into a shape file  
+cases_geom <- st_as_sf(cases_geom)
+
+# Removing NA's from the sf-df: the coloumn gd was missing data when there were no coordinates.
+cases_geom_clean <- cases_geom %>%
+  filter(!is.na(gdp_cap_est))
+# Changing coloumn name for aestheitc reasons
+cases_geom_clean$`Healthcare Expenditure` <- cases_geom_clean$df_health_conf_categories
+
+# Setting up a gradient color for mortality
+
+tmap_2 <- tm_shape(cases_geom_clean) + 
+    tm_polygons("Healthcare Expenditure", palette = "Blues", title = "Healthcare expenditure", contrast =0.5, clustering = FALSE) + tm_text("iso3c", size = 0.5) + 
+    tm_shape(cases_geom_clean) +
+    tm_bubbles("Cases per 100000",
+               border.col = "black", border.alpha = .5, style="fixed",
+               breaks=c(0, 450,4000,10000,30000),
+               col="Cases per 100000",
+               n = 6,
+               clustering = FALSE,
+ title.size="Cases per 100000", title.col="COVID Cases") +
+    tm_facets(as.layers = TRUE)
+
+# view map with default view options
+tmap_mode("view")
+tmap_2
 
 ```
 
-### Chart C
 
-```{r}
 
-```
+
+
