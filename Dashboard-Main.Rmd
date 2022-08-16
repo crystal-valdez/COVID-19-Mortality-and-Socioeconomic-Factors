@@ -1,23 +1,47 @@
 ---
-title: "Dashboard-Main"
+title: "COVID-19 and Socioeconomic Status"
 author: "Crystal"
 date: '2022-08-15'
-output: html_document
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    source_code: embed
 ---
 
+----------------------
+
+# An Overview of COVID-19
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+library(flexdashboard)
 ```
 
-## R Markdown
+Rows {data-height=350}
+---
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+### **Main objective**
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Coronavirus disease (COVID-19) is an infectious disease caused by the SARS-CoV-2 virus.
 
-```{r cars}
-summary(cars)
+Our task is to investigate data related to COVID-19 morbidity and mortality, and examine the mortality of COVID-19 in relation to socioeconomic factors. 
+
+
+### **Data Source**
+
+Data was retrieved from Novel Coronavirus COVID-19 API and the World Bank API. 
+
+#### The World Bank
+![](https://www.unicef.org/chad/sites/unicef.org.chad/files/styles/media_large_image/public/World-Bank.jpg){width=75%}
+
+
+
+Row {data-height=350}
+-------------------------------------------
+### **Value**
+```{r}
+
 ```
+
+# Socioeconomic Factors 
 
 ## Including Plots
 
