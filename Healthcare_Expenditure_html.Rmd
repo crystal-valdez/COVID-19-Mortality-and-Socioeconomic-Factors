@@ -21,6 +21,8 @@ library(terra)
 library("raster")
 library(raster)
 library(rgeos)
+
+library(tmap)
 ```
 
 Column {.tabset}
