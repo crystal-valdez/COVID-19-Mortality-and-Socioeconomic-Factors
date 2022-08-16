@@ -61,3 +61,8 @@ We chose to evaluate the spread of COVID-29 in relation to a select number of so
   |Region|Geographical area|East Asia and Pacific, Europe and Central Asia, Latin America & the Caribbean, Middle East and North Africa, North America, South Asia, Sub-Saharan Africa|
   |Income inequality|GINI Index|< 0.2 represents perfect income equality <br> 0.2–0.3: relative equality <br> 0.3–0.4: adequate equality <br> 0.4–0.5: big income gap <br>  above 0.5: severe income gap|
 
+# References
+
+1.	How does the World Bank classify countries? – World Bank Data Help Desk. https://datahelpdesk.worldbank.org/knowledgebase/articles/378834-how-does-the-world-bank-classify-countries.
+2.	COVID-19 stats server. COVID-19 stats server https://documenter.getpostman.com/view/5352730/SzYbyxR5.
+3.  R Core Team. (2021). R: A Language and Environment for Statistical Computing. Retrieved from R Foundation for Statistical Computing website: https://www.r-project.org/
