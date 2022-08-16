@@ -8,7 +8,6 @@ vertical_layout: fill
 Health Expenditure
   
 ```{r setup, include=FALSE}
-library(flexdashboard)
 install.packages("tmap")
 install.packages("terra")
 library(tmap)
@@ -31,8 +30,7 @@ health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
 View(health_exp_cases)
 health_exp_deaths <- readRDS("df_health_expenditure_deaths.RDS")
 
-data("World")
-tm_shape(World) +
+tmap::tm_shape(World) +
     tm_polygons("HPI")
 
 tmap_mode("view")
