@@ -1,7 +1,7 @@
 ---
 title: "COVID-19 and Socioeconomic Status"
-author: "Crystal"
-date: '2022-08-15'
+author: "Group 5"
+date: 
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
