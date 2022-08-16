@@ -30,13 +30,14 @@ Our task is to investigate data related to COVID-19 morbidity and mortality, and
 Data was retrieved from Novel Coronavirus COVID-19 API and the World Bank API. 
 
 #### The World Bank
-![](https://www.unicef.org/chad/sites/unicef.org.chad/files/styles/media_large_image/public/World-Bank.jpg){width=75%}
+![](https://www.unicef.org/chad/sites/unicef.org.chad/files/styles/media_large_image/public/World-Bank.jpg){width=50%}
 
 
 
 Row {data-height=350}
 -------------------------------------------
 ### **World Bank API data**
+
 ```{r}
 library(wbstats)
 df <- wb_data(
@@ -49,6 +50,40 @@ DT::datatable(df)
 
 We chose to evaluate the spread of COVID-29 in relation to a select number of socioeconomic factors. 
 
+**Table 1:** Socioeconomic factors.
+
+|Socioeconomic Factor|Measure|Categories|
+  |:---:|:---------------:|:--------------:|
+  |Education|Literacy Rate in females|
+  |Income Level|Income in Dollars|Low income, Lower middle income, Upper   middle income, High income|
+  |Population Density|Population per square kilometer|
+  |Health|% of Government Expenditure|
+  |Region|Geographical area|East Asia and Pacific, Europe and Central Asia, Latin America & the Caribbean, Middle East and North Africa, North America, South Asia, Sub-Saharan Africa|
+  |Income inequality|GINI Index|< 0.2 represents perfect income equality, 0.2–0.3 relative equality,0.3–0.4 adequate equality, 0.4–0.5 big income gap, and above 0.5 represents severe income gap|
+
+Education - Literacy Rate in females 
+Health - Percentage of Government Spending (GDP) spent on Health 
+GINI index - 
+GDP - 
+
+# References
+
+**Table 1:** Calculated monthly average utilization in percentage from the trip dataset for the year of 2014. 
+
+|Month|Average Utilization (%)|
+  |:---:|:----------------------|
+  |January|437|
+  |February|371|
+  |March|441|
+  |April|487|
+  |May|516|
+  |June|561|
+  |July|569|
+  |August|562|
+  |September|598|
+  |October|631|
+  |November|483|
+  |December|356|
 ## Including Plots
 
 You can also embed plots, for example:
