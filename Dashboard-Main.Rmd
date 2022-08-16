@@ -24,15 +24,65 @@ Coronavirus disease (COVID-19) is an infectious disease caused by the SARS-CoV-2
 
 Our task is to investigate data related to COVID-19 morbidity and mortality, and examine the mortality of COVID-19 in relation to socioeconomic factors. 
 
+**Ratio of Case Types to the Population in 2021** 
+```{r ratios}
+library("wbstats")
+library(httr)
+library(stringr)
+library(tidyr)
+library(jsonlite)
+library(readxl)
+library(dplyr)
+library(plyr)
+library(zoo)
+
+pops2021 <- as.data.frame(wb_data("SP.POP.TOTL", country = "all", start_date = 2021, end_date = 2021))
+
+#Filtering out or removing values with digits in iso2c column, along with NA values
+pops2021_2 <- filter(pops2021, !grepl("[0-9]", iso2c)) 
+pops2021_2 <- pops2021_2[!is.na(pops2021_2$iso2c),]
+pops2021_2 <- pops2021_2 %>% drop_na(iso2c)
+
+#Removing columns from country-column that have select labels
+pops2021_2 <- filter(pops2021_2, !grepl("countries", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("only", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("income", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("total", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("blend", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("Union", country))
+pops2021_2 <- filter(pops2021_2, !grepl("&", country))
+pops2021_2 <- filter(pops2021_2, !grepl("area", country))  
+pops2021_2 <- filter(pops2021_2, !grepl("members", country))  
+pops2021_2 <- filter(pops2021_2, !grepl("North America", country))  
+pops2021_2 <- filter(pops2021_2, !grepl("Sub", country))  
+pops2021_2 <- filter(pops2021_2, !grepl("Union", country))  
+
+
+#Taking sum of population for all countries to get global world population
+world_pop <- sum(as.numeric(pops2021$SP.POP.TOTL), na.rm = T)
+
+
+#Copying code from Task 1, afterwards import to RDS object to obtain confirmed, deaths and recovered 
+res <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases?")
+
+#cat(content(res, 'text'))
+
+totalconfirmed_cases <- content(res)$confirmed
+totalconfirmed_deaths <- content(res)$deaths
+totalconfirmed_recovered <- content(res)$recovered
+
+ratios <- matrix(c((world_pop/totalconfirmed_cases), (world_pop/totalconfirmed_deaths), (world_pop/totalconfirmed_recovered)))
+colnames(ratios) <- c('Number cases over population')
+rownames(ratios) <- c('Cases', 'Deaths','Recovered')
+ratios <- as.table(ratios)
+ratios
+```
 
 ### **Data Source**
 
 Data was retrieved from Novel Coronavirus COVID-19 API and the World Bank API. 
 
-#### The World Bank
-![](https://www.unicef.org/chad/sites/unicef.org.chad/files/styles/media_large_image/public/World-Bank.jpg){width=50%}
-
-
+![](https://www.unicef.org/chad/sites/unicef.org.chad/files/styles/media_large_image/public/World-Bank.jpg){width=40%}           ![](https://covid-19-apis.postman.com/static/covid19-image-2-eba8830c28c59886ad33f5e26f143a76.png){width=50%}
 
 Row {data-height=350}
 -------------------------------------------
