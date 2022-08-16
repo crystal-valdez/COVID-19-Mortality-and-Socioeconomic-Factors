@@ -4,7 +4,6 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
-
 ---
 
 ```{r setup, include=FALSE}
@@ -49,8 +48,9 @@ box_1 <- ggplot(health_exp_deaths, aes(x = df_health_conf_categories, y = `Death
        x="Healthcare Expenditure by % of GDP",   
        title="COVID mortality rate and Healthcare expenditure by % of GDP")
 box_1
-```
 
+```
+<!-- Add some comments here -->
 
 ### Spread of Mortality
 ```{r scatterplot_death, echo = FALSE}
@@ -61,8 +61,14 @@ scatter_1 <- ggplot(health_exp_deaths, aes(x = `2021`, y = `Deaths per 100000`))
   guides(col=guide_legend("Healthcare Expenditure"))
 
 scatter_1
-```
 
+```
+---
+**NOTE**
+
+It works with almost all markdown flavours (the below blank line matters).
+
+---
 
 ### World map of COVID mortality
 ```{r tmap_death, echo = FALSE}
@@ -98,13 +104,18 @@ tmap_mode("view")
 tmap_1
 
 ```
+---
+**NOTE**
 
+It works with almost all markdown flavours (the below blank line matters).
+
+---
 
 Column {.tabset}
 -----------------------------------------
 
 
-### Median Confirmed cases 
+### Boxplot Analysis of Confirmed Cases 
 
 ```{r boxplot_cases, echo = FALSE}
 health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
@@ -123,9 +134,14 @@ box_2 <- ggplot(health_exp_cases, aes(x = df_health_conf_categories, y = `Cases 
        title="COVID confirmed cases rate and Healthcare expenditure by % of GDP")
 box_2
 ```
+---
+**NOTE**
 
+It works with almost all markdown flavours (the below blank line matters).
 
-### Spread of Confrimed cases
+---
+
+### Visual Scatterplot of Confirmed Cases
 ```{r scatterplot_cases, echo = FALSE}
 scatter_2 <- ggplot(health_exp_cases, aes(x = `2021`, y = `Cases per 100000`)) + geom_point(aes(col=df_health_conf_categories)) +
   labs(y="Cases per 100000",
@@ -135,9 +151,14 @@ scatter_2 <- ggplot(health_exp_cases, aes(x = `2021`, y = `Cases per 100000`)) +
 
 scatter_2
 ```
+---
+**NOTE**
 
+It works with almost all markdown flavours (the below blank line matters).
 
-### World map of COVID cases
+---
+
+### Interactive World Map of COVID cases
 ```{r tmap_cases, echo = FALSE}
 # Joining the tmap world data and our mortality data using common iso3 name coloumn
 data("World")
@@ -171,8 +192,10 @@ tmap_mode("view")
 tmap_2
 
 ```
+---
+**NOTE**
 
+It works with almost all markdown flavours (the below blank line matters).
 
-
-
+---
 
