@@ -85,6 +85,7 @@ renderTmap({
                breaks=c(0, 50,100,150,200,Inf),
                col="deaths_per_hundredk",
                n = 6,
+               clustering = FALSE,
  title.size="Mortality per 100000", title.col="COVID Mortality") +
     tm_facets(as.layers = TRUE)
 })
