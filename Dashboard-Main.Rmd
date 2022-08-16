@@ -36,12 +36,18 @@ Data was retrieved from Novel Coronavirus COVID-19 API and the World Bank API.
 
 Row {data-height=350}
 -------------------------------------------
-### **Value**
+### **World Bank API data**
 ```{r}
-
+library(wbstats)
+df <- wb_data(
+  country = "all",
+  indicator = "NY.GDP.MKTP.CD")
+DT::datatable(df)
 ```
 
 # Socioeconomic Factors 
+
+We chose to evaluate the spread of COVID-29 in relation to a select number of socioeconomic factors. 
 
 ## Including Plots
 
