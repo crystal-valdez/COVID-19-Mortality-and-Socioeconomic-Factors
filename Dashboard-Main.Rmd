@@ -54,42 +54,10 @@ We chose to evaluate the spread of COVID-29 in relation to a select number of so
 
 |Socioeconomic Factor|Measure|Categories|
   |:---:|:---------------:|:--------------:|
-  |Education|Literacy Rate in females|
-  |Income Level|Income in Dollars|Low income, Lower middle income, Upper   middle income, High income|
-  |Population Density|Population per square kilometer|
-  |Health|% of Government Expenditure|
+  |Education|Literacy Rate in females above 15 yrs| <= 0.5200: Extremely low <br> <= 3.8950:Low <br> <= 6.5400: Moderate <br> <= 11.8775:High <br> > 11.8775:Very high|
+  |Income Level|Income in Dollars|Low income, Lower middle income, Upper middle income, High income|
+  |Population Density|Population per square kilometer| <= 100: Extremely low <br> <= 250: Low <br> <= 500: Moderate <br> > 500: High|
+  |Health|% of GDP| <= 1.525117: Extremely low <br> <= 4.346481: Low <br> <= 6.07380: Moderate <br> <= 8.027737: High <br> > 8.027737: Very high|
   |Region|Geographical area|East Asia and Pacific, Europe and Central Asia, Latin America & the Caribbean, Middle East and North Africa, North America, South Asia, Sub-Saharan Africa|
-  |Income inequality|GINI Index|< 0.2 represents perfect income equality, 0.2–0.3 relative equality,0.3–0.4 adequate equality, 0.4–0.5 big income gap, and above 0.5 represents severe income gap|
+  |Income inequality|GINI Index|< 0.2 represents perfect income equality <br> 0.2–0.3: relative equality <br> 0.3–0.4: adequate equality <br> 0.4–0.5: big income gap <br>  above 0.5: severe income gap|
 
-Education - Literacy Rate in females 
-Health - Percentage of Government Spending (GDP) spent on Health 
-GINI index - 
-GDP - 
-
-# References
-
-**Table 1:** Calculated monthly average utilization in percentage from the trip dataset for the year of 2014. 
-
-|Month|Average Utilization (%)|
-  |:---:|:----------------------|
-  |January|437|
-  |February|371|
-  |March|441|
-  |April|487|
-  |May|516|
-  |June|561|
-  |July|569|
-  |August|562|
-  |September|598|
-  |October|631|
-  |November|483|
-  |December|356|
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
