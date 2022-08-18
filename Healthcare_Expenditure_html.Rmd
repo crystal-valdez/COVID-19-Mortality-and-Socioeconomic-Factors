@@ -7,7 +7,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, fig.width=9, fig.height=6)
 
 library(flexdashboard)
 library(ggplot2)
@@ -50,7 +50,7 @@ box_1 <- ggplot(health_exp_deaths, aes(x = df_health_conf_categories, y = `Death
 box_1
 
 ```
-<!-- Add some comments here -->
+**_NOTE:_**  The note content.  
 
 ### Spread of Mortality
 ```{r scatterplot_death, echo = FALSE}
@@ -63,12 +63,7 @@ scatter_1 <- ggplot(health_exp_deaths, aes(x = `2021`, y = `Deaths per 100000`))
 scatter_1
 
 ```
----
-**NOTE**
-
-It works with almost all markdown flavours (the below blank line matters).
-
----
+**_NOTE:_**  The note content.  
 
 ### World map of COVID mortality
 ```{r tmap_death, echo = FALSE}
@@ -104,12 +99,7 @@ tmap_mode("view")
 tmap_1
 
 ```
----
-**NOTE**
-
-It works with almost all markdown flavours (the below blank line matters).
-
----
+> **_NOTE:_**  The note content.  
 
 Column {.tabset}
 -----------------------------------------
@@ -134,12 +124,7 @@ box_2 <- ggplot(health_exp_cases, aes(x = df_health_conf_categories, y = `Cases 
        title="COVID confirmed cases rate and Healthcare expenditure by % of GDP")
 box_2
 ```
----
-**NOTE**
-
-It works with almost all markdown flavours (the below blank line matters).
-
----
+**_NOTE:_**  The note content.  
 
 ### Visual Scatterplot of Confirmed Cases
 ```{r scatterplot_cases, echo = FALSE}
@@ -151,12 +136,7 @@ scatter_2 <- ggplot(health_exp_cases, aes(x = `2021`, y = `Cases per 100000`)) +
 
 scatter_2
 ```
----
-**NOTE**
-
-It works with almost all markdown flavours (the below blank line matters).
-
----
+**_NOTE:_**  The note content.  
 
 ### Interactive World Map of COVID cases
 ```{r tmap_cases, echo = FALSE}
@@ -192,10 +172,5 @@ tmap_mode("view")
 tmap_2
 
 ```
----
-**NOTE**
-
-It works with almost all markdown flavours (the below blank line matters).
-
----
+> **_NOTE:_**  The note content.  
 
