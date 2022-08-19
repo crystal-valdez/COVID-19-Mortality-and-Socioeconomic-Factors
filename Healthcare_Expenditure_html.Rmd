@@ -7,7 +7,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.width=9, fig.height=6)
+knitr::opts_chunk$set(echo = TRUE, fig.width=10, fig.height=8)
 
 library(flexdashboard)
 library(ggplot2)
@@ -22,6 +22,8 @@ library(raster)
 library(rgeos)
 
 library(tmap)
+library(ggplot2)
+library(wesanderson)
 ```
 
 Column {.tabset}
@@ -40,17 +42,24 @@ health_exp_deaths$`Deaths per 100000` <- health_exp_deaths$deaths_per_capita * 1
 health_exp_deaths <- health_exp_deaths %>%
   filter(!is.na(health_exp_deaths$df_health_conf_categories))
 
-colors <- c("brown2", "green", "darkslategray1", "coral", "bisque" )
-
-box_1 <- ggplot(health_exp_deaths, aes(x = df_health_conf_categories, y = `Deaths per 100000`)) +
-  geom_boxplot(fill = colors) + 
-  labs(y="Deaths per 100000",
+box_1 <- ggplot(health_exp_deaths, aes(x = df_health_conf_categories, y = `Deaths per 100000`, fill = df_health_conf_categories)) +  geom_bar(stat = "identity", na.rm=T) + scale_fill_manual(values = wes_palette("Zissou1")) + labs(y="Deaths per 100000",
        x="Healthcare Expenditure by % of GDP",   
        title="COVID mortality rate and Healthcare expenditure by % of GDP")
 box_1
 
 ```
-**_NOTE:_**  The note content.  
+**_NOTE:_** The ANOVA test found there was a significant difference between these categories in impacting COVID mortality. The post-hoc Tukey test found significant differences for High-Low, Very high-Low and High-Moderate categories. 
+
+
+```{r anova_mortality_health, include=FALSE}
+##ANOVA/KRUSKAl ##2 -- 3 categories are significant 
+one.way_mort <- aov(health_exp_deaths$deaths_per_capita ~ health_exp_deaths$df_health_conf_categories, data = health_exp_deaths)
+summary(one.way_mort)
+
+tukey.test_healthexp <- TukeyHSD(one.way_mort)
+tukey.test_healthexp
+```
+
 
 ### Spread of Mortality
 ```{r scatterplot_death, echo = FALSE}
@@ -63,7 +72,7 @@ scatter_1 <- ggplot(health_exp_deaths, aes(x = `2021`, y = `Deaths per 100000`))
 scatter_1
 
 ```
-**_NOTE:_**  The note content.  
+
 
 ### World map of COVID mortality
 ```{r tmap_death, echo = FALSE}
@@ -99,7 +108,7 @@ tmap_mode("view")
 tmap_1
 
 ```
-> **_NOTE:_**  The note content.  
+> **_NOTE:_**  World Map shows countries with varying COVID mortality along with healthcare expenditure data.  
 
 Column {.tabset}
 -----------------------------------------
@@ -108,6 +117,7 @@ Column {.tabset}
 ### Boxplot Analysis of Confirmed Cases 
 
 ```{r boxplot_cases, echo = FALSE}
+
 health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
 
 health_exp_cases$`Cases per 100000` <- health_exp_cases$cases_per_capita * 100000
@@ -115,16 +125,21 @@ health_exp_cases$`Cases per 100000` <- health_exp_cases$cases_per_capita * 10000
 health_exp_cases <- health_exp_cases %>%
   filter(!is.na(health_exp_cases$df_health_conf_categories))
 
-colors <- c("brown2", "green", "darkslategray1", "coral", "bisque" )
-
-box_2 <- ggplot(health_exp_cases, aes(x = df_health_conf_categories, y = `Cases per 100000`)) +
-  geom_boxplot(fill = colors) + 
-  labs(y="Cases per 100000",
+box_2 <- ggplot(health_exp_cases, aes(x=factor(df_health_conf_categories), y=`Cases per 100000`,  fill=factor(df_health_conf_categories)))  +  geom_bar(stat = "identity", na.rm=T) + scale_fill_manual(values = wes_palette("Zissou1")) + labs(y="Cases per 100000",
        x="Healthcare Expenditure by % of GDP",   
-       title="COVID confirmed cases rate and Healthcare expenditure by % of GDP")
+       title="COVID confirmed cases rate and Healthcare expenditure by % of GDP") 
 box_2
 ```
-**_NOTE:_**  The note content.  
+**_NOTE:_** The ANOVA test found there was a significant difference between these categories in impacting COVID case count incidence. The post-hoc Tukey test found significant differences for High-Low, Very high-Low and High-Moderate categories and Very high-Moderate categories. 
+
+```{r anova_cases_health, include=FALSE}
+##ANOVA/KRUSKAl ##2 -- 3 categories are significant 
+one.way_cases <- aov(health_exp_cases$cases_per_capita ~ health_exp_cases$df_health_conf_categories, data = health_exp_cases)
+summary(one.way_cases)
+
+tukey.test_healthexp_cases <- TukeyHSD(one.way_cases)
+tukey.test_healthexp_cases
+```
 
 ### Visual Scatterplot of Confirmed Cases
 ```{r scatterplot_cases, echo = FALSE}
@@ -136,7 +151,7 @@ scatter_2 <- ggplot(health_exp_cases, aes(x = `2021`, y = `Cases per 100000`)) +
 
 scatter_2
 ```
-**_NOTE:_**  The note content.  
+  
 
 ### Interactive World Map of COVID cases
 ```{r tmap_cases, echo = FALSE}
@@ -172,5 +187,6 @@ tmap_mode("view")
 tmap_2
 
 ```
-> **_NOTE:_**  The note content.  
+> **_NOTE:_**  World Map shows countries with varying COVID case count along with healthcare expenditure data.  
+
 
