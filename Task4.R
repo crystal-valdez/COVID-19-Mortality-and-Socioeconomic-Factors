@@ -10,8 +10,10 @@ library(tidyr)
 library(jsonlite)
 library(readxl)
 library(dplyr)
+install.packages("plyr")
 library(plyr)
 library(zoo)
+
 
 #Loading in world-bank data library and labelling as pops2021 object
 pops2021 <- as.data.frame(wb_data("SP.POP.TOTL", country = "all", start_date = 2021, end_date = 2021))
@@ -21,7 +23,7 @@ pops2021_2 <- filter(pops2021, !grepl("[0-9]", iso2c))
 pops2021_2 <- pops2021_2[!is.na(pops2021_2$iso2c),]
 pops2021_2 <- pops2021_2 %>% drop_na(iso2c)
 
-#Removing columns from country-column that have select labels
+#Removing columns from country column in pops2021_2 that have specific key words as follows 
 pops2021_2 <- filter(pops2021_2, !grepl("countries", country)) 
 pops2021_2 <- filter(pops2021_2, !grepl("only", country)) 
 pops2021_2 <- filter(pops2021_2, !grepl("income", country)) 
@@ -35,25 +37,25 @@ pops2021_2 <- filter(pops2021_2, !grepl("North America", country))
 pops2021_2 <- filter(pops2021_2, !grepl("Sub", country))  
 pops2021_2 <- filter(pops2021_2, !grepl("Union", country))  
 
-
-#Taking sum of population for all countries to get global world population
+#Taking sum of population for individual countries to retrieve global world population, set to world_pop object
 world_pop <- sum(as.numeric(pops2021$SP.POP.TOTL), na.rm = T)
 
-
 #Copying code from Task 1, afterwards import to RDS object to obtain confirmed, deaths and recovered 
+
+#Obtaining cases from covid-world-data API and setting to res object
 res <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases?")
 
-cat(content(res, 'text'))
+#cat(content(res, 'text'))
 
+#creating objects for global confirmed cases, deaths and recovered ccases
 totalconfirmed_cases <- content(res)$confirmed
 totalconfirmed_deaths <- content(res)$deaths
 totalconfirmed_recovered <- content(res)$recovered
 
-world_pop/totalconfirmed_cases
-
-world_pop/totalconfirmed_deaths
-
-world_pop/totalconfirmed_recovered
+#retrieving ratios for total confirmed cases, deaths and recovered 
+ratio_confirmed_cases <- world_pop/totalconfirmed_cases
+ratio_deaths <- world_pop/totalconfirmed_deaths
+ratio_recovered <- world_pop/totalconfirmed_recovered
 
 #### Task 4 ######
 
@@ -61,38 +63,42 @@ world_pop/totalconfirmed_recovered
 ### FIGURING OUT WHATS THE BEST VARIABLE FOR CONFIRMED CASES AND MORTALITY
 
 ############################
-#Confirmed Cases in each country
+#Country-Level Confirmed Cases
 ############################
-library(httr)
-res <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases/country/confirmed")
+#retrieving total amount of confirmed_cases in confirmed_cases_res object
+confirmed_cases_res <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases/country/confirmed")
+
+#creating empty list for country and count
 country_list <- list()
 count_list <- list()
 
-#removing 1 row of list 
-unlisted_res <- unlist(content(res),recursive=FALSE)
+#Removing 1 row of list using unlist function and assigning to unlisted_res object
+unlisted_res <- unlist(content(confirmed_cases_res),recursive=FALSE)
 
-#adding countries to separate list 
+#Adding countries to country list by taking every 2nd entry from unlisted_res to country_list object
 for (i in 1:length(unlisted_res)) {
   if (i %% 2 == 0) {
     country_list <- c(country_list,unlisted_res[i])
   }
 }
-
-#adding counts to separate list 
+#Adding counts for cases in count_list object
 for (i in 1:length(unlisted_res)) {
   if (i %% 2 != 0) {
     count_list <- c(count_list,unlisted_res[i])
   }
 }
 
+#Merging both country and case count-information in the same dataframe 
 confirmed_cases_country <- do.call(rbind, Map(cbind, count_list, country_list))
 confirmed_cases_country <- as.data.frame(confirmed_cases_country)
+
+#Changing name of column of V2 to Country, and V1 to Number, and removing the original named columns 
 confirmed_cases_country$Country <- confirmed_cases_country$V2
 confirmed_cases_country$Number <- confirmed_cases_country$V1
 confirmed_cases_country <- confirmed_cases_country %>% select(-V2) %>% select(-V1)
 
-
-#replacing 30 countries names for matching - second column is what you are changing it to 
+#Due to dissimilarity in country-names between world-covid API and global country API, 
+#30 countries names' were changed 
 confirmed_cases_country$Country[confirmed_cases_country$Country == 'US'] <- 'United States'
 confirmed_cases_country$Country[confirmed_cases_country$Country == 'Korea, South'] <- 'Korea, Rep.'
 confirmed_cases_country$Country[confirmed_cases_country$Country == 'Korea, North'] <- "People's Rep."
@@ -106,7 +112,6 @@ confirmed_cases_country$Country[confirmed_cases_country$Country ==  'Venezuela']
 confirmed_cases_country$Country[confirmed_cases_country$Country == 'Egypt'] <- "Egypt, Arab Rep."
 confirmed_cases_country$Country[confirmed_cases_country$Country == 'Kyrgyzstan'] <- "Kyrgyz Republic"
 confirmed_cases_country$Country[confirmed_cases_country$Country == 'Laos'] <- "Lao PDR"
-
 confirmed_cases_country$Country[confirmed_cases_country$Country == 'Congo (Kinshasa)'] <- "Congo, Dem. Rep."
 confirmed_cases_country$Country[confirmed_cases_country$Country == 'Syria'] <- "Syrian Arab Republic"
 confirmed_cases_country$Country[confirmed_cases_country$Country == 'Bahamas'] <- "Bahamas, The"
@@ -122,36 +127,41 @@ confirmed_cases_country$Country[confirmed_cases_country$Country == 'Micronesia']
 ############################
 #Mortality in each country
 ############################
-library(httr)
-res <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases/country/deaths")
-country_list <- list()
-count_list <- list()
 
-#removing 1 row of list 
-unlisted_res <- unlist(content(res),recursive=FALSE)
+#Retrieving total amount of confirmed_cases in res_deaths object
+res_deaths <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases/country/deaths")
+country_list_deaths_new <- list()
+count_list_deaths_new <- list()
 
-#adding countries to separate list 
-for (i in 1:length(unlisted_res)) {
+#Removing 1 row of list using unlist function and assigning to unlisted_res_deaths object
+unlisted_res_deaths <- unlist(content(res_deaths),recursive=FALSE)
+
+#Adding countries to country_list_deaths_new list by taking every 2nd entry from unlisted_res_deaths to country_list_deaths_new object
+for (i in 1:length(unlisted_res_deaths)) {
   if (i %% 2 == 0) {
-    country_list <- c(country_list,unlisted_res[i])
+    country_list_deaths_new <- c(country_list_deaths_new,unlisted_res_deaths[i])
   }
 }
 
-#adding counts to separate list 
+#Adding counts for deaths in count_list_deaths_new object
 for (i in 1:length(unlisted_res)) {
   if (i %% 2 != 0) {
-    count_list <- c(count_list,unlisted_res[i])
+    count_list_deaths_new <- c(count_list_deaths_new,unlisted_res[i])
   }
 }
 
-death_cases_country <- do.call(rbind, Map(cbind, count_list, country_list))
+#Merging both country and case count-information in the same death_cases_country dataframe 
+death_cases_country <- do.call(rbind, Map(cbind, count_list_deaths_new, country_list_deaths_new))
 death_cases_country <- as.data.frame(death_cases_country)
+
+#Changing name of column of V2 to Country, and V1 to Number, and removing the original named columns 
 death_cases_country$Country <- death_cases_country$V2
 death_cases_country$Number <- death_cases_country$V1
 death_cases_country <- death_cases_country %>% select(-V2) %>% select(-V1)
 
 
-#replacing 30 countries names for matching - second column is what you are changing it to 
+#Due to dissimilarity in country-names between world-covid API and global country API, 
+#30 countries names' were changed 
 death_cases_country$Country[death_cases_country$Country == 'US'] <- 'United States'
 death_cases_country$Country[death_cases_country$Country =='Korea, South'] <- 'Korea, Rep.'
 death_cases_country$Country[death_cases_country$Country == 'Korea, North'] <- "People's Rep."
@@ -165,7 +175,6 @@ death_cases_country$Country[death_cases_country$Country ==  'Venezuela'] <-"Vene
 death_cases_country$Country[death_cases_country$Country == 'Egypt'] <- "Egypt, Arab Rep."
 death_cases_country$Country[death_cases_country$Country == 'Kyrgyzstan'] <- "Kyrgyz Republic"
 death_cases_country$Country[death_cases_country$Country == 'Laos'] <- "Lao PDR"
-
 death_cases_country$Country[death_cases_country$Country == 'Congo (Kinshasa)'] <- "Congo, Dem. Rep."
 death_cases_country$Country[death_cases_country$Country == 'Syria'] <- "Syrian Arab Republic"
 death_cases_country$Country[death_cases_country$Country == 'Bahamas'] <- "Bahamas, The"
@@ -178,33 +187,28 @@ death_cases_country$Country[death_cases_country$Country == 'Saint Vincent and th
 death_cases_country$Country[death_cases_country$Country ==  'Saint Kitts and Nevis'] <-"St. Kitts and Nevis"
 death_cases_country$Country[death_cases_country$Country == 'Micronesia'] <- "Micronesia, Fed. Sts."
 
-#decide to what to do with taiwan
-
-
-
-
 #############
 # Confirmed and death cases plots
 #############
 
-#creating df with both cases and countries called cases_countries
-#creating df with both deaths and countries called deaths_countries
+#Creating df with both cases and countries called cases_countries
+#Creating df with both deaths and countries called deaths_countries
 cases_countries <- left_join(confirmed_cases_country,pops2021_2, by=c("Country"="country"))
 deaths_countries <- left_join(death_cases_country,pops2021_2, by=c("Country"="country"))
 
 #############
-# Attaching income level info (Low, Medium, High)
+# Creating categories for income (Low, Medium, High) and merging with Covid-data 
 #############
 
 # Attaching data with income and region info of countries
 income_region <- read.csv("income_world_data_country.csv")
 
+# Selecting Country, Income.group, Region information for income_Region df 
 income_region <- income_region %>%
   select(Country, Income.group, Region)
 
-# Attaching income and region info to confirmed cases data
+# Attaching income and region info to confirmed cases data through left-join, assigning to case_countries2 object
 case_countries2 <- left_join(income_region, cases_countries, by = "Country")
-View(case_countries2)
 
 # Establishing factors - Income level and region levels
 case_countries2$Income.group <- as.factor(case_countries2$Income.group)
@@ -213,14 +217,10 @@ case_countries2$Income.group <- ordered(case_countries2$Income.group, levels = c
             "Upper middle income",
             "High income",
             ""))
-
-                                         
 case_countries2$Region <- as.factor(case_countries2$Region)
-
 
 # Attaching income and region info to death cases data
 death_countries2 <- left_join(income_region, deaths_countries, by = "Country")
-View(death_countries2)
 
 death_countries2$Income.group <- as.factor(case_countries2$Income.group)
 death_countries2$Income.group <- ordered(death_countries2$Income.group, levels = c("Low income", 
@@ -228,12 +228,10 @@ death_countries2$Income.group <- ordered(death_countries2$Income.group, levels =
                                                                                  "Upper middle income",
                                                                                  "High income",
                                                                                  ""))                                         
-
 death_countries2$Region <- as.factor(death_countries2$Region)
 
 
-#############
-#Income level
+#Income level Boxplots 
 #############
 
 # BOXPLOT FOR INCOME CONFRIMED
@@ -256,15 +254,14 @@ boxplot(death_countries2$Number ~ death_countries2$Income.group, ylim=c(0,55000)
 # Number of cases per capita 
 boxplot(death_countries2$cases_per_capita ~ death_countries2$Income.group)
 
-##INCOME -- ANOVA - #1
-one.way <- aov(death_countries2$cases_per_capita ~ death_countries2$Income.group, data = death_countries2)
-summary(one.way)
-
-tukey.test_income <- TukeyHSD(one.way)
+#ANOVA and Tukey-Test for Income-Level information 
+one.way_income <- aov(death_countries2$cases_per_capita ~ death_countries2$Income.group, data = death_countries2)
+summary(one.way_income)
+tukey.test_income <- TukeyHSD(one.way_income)
 tukey.test_income
 
 #############
-#Regions level
+#Creating categories for Regions level
 #############
 
 # BOXPLOT FOR REGION CONFIRMED # North America has a huge range
@@ -276,7 +273,6 @@ boxplot(case_countries2$Number ~ case_countries2$Region, ylim=c(0,5000000))
 
 # Number of cases per capita 
 boxplot(case_countries2$cases_per_capita ~ case_countries2$Region)
-
 
 # BOXPLOT FOR REGION DEATH # North America has a huge range 
 death_countries2$Number <- as.numeric(death_countries2$Number)
