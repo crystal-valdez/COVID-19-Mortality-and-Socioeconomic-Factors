@@ -18,6 +18,7 @@ literacy_categories_df_deaths <- read.csv("literacy_categories_df_deaths.csv")
 literacy_categories_df <- read.csv("literacy_categories_df.csv")
 ```
 
+# Page 1
 
 Row  {.tabset}
 -----------------------------------------------------------------------
@@ -27,9 +28,9 @@ Row  {.tabset}
 ### Cases Confirmed
 
 ```{r}
-boxplot(case_countries2$cases_per_capita ~ case_countries2$Income.group, 
+boxplot((case_countries2$cases_per_capita*100000) ~ case_countries2$Income.group, 
         xlab = "Income Group",
-        ylab = "Cases per Capita",
+        ylab = "Cases per 100000",
         main = "Cases by Country Income Group",
         sub = "Cases Confirmed",
         col = "light pink")
@@ -39,9 +40,9 @@ boxplot(case_countries2$cases_per_capita ~ case_countries2$Income.group,
 ### Deaths Confirmed
 
 ```{r}
-boxplot(death_countries2$cases_per_capita ~ death_countries2$Income.group,
+boxplot((death_countries2$cases_per_capita*100000) ~ death_countries2$Income.group,
         xlab = "Income Group",
-        ylab = "Deaths per Capita",
+        ylab = "Deaths per 100000",
         main = "Deaths by Country Income Group",
         sub = "Deaths Confirmed",
         col = "light blue")
@@ -57,9 +58,9 @@ Row  {.tabset}
 ### Cases Confirmed
 
 ```{r}
-boxplot(case_countries2$cases_per_capita ~ case_countries2$Region,
+boxplot((case_countries2$cases_per_capita*100000) ~ case_countries2$Region,
         xlab = "Geographical Region",
-        ylab = "Cases per Capita",
+        ylab = "Cases per 100000",
         main = "Cases by Country Geographical Region",
         sub = "Cases Confirmed",
         col = "light pink")
@@ -68,14 +69,15 @@ boxplot(case_countries2$cases_per_capita ~ case_countries2$Region,
 ### Deaths Confirmed
 
 ```{r}
-boxplot(death_countries2$cases_per_capita ~ case_countries2$Region,
+boxplot((death_countries2$cases_per_capita*100000) ~ case_countries2$Region,
         xlab = "Geographical Region",
-        ylab = "Deaths per Capita",
+        ylab = "Deaths per 100000",
         main = "Deaths by Country Geographical Region",
         sub = "Deaths Confirmed",
         col = "light blue")
 ```
 
+# Page 2
 
 Row  {.tabset}
 -----------------------------------------------------------------------
@@ -83,9 +85,9 @@ Row  {.tabset}
 ### Cases Confirmed
 
 ```{r}
-boxplot(df_covid_gini$cases_per_capita ~ df_covid_gini$gini_equaltiy, 
+boxplot((df_covid_gini$cases_per_capita*100000) ~ df_covid_gini$gini_equaltiy, 
         xlab = "Gini",
-        ylab = "Cases per Capita",
+        ylab = "Cases per 100000",
         main = "Cases by Country Gini",
         sub = "Cases Confirmed",
         col = "light pink")
@@ -94,9 +96,9 @@ boxplot(df_covid_gini$cases_per_capita ~ df_covid_gini$gini_equaltiy,
 ### Deaths Confirmed
 
 ```{r}
-boxplot(df_covid_gini_mort$cases_per_capita ~ df_covid_gini_mort$gini_equaltiy,
+boxplot((df_covid_gini_mort$cases_per_capita*100000) ~ df_covid_gini_mort$gini_equaltiy,
         xlab = "Gini",
-        ylab = "Deaths per Capita",
+        ylab = "Deaths per 100000",
         main = "Deaths by Country Gini",
         sub = "Deaths Confirmed",
         col = "light blue")
@@ -107,9 +109,9 @@ Row  {.tabset}
 
 ### Cases Confirmed
 ```{r}
-boxplot(df_covid_pop_density$cases_per_capita ~ df_covid_pop_density$pop.density_categories,
+boxplot((df_covid_pop_density$cases_per_capita*100000) ~ df_covid_pop_density$pop.density_categories,
         xlab = "Population Density",
-        ylab = "Cases per Capita",
+        ylab = "Cases per 100000",
         main = "Cases by Country Population Density",
         sub = "Cases Confirmed",
         col = "light pink")
@@ -119,9 +121,9 @@ boxplot(df_covid_pop_density$cases_per_capita ~ df_covid_pop_density$pop.density
 
 ### Deaths Confirmed
 ```{r}
-boxplot(df_covid_pop_density.mort$deaths_per_capita ~ df_covid_pop_density.mort$pop.density_categories,
+boxplot((df_covid_pop_density.mort$deaths_per_capita*100000) ~ df_covid_pop_density.mort$pop.density_categories,
         xlab = "Population Density",
-        ylab = "Deaths per Capita",
+        ylab = "Deaths per 100000",
         main = "Deaths by Country Population Density",
         sub = "Deaths Confirmed",
         col = "light blue")
