@@ -9,29 +9,45 @@ output:
 ```{r setup, include=FALSE}
 library(flexdashboard)
 case_countries2 <- read.csv("case_countries2.csv")
+death_countries2 <- read.csv("death_countries2.csv")
 ```
 
-Column {data-width=650}
+Column {data-width=350, .tabset}
 -----------------------------------------------------------------------
 
-### Chart A
+### Cases Confirmed
 
 ```{r}
-boxplot(case_countries2$cases_per_capita ~ case_countries2$Income.group)
+boxplot(case_countries2$cases_per_capita ~ case_countries2$Income.group, 
+        xlab = "Income Group",
+        ylab = "Cases per Capita",
+        main = "Cases by Country Income Group",
+        sub = "Cases Confirmed")
 ```
 
-Column {data-width=350}
+### Deaths Confirmed
+
+```{r}
+boxplot(death_countries2$cases_per_capita ~ death_countries2$Income.group,
+        xlab = "Income Group",
+        ylab = "Deaths per Capita",
+        main = "Deaths by Country Income Group",
+        sub = "Deaths Confirmed")
+```
+
+
+Column {data-width=350, .tabset}
 -----------------------------------------------------------------------
 
-### Chart B
+
+### Cases Confirmed
 
 ```{r}
-
+boxplot(case_countries2$cases_per_capita ~ case_countries2$Region)
 ```
 
-### Chart C
+### Deaths Confirmed
 
 ```{r}
-
+boxplot(death_countries2$cases_per_capita ~ case_countries2$Region)
 ```
-
