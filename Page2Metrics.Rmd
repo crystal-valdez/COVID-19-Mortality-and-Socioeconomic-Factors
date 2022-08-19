@@ -2,7 +2,7 @@
 title: "Metrics"
 output: 
   flexdashboard::flex_dashboard:
-    orientation: columns
+    orientation: rows
     vertical_layout: fill
 ---
 
@@ -10,9 +10,14 @@ output:
 library(flexdashboard)
 case_countries2 <- read.csv("case_countries2.csv")
 death_countries2 <- read.csv("death_countries2.csv")
+df_covid_pop_density.mort <- read.csv("df_covid_pop_densitymort.csv")
+df_covid_pop_density <- read.csv("df_covid_pop_density.csv")
+df_covid_gini <- read.csv("df_covid_gini.csv")
+df_covid_gini_mort <- read.csv("df_covid_gini_mort.csv")
 ```
 
-Column {data-width=350, .tabset}
+
+Row  {.tabset}
 -----------------------------------------------------------------------
 
 ### Cases Confirmed
@@ -22,8 +27,10 @@ boxplot(case_countries2$cases_per_capita ~ case_countries2$Income.group,
         xlab = "Income Group",
         ylab = "Cases per Capita",
         main = "Cases by Country Income Group",
-        sub = "Cases Confirmed")
+        sub = "Cases Confirmed",
+        col = "light pink")
 ```
+
 
 ### Deaths Confirmed
 
@@ -32,22 +39,92 @@ boxplot(death_countries2$cases_per_capita ~ death_countries2$Income.group,
         xlab = "Income Group",
         ylab = "Deaths per Capita",
         main = "Deaths by Country Income Group",
-        sub = "Deaths Confirmed")
+        sub = "Deaths Confirmed",
+        col = "light blue")
 ```
 
 
-Column {data-width=350, .tabset}
+### Cases Confirmed
+
+```{r}
+boxplot(case_countries2$cases_per_capita ~ case_countries2$Region,
+        xlab = "Geographical Region",
+        ylab = "Cases per Capita",
+        main = "Cases by Country Geographical Region",
+        sub = "Cases Confirmed",
+        col = "light pink")
+```
+
+### Deaths Confirmed
+
+```{r}
+boxplot(death_countries2$cases_per_capita ~ case_countries2$Region,
+        xlab = "Geographical Region",
+        ylab = "Deaths per Capita",
+        main = "Deaths by Country Geographical Region",
+        sub = "Deaths Confirmed",
+        col = "light blue")
+```
+
+
+
+
+Row  {.tabset}
 -----------------------------------------------------------------------
 
 
 ### Cases Confirmed
 
 ```{r}
-boxplot(case_countries2$cases_per_capita ~ case_countries2$Region)
+boxplot(case_countries2$cases_per_capita ~ case_countries2$Region,
+        xlab = "Geographical Region",
+        ylab = "Cases per Capita",
+        main = "Cases by Country Geographical Region",
+        sub = "Cases Confirmed",
+        col = "light pink")
 ```
 
 ### Deaths Confirmed
 
 ```{r}
-boxplot(death_countries2$cases_per_capita ~ case_countries2$Region)
+boxplot(death_countries2$cases_per_capita ~ case_countries2$Region,
+        xlab = "Geographical Region",
+        ylab = "Deaths per Capita",
+        main = "Deaths by Country Geographical Region",
+        sub = "Deaths Confirmed",
+        col = "light blue")
 ```
+
+
+Row  {.tabset}
+-----------------------------------------------------------------------
+
+### Cases Confirmed
+
+```{r}
+boxplot(df_covid_gini$cases_per_capita ~ df_covid_gini$gini_equaltiy)
+```
+
+### Deaths Confirmed
+
+```{r}
+boxplot(df_covid_gini_mort$cases_per_capita ~ df_covid_gini_mort$gini_equaltiy)
+```
+
+Row  {.tabset}
+-----------------------------------------------------------------------
+
+### Cases Confirmed
+```{r}
+boxplot(df_covid_pop_density$cases_per_capita ~ df_covid_pop_density$pop.density_categories)
+
+```
+
+
+### Deaths Confirmed
+```{r}
+boxplot(df_covid_pop_density.mort$deaths_per_capita ~ df_covid_pop_density.mort$pop.density_categories)
+
+```
+
+
