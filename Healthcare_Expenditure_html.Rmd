@@ -30,7 +30,7 @@ Column {.tabset}
 -----------------------------------------
 
 
-### Median Mortality 
+### Boxplot Analysis of Mortality 
 
 ```{r boxplot_death, echo = FALSE}
 #health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
@@ -45,6 +45,8 @@ health_exp_deaths <- health_exp_deaths %>%
 box_1 <- ggplot(health_exp_deaths, aes(x = df_health_conf_categories, y = `Deaths per 100000`, fill = df_health_conf_categories)) +  geom_bar(stat = "identity", na.rm=T) + scale_fill_manual(values = wes_palette("Zissou1")) + labs(y="Deaths per 100000",
        x="Healthcare Expenditure by % of GDP",   
        title="COVID mortality rate and Healthcare expenditure by % of GDP")
+box_1 <- box_1 + guides(fill=guide_legend(title="Healthcare Expenditure by % of GDP"))
+
 box_1
 
 ```
@@ -61,7 +63,7 @@ tukey.test_healthexp
 ```
 
 
-### Spread of Mortality
+### Visual Scatterplot of Mortality
 ```{r scatterplot_death, echo = FALSE}
 scatter_1 <- ggplot(health_exp_deaths, aes(x = `2021`, y = `Deaths per 100000`)) + geom_point(aes(col=df_health_conf_categories)) +
   labs(y="Deaths per 100000",
@@ -74,7 +76,7 @@ scatter_1
 ```
 
 
-### World map of COVID mortality
+### Interactive World map of COVID mortality
 ```{r tmap_death, echo = FALSE}
 # Joining the tmap world data and our mortality data using common iso3 name coloumn
 data(World)
@@ -128,6 +130,7 @@ health_exp_cases <- health_exp_cases %>%
 box_2 <- ggplot(health_exp_cases, aes(x=factor(df_health_conf_categories), y=`Cases per 100000`,  fill=factor(df_health_conf_categories)))  +  geom_bar(stat = "identity", na.rm=T) + scale_fill_manual(values = wes_palette("Zissou1")) + labs(y="Cases per 100000",
        x="Healthcare Expenditure by % of GDP",   
        title="COVID confirmed cases rate and Healthcare expenditure by % of GDP") 
+box_2 <- box_2 + guides(fill=guide_legend(title="Healthcare Expenditure by % of GDP"))
 box_2
 ```
 **_NOTE:_** The ANOVA test found there was a significant difference between these categories in impacting COVID case count incidence. The post-hoc Tukey test found significant differences for High-Low, Very high-Low and High-Moderate categories and Very high-Moderate categories. 
