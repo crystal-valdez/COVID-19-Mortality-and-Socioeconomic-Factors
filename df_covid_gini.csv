@@ -1,0 +1,218 @@
+"","Country","Income.group","Region","Number","iso2c","iso3c","date","SP.POP.TOTL","unit","obs_status","footnote","last_updated","cases_per_capita","Country Code","2018","gini_equaltiy"
+"1","Aruba","High income","Latin America & Caribbean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"2","Afghanistan","Low income","South Asia",158084,"AF","AFG",2021,39835428,NA,NA,NA,2022-07-20,0.00396842730044221,NA,NA,NA
+"3","Angola","Lower middle income","Sub-Saharan Africa",81593,"AO","AGO",2021,33933611,NA,NA,NA,2022-07-20,0.00240448916562402,"AGO",51.3,"Severe gap"
+"4","Albania","Upper middle income","Europe & Central Asia",210224,"AL","ALB",2021,2811666,NA,NA,NA,2022-07-20,0.0747684824584428,"ALB",30.1,"Adequate"
+"5","Andorra","High income","Europe & Central Asia",23740,"AD","AND",2021,77354,NA,NA,NA,2022-07-20,0.306900742043075,NA,NA,NA
+"6","United Arab Emirates","High income","Middle East & North Africa",761937,"AE","ARE",2021,9991083,NA,NA,NA,2022-07-20,0.0762617025601729,"ARE",26,"Relative"
+"7","Argentina","Upper middle income","Latin America & Caribbean",5654408,"AR","ARG",2021,45808747,NA,NA,NA,2022-07-20,0.123435116005247,"ARG",41.3,"Big gap"
+"8","Armenia","Upper middle income","Europe & Central Asia",344930,"AM","ARM",2021,2968128,NA,NA,NA,2022-07-20,0.116211295469737,"ARM",34.4,"Adequate"
+"9","American Samoa","Upper middle income","East Asia & Pacific",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"10","Antigua and Barbuda","High income","Latin America & Caribbean",4283,"AG","ATG",2021,98728,NA,NA,NA,2022-07-20,0.0433818167085325,NA,NA,NA
+"11","Australia","High income","East Asia & Pacific",425496,"AU","AUS",2021,25739256,NA,NA,NA,2022-07-20,0.0165310139500536,"AUS",34.3,"Adequate"
+"12","Austria","High income","Europe & Central Asia",1270811,"AT","AUT",2021,8956279,NA,NA,"Preliminary.",2022-07-20,0.141890510556895,"AUT",30.8,"Adequate"
+"13","Azerbaijan","Upper middle income","Europe & Central Asia",616947,"AZ","AZE",2021,10145212,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.0608116419844159,"AZE",26.6,"Relative"
+"14","Burundi","Low income","Sub-Saharan Africa",27366,"BI","BDI",2021,12255429,NA,NA,NA,2022-07-20,0.00223296956801757,"BDI",38.6,"Adequate"
+"15","Belgium","High income","Europe & Central Asia",2620734,"BE","BEL",2021,11587882,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.226161605718802,"BEL",27.2,"Relative"
+"16","Benin","Lower middle income","Sub-Saharan Africa",24935,"BJ","BEN",2021,12451031,NA,NA,NA,2022-07-20,0.00200264540342081,"BEN",37.8,"Adequate"
+"17","Burkina Faso","Low income","Sub-Saharan Africa",17632,"BF","BFA",2021,21497097,NA,NA,NA,2022-07-20,0.000820203769839248,"BFA",47.3,"Big gap"
+"18","Bangladesh","Lower middle income","South Asia",1585539,"BD","BGD",2021,166303494,NA,NA,NA,2022-07-20,0.00953400894872359,"BGD",32.4,"Adequate"
+"19","Bulgaria","Upper middle income","Europe & Central Asia",747108,"BG","BGR",2021,6899125,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.108290254198902,"BGR",41.3,"Big gap"
+"20","Bahrain","High income","Middle East & North Africa",282062,"BH","BHR",2021,1748295,NA,NA,NA,2022-07-20,0.161335472560409,NA,NA,NA
+"21","Bahamas, The","High income","Latin America & Caribbean",24476,"BS","BHS",2021,396914,NA,NA,NA,2022-07-20,0.0616657512710562,NA,NA,NA
+"22","Bosnia and Herzegovina","Upper middle income","Europe & Central Asia",291313,"BA","BIH",2021,3263459,NA,NA,NA,2022-07-20,0.0892651018443927,"BIH",33,"Adequate"
+"23","Belarus","Upper middle income","Europe & Central Asia",699110,"BY","BLR",2021,9340314,NA,NA,"Extrapolated assuming the same growth rate as previous year.",2022-07-20,0.0748486614047451,"BLR",25.2,"Relative"
+"24","Belize","Lower middle income","Latin America & Caribbean",32853,"BZ","BLZ",2021,404915,NA,NA,NA,2022-07-20,0.0811355469666473,"BLZ",53.3,"Severe gap"
+"25","Bermuda","High income","North America",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"26","Bolivia","Lower middle income","Latin America & Caribbean",599753,"BO","BOL",2021,11832936,NA,NA,NA,2022-07-20,0.0506850539882917,"BOL",42.6,"Big gap"
+"27","Brazil","Upper middle income","Latin America & Caribbean",22563724,"BR","BRA",2021,213993441,NA,NA,NA,2022-07-20,0.105441194340157,"BRA",53.9,"Severe gap"
+"28","Barbados","High income","Latin America & Caribbean",28565,"BB","BRB",2021,287708,NA,NA,NA,2022-07-20,0.0992846914232486,NA,NA,NA
+"29","Brunei Darussalam","High income","East Asia & Pacific",15470,"BN","BRN",2021,441532,NA,NA,NA,2022-07-20,0.0350370981038747,NA,NA,NA
+"30","Bhutan","Lower middle income","South Asia",2660,"BT","BTN",2021,779900,NA,NA,NA,2022-07-20,0.00341069367867675,"BTN",37.4,"Adequate"
+"31","Botswana","Upper middle income","Sub-Saharan Africa",219509,"BW","BWA",2021,2397240,NA,NA,NA,2022-07-20,0.0915673858270344,"BWA",53.3,"Severe gap"
+"32","Central African Republic","Low income","Sub-Saharan Africa",12163,"CF","CAF",2021,4919987,NA,NA,NA,2022-07-20,0.00247216100367745,"CAF",56.2,"Severe gap"
+"33","Canada","High income","North America",2223753,"CA","CAN",2021,38246108,NA,NA,NA,2022-07-20,0.0581432495039757,"CAN",33.3,"Adequate"
+"34","Switzerland","High income","Europe & Central Asia",1332615,"CH","CHE",2021,8697723,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.15321423779534,"CHE",33.1,"Adequate"
+"35","Channel Islands","High income","Europe & Central Asia",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"36","Chile","High income","Latin America & Caribbean",1856073,"CL","CHL",2021,19212362,NA,NA,NA,2022-07-20,0.0966082671146838,"CHL",44.4,"Big gap"
+"37","China","Upper middle income","East Asia & Pacific",127896,"CN","CHN",2021,1412360000,NA,NA,NA,2022-07-20,9.05548160525645e-05,"CHN",38.5,"Adequate"
+"38","Cote d'Ivoire","Lower middle income","Sub-Saharan Africa",71004,"CI","CIV",2021,27053629,NA,NA,NA,2022-07-20,0.00262456471181741,"CIV",37.2,"Adequate"
+"39","Cameroon","Lower middle income","Sub-Saharan Africa",109367,"CM","CMR",2021,27224262,NA,NA,NA,2022-07-20,0.00401726224938623,"CMR",46.6,"Big gap"
+"40","Congo, Dem. Rep.","Low income","Sub-Saharan Africa",74793,"CD","COD",2021,92377986,NA,NA,NA,2022-07-20,0.000809640946274798,"COD",42.1,"Big gap"
+"41","Congo, Rep.","Lower middle income","Sub-Saharan Africa",20089,"CG","COG",2021,5657017,NA,NA,NA,2022-07-20,0.00355116486303647,"COG",48.9,"Big gap"
+"42","Colombia","Upper middle income","Latin America & Caribbean",5181544,"CO","COL",2021,51265841,NA,NA,NA,2022-07-20,0.101072056927731,"COL",50.4,"Severe gap"
+"43","Comoros","Lower middle income","Sub-Saharan Africa",6515,"KM","COM",2021,888456,NA,NA,NA,2022-07-20,0.0073329461447725,"COM",45.3,"Big gap"
+"44","Cabo Verde","Lower middle income","Sub-Saharan Africa",41732,"CV","CPV",2021,561901,NA,NA,NA,2022-07-20,0.0742693107860637,"CPV",42.4,"Big gap"
+"45","Costa Rica","Upper middle income","Latin America & Caribbean",570556,"CR","CRI",2021,5139053,NA,NA,NA,2022-07-20,0.111023567960868,"CRI",48,"Big gap"
+"46","Cuba","Upper middle income","Latin America & Caribbean",966004,"CU","CUB",2021,11317498,NA,NA,NA,2022-07-20,0.0853549079487357,NA,NA,NA
+"47","Curacao","High income","Latin America & Caribbean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"48","Cayman Islands","High income","Latin America & Caribbean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"49","Cyprus","High income","Europe & Central Asia",166827,"CY","CYP",2021,1215588,NA,NA,NA,2022-07-20,0.13723975557508,"CYP",32.7,"Adequate"
+"50","Czech Republic","High income","Europe & Central Asia",2475729,"CZ","CZE",2021,10703446,NA,NA,"Preliminary.",2022-07-20,0.231302049825822,"CZE",25,"Relative"
+"51","Germany","High income","Europe & Central Asia",7367284,"DE","DEU",2021,83129285,NA,NA,NA,2022-07-20,0.0886244119626435,"DEU",31.7,"Adequate"
+"52","Djibouti","Lower middle income","Middle East & North Africa",13656,"DJ","DJI",2021,1002197,NA,NA,NA,2022-07-20,0.0136260635384061,"DJI",41.6,"Big gap"
+"53","Dominica","Upper middle income","Latin America & Caribbean",6814,"DM","DMA",2021,72172,NA,NA,NA,2022-07-20,0.0944133458959153,NA,NA,NA
+"54","Denmark","High income","Europe & Central Asia",810772,"DK","DNK",2021,5856733,NA,NA,NA,2022-07-20,0.138434174820672,"DNK",28.2,"Relative"
+"55","Dominican Republic","Upper middle income","Latin America & Caribbean",418778,"DO","DOM",2021,10953714,NA,NA,NA,2022-07-20,0.0382315988896551,"DOM",43.7,"Big gap"
+"56","Algeria","Lower middle income","Middle East & North Africa",218432,"DZ","DZA",2021,44616626,NA,NA,NA,2022-07-20,0.00489575343505356,"DZA",27.6,"Relative"
+"57","Ecuador","Upper middle income","Latin America & Caribbean",549418,"EC","ECU",2021,17888474,NA,NA,NA,2022-07-20,0.0307135197781544,"ECU",45.4,"Big gap"
+"58","Egypt, Arab Rep.","Lower middle income","Middle East & North Africa",385575,"EG","EGY",2021,104258327,NA,NA,NA,2022-07-20,0.00369826575099368,"EGY",31.5,"Adequate"
+"59","Eritrea","Low income","Sub-Saharan Africa",8011,"ER","ERI",2021,NA,NA,NA,NA,2022-07-20,NA,NA,NA,NA
+"60","Spain","High income","Europe & Central Asia",6523436,"ES","ESP",2021,47326687,NA,NA,"Preliminary.",2022-07-20,0.13783842507294,"ESP",34.7,"Adequate"
+"61","Estonia","High income","Europe & Central Asia",241408,"EE","EST",2021,1329254,NA,NA,NA,2022-07-20,0.181611640815074,"EST",30.3,"Adequate"
+"62","Ethiopia","Low income","Sub-Saharan Africa",420342,"ET","ETH",2021,117876226,NA,NA,NA,2022-07-20,0.0035659607900918,"ETH",35,"Adequate"
+"63","Finland","High income","Europe & Central Asia",270829,"FI","FIN",2021,5541696,NA,NA,"Preliminary.",2022-07-20,0.0488711398099066,"FIN",27.3,"Relative"
+"64","Fiji","Upper middle income","East Asia & Pacific",53332,"FJ","FJI",2021,902899,NA,NA,NA,2022-07-20,0.0590675147497118,"FJI",36.7,"Adequate"
+"65","France","High income","Europe & Central Asia",10207437,"FR","FRA",2021,67499343,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.151222760790427,"FRA",32.4,"Adequate"
+"66","Faeroe Islands","High income","Europe & Central Asia",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"67","Micronesia, Fed. Sts.","Lower middle income","East Asia & Pacific",1,"FM","FSM",2021,116255,NA,NA,NA,2022-07-20,8.6017805685777e-06,"FSM",40.1,"Big gap"
+"68","Gabon","Upper middle income","Sub-Saharan Africa",41798,"GA","GAB",2021,2278829,NA,NA,NA,2022-07-20,0.0183418764637452,"GAB",38,"Adequate"
+"69","United Kingdom","High income","Europe & Central Asia",13300996,"GB","GBR",2021,67326569,NA,NA,"Extrapolated assuming the same growth rate as previous year.",2022-07-20,0.197559391449162,"GBR",35.1,"Adequate"
+"70","Georgia","Upper middle income","Europe & Central Asia",934741,"GE","GEO",2021,3708610,NA,NA,NA,2022-07-20,0.252046184419499,"GEO",36.4,"Adequate"
+"71","Ghana","Lower middle income","Sub-Saharan Africa",142986,"GH","GHA",2021,31732128,NA,NA,NA,2022-07-20,0.0045060324980411,"GHA",43.5,"Big gap"
+"72","Gibraltar","High income","Europe & Central Asia",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"73","Guinea","Low income","Sub-Saharan Africa",32051,"GN","GIN",2021,13497237,NA,NA,NA,2022-07-20,0.00237463415660553,"GIN",29.6,"Relative"
+"74","Gambia, The","Low income","Sub-Saharan Africa",10170,"GM","GMB",2021,2486937,NA,NA,NA,2022-07-20,0.00408936776444277,"GMB",35.9,"Adequate"
+"75","Guinea-Bissau","Low income","Sub-Saharan Africa",6484,"GW","GNB",2021,2015490,NA,NA,NA,2022-07-20,0.00321708368684538,"GNB",34.8,"Adequate"
+"76","Equatorial Guinea","Upper middle income","Sub-Saharan Africa",13710,"GQ","GNQ",2021,1449891,NA,NA,NA,2022-07-20,0.00945588323536045,NA,NA,NA
+"77","Greece","High income","Europe & Central Asia",1210853,"GR","GRC",2021,10664568,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.113539807707166,"GRC",32.9,"Adequate"
+"78","Grenada","Upper middle income","Latin America & Caribbean",6181,"GD","GRD",2021,113015,NA,NA,NA,2022-07-20,0.0546918550634872,NA,NA,NA
+"79","Greenland","High income","Europe & Central Asia",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"80","Guatemala","Upper middle income","Latin America & Caribbean",628359,"GT","GTM",2021,17109746,NA,NA,NA,2022-07-20,0.0367252091293465,"GTM",48.3,"Big gap"
+"81","Guam","High income","East Asia & Pacific",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"82","Guyana","Upper middle income","Latin America & Caribbean",39573,"GY","GUY",2021,790329,NA,NA,NA,2022-07-20,0.0500715524800431,"GUY",45.1,"Big gap"
+"83","Hong Kong SAR, China","High income","East Asia & Pacific",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"84","Honduras","Lower middle income","Latin America & Caribbean",379402,"HN","HND",2021,10062994,NA,NA,NA,2022-07-20,0.0377026956390911,"HND",48.9,"Big gap"
+"85","Croatia","High income","Europe & Central Asia",715245,"HR","HRV",2021,3899000,NA,NA,"Break in series. Preliminary.",2022-07-20,0.183443190561682,"HRV",29.7,"Relative"
+"86","Haiti","Lower middle income","Latin America & Caribbean",25985,"HT","HTI",2021,11541683,NA,NA,NA,2022-07-20,0.00225140475613479,"HTI",41.1,"Big gap"
+"87","Hungary","High income","Europe & Central Asia",1256415,"HU","HUN",2021,9709886,NA,NA,"Preliminary.",2022-07-20,0.129395442953707,"HUN",29.6,"Relative"
+"88","Indonesia","Lower middle income","East Asia & Pacific",4262720,"ID","IDN",2021,276361788,NA,NA,NA,2022-07-20,0.0154244189504231,"IDN",37.8,"Adequate"
+"89","Isle of Man","High income","Europe & Central Asia",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"90","India","Lower middle income","South Asia",35127529,"IN","IND",2021,1393409033,NA,NA,NA,2022-07-20,0.0252097755706167,"IND",35.7,"Adequate"
+"91","Ireland","High income","Europe & Central Asia",788559,"IE","IRL",2021,5028230,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.156826358380583,"IRL",30.6,"Adequate"
+"92","Iran, Islamic Rep.","Lower middle income","Middle East & North Africa",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"IRN",42,"Big gap"
+"93","Iraq","Upper middle income","Middle East & North Africa",2093740,"IQ","IRQ",2021,41179351,NA,NA,NA,2022-07-20,0.0508444147164923,"IRQ",29.5,"Relative"
+"94","Iceland","High income","Europe & Central Asia",27059,"IS","ISL",2021,372295,NA,NA,NA,2022-07-20,0.0726816100135645,"ISL",26.1,"Relative"
+"95","Israel","High income","Middle East & North Africa",1383932,"IL","ISR",2021,9364000,NA,NA,"Preliminary.",2022-07-20,0.147792823579667,"ISR",38.6,"Adequate"
+"96","Italy","High income","Europe & Central Asia",6347787,"IT","ITA",2021,59066225,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.107468980792323,"ITA",35.2,"Adequate"
+"97","Jamaica","Upper middle income","Latin America & Caribbean",93920,"JM","JAM",2021,2973462,NA,NA,NA,2022-07-20,0.0315860771047352,"JAM",45.5,"Big gap"
+"98","Jordan","Upper middle income","Middle East & North Africa",1063405,"JO","JOR",2021,10269022,NA,NA,NA,2022-07-20,0.103554652039892,"JOR",33.7,"Adequate"
+"99","Japan","High income","East Asia & Pacific",1748947,"JP","JPN",2021,125681593,NA,NA,NA,2022-07-20,0.0139156972652312,"JPN",32.9,"Adequate"
+"100","Kazakhstan","Upper middle income","Europe & Central Asia",1072518,"KZ","KAZ",2021,19002586,NA,NA,NA,2022-07-20,0.0564406339221409,"KAZ",27.8,"Relative"
+"101","Kenya","Lower middle income","Sub-Saharan Africa",295028,"KE","KEN",2021,54985702,NA,NA,NA,2022-07-20,0.00536554029991288,"KEN",40.8,"Big gap"
+"102","Kyrgyz Republic","Lower middle income","Europe & Central Asia",184689,"KG","KGZ",2021,6694200,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months, and rounded.",2022-07-20,0.027589405754235,"KGZ",27.7,"Relative"
+"103","Cambodia","Lower middle income","East Asia & Pacific",120493,"KH","KHM",2021,16946446,NA,NA,NA,2022-07-20,0.00711022240297464,NA,NA,NA
+"104","Kiribati","Lower middle income","East Asia & Pacific",2,"KI","KIR",2021,121388,NA,NA,NA,2022-07-20,1.64760931887831e-05,"KIR",37,"Adequate"
+"105","St. Kitts and Nevis","High income","Latin America & Caribbean",2999,"KN","KNA",2021,53546,NA,NA,NA,2022-07-20,0.0560079184252792,NA,NA,NA
+"106","Korea, Rep.","High income","East Asia & Pacific",635253,"KR","KOR",2021,51744876,NA,NA,NA,2022-07-20,0.0122766358547269,"KOR",31.4,"Adequate"
+"107","Kuwait","High income","Middle East & North Africa",417135,"KW","KWT",2021,4328553,NA,NA,NA,2022-07-20,0.0963682320627702,NA,NA,NA
+"108","Lao PDR","Lower middle income","East Asia & Pacific",111060,"LA","LAO",2021,7379358,NA,NA,NA,2022-07-20,0.0150500897232523,"LAO",38.8,"Adequate"
+"109","Lebanon","Upper middle income","Middle East & North Africa",727930,"LB","LBN",2021,6769151,NA,NA,NA,2022-07-20,0.107536380854852,"LBN",31.8,"Adequate"
+"110","Liberia","Low income","Sub-Saharan Africa",6278,"LR","LBR",2021,5180208,NA,NA,NA,2022-07-20,0.00121192044798201,"LBR",35.3,"Adequate"
+"111","Libya","Upper middle income","Middle East & North Africa",388734,"LY","LBY",2021,6958538,NA,NA,NA,2022-07-20,0.0558643209248839,NA,NA,NA
+"112","St. Lucia","Upper middle income","Latin America & Caribbean",13570,"LC","LCA",2021,184401,NA,NA,NA,2022-07-20,0.0735896226159294,"LCA",51.2,"Severe gap"
+"113","Liechtenstein","High income","Europe & Central Asia",6131,"LI","LIE",2021,38254,NA,NA,NA,2022-07-20,0.160270821352015,NA,NA,NA
+"114","Sri Lanka","Lower middle income","South Asia",587245,"LK","LKA",2021,22156000,NA,NA,"Preliminary.",2022-07-20,0.0265050099295902,"LKA",39.3,"Adequate"
+"115","Lesotho","Lower middle income","Sub-Saharan Africa",28408,"LS","LSO",2021,2159067,NA,NA,NA,2022-07-20,0.0131575351760737,"LSO",44.9,"Big gap"
+"116","Lithuania","High income","Europe & Central Asia",524427,"LT","LTU",2021,2795321,NA,NA,"Preliminary.",2022-07-20,0.187608864956833,"LTU",35.7,"Adequate"
+"117","Luxembourg","High income","Europe & Central Asia",103766,"LU","LUX",2021,639070,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.162370319370335,"LUX",35.4,"Adequate"
+"118","Latvia","High income","Europe & Central Asia",276674,"LV","LVA",2021,1883162,NA,NA,"Preliminary.",2022-07-20,0.146919914484256,"LVA",35.1,"Adequate"
+"119","Macao SAR, China","High income","East Asia & Pacific",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"120","St. Martin (French part)","High income","Latin America & Caribbean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"121","Morocco","Lower middle income","Middle East & North Africa",963092,"MA","MAR",2021,37344787,NA,NA,NA,2022-07-20,0.0257891951559397,"MAR",39.5,"Adequate"
+"122","Monaco","High income","Europe & Central Asia",4985,"MC","MCO",2021,39520,NA,NA,NA,2022-07-20,0.126138663967611,NA,NA,NA
+"123","Moldova","Upper middle income","Europe & Central Asia",376155,"MD","MDA",2021,2573928,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.14614045148116,"MDA",25.7,"Relative"
+"124","Madagascar","Low income","Sub-Saharan Africa",50279,"MG","MDG",2021,28427333,NA,NA,NA,2022-07-20,0.00176868508910069,"MDG",42.6,"Big gap"
+"125","Maldives","Upper middle income","South Asia",95700,"MV","MDV",2021,543620,NA,NA,NA,2022-07-20,0.176042088223391,"MDV",31.3,"Adequate"
+"126","Mexico","Upper middle income","Latin America & Caribbean",4034069,"MX","MEX",2021,130262220,NA,NA,NA,2022-07-20,0.0309688334806516,"MEX",46.7,"Big gap"
+"127","Marshall Islands","Upper middle income","East Asia & Pacific",4,"MH","MHL",2021,59618,NA,NA,NA,2022-07-20,6.70938307222651e-05,NA,NA,NA
+"128","North Macedonia","Upper middle income","Europe & Central Asia",225049,"MK","MKD",2021,2065092,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.108977711404625,"MKD",33,"Adequate"
+"129","Mali","Low income","Sub-Saharan Africa",21008,"ML","MLI",2021,20855724,NA,NA,NA,2022-07-20,0.00100730140080488,"MLI",36.1,"Adequate"
+"130","Malta","High income","Middle East & North Africa",52473,"MT","MLT",2021,516869,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.101520888271496,"MLT",28.7,"Relative"
+"131","Myanmar","Lower middle income","East Asia & Pacific",530834,"MM","MMR",2021,54806014,NA,NA,NA,2022-07-20,0.0096856888734875,"MMR",30.7,"Adequate"
+"132","Montenegro","Upper middle income","Europe & Central Asia",170034,"ME","MNE",2021,620173,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.274171884296801,"MNE",36.8,"Adequate"
+"133","Mongolia","Lower middle income","East Asia & Pacific",692621,"MN","MNG",2021,3329282,NA,NA,NA,2022-07-20,0.208039150783863,"MNG",32.7,"Adequate"
+"134","Northern Mariana Islands","High income","East Asia & Pacific",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"135","Mozambique","Low income","Sub-Saharan Africa",189080,"MZ","MOZ",2021,32163045,NA,NA,NA,2022-07-20,0.00587879661269634,"MOZ",54,"Severe gap"
+"136","Mauritania","Lower middle income","Sub-Saharan Africa",41480,"MR","MRT",2021,4775110,NA,NA,NA,2022-07-20,0.00868671088205298,"MRT",32.6,"Adequate"
+"137","Mauritius","Upper middle income","Sub-Saharan Africa",68480,"MU","MUS",2021,1266060,NA,NA,"Excluding Agalega and St. Brandon. Preliminary.",2022-07-20,0.0540890637094608,"MUS",36.8,"Adequate"
+"138","Malawi","Low income","Sub-Saharan Africa",75075,"MW","MWI",2021,19647681,NA,NA,NA,2022-07-20,0.00382106163063213,"MWI",44.7,"Big gap"
+"139","Malaysia","Upper middle income","East Asia & Pacific",2871096,"MY","MYS",2021,32776195,NA,NA,NA,2022-07-20,0.0875969892173268,"MYS",41.1,"Big gap"
+"140","Namibia","Upper middle income","Sub-Saharan Africa",147974,"NA","NAM",2021,2587344,NA,NA,NA,2022-07-20,0.0571914673889518,"NAM",59.1,"Severe gap"
+"141","New Caledonia","High income","East Asia & Pacific",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"142","Niger","Low income","Sub-Saharan Africa",7405,"NE","NER",2021,25130810,NA,NA,NA,2022-07-20,0.000294658230275904,"NER",37.3,"Adequate"
+"143","Nigeria","Lower middle income","Sub-Saharan Africa",241513,"NG","NGA",2021,211400704,NA,NA,NA,2022-07-20,0.00114244179622032,"NGA",35.1,"Adequate"
+"144","Nicaragua","Lower middle income","Latin America & Caribbean",13563,"NI","NIC",2021,6702379,NA,NA,NA,2022-07-20,0.00202360982570517,"NIC",46.2,"Big gap"
+"145","Netherlands","High income","Europe & Central Asia",3234485,"NL","NLD",2021,17533405,NA,NA,"Preliminary.",2022-07-20,0.184475576763327,"NLD",28.1,"Relative"
+"146","Norway","High income","Europe & Central Asia",394259,"NO","NOR",2021,5408320,NA,NA,NA,2022-07-20,0.0728986080705284,"NOR",27.6,"Relative"
+"147","Nepal","Lower middle income","South Asia",828431,"NP","NPL",2021,29674920,NA,NA,NA,2022-07-20,0.0279168739123812,"NPL",32.8,"Adequate"
+"148","Nauru","High income","East Asia & Pacific",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"NRU",34.8,"Adequate"
+"149","New Zealand","High income","East Asia & Pacific",14120,"NZ","NZL",2021,5122600,NA,NA,NA,2022-07-20,0.00275641275914575,NA,NA,NA
+"150","Oman","High income","Middle East & North Africa",305489,"OM","OMN",2021,5223376,NA,NA,NA,2022-07-20,0.0584849721712548,NA,NA,NA
+"151","Pakistan","Lower middle income","South Asia",1404250,"PK","PAK",2021,225199929,NA,NA,NA,2022-07-20,0.00623557034958035,"PAK",29.6,"Relative"
+"152","Panama","Upper middle income","Latin America & Caribbean",495920,"PA","PAN",2021,4381583,NA,NA,NA,2022-07-20,0.113182838257315,"PAN",49.2,"Big gap"
+"153","Peru","Upper middle income","Latin America & Caribbean",2432736,"PE","PER",2021,33359416,NA,NA,NA,2022-07-20,0.0729250176322032,"PER",42.4,"Big gap"
+"154","Philippines","Lower middle income","East Asia & Pacific",2843979,"PH","PHL",2021,111046910,NA,NA,NA,2022-07-20,0.0256106090660244,"PHL",42.3,"Big gap"
+"155","Palau","High income","East Asia & Pacific",10,"PW","PLW",2021,18174,NA,NA,NA,2022-07-20,0.000550236601738748,NA,NA,NA
+"156","Papua New Guinea","Lower middle income","East Asia & Pacific",36158,"PG","PNG",2021,9119005,NA,NA,NA,2022-07-20,0.00396512558113522,"PNG",41.9,"Big gap"
+"157","Poland","High income","Europe & Central Asia",4108215,"PL","POL",2021,37781024,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.108737523895594,"POL",30.2,"Adequate"
+"158","Puerto Rico","High income","Latin America & Caribbean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"159","Korea, Dem. Rep.","Low income","East Asia & Pacific",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"160","Portugal","High income","Europe & Central Asia",1389646,"PT","PRT",2021,10299423,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.1349246457787,"PRT",33.5,"Adequate"
+"161","Paraguay","Upper middle income","Latin America & Caribbean",466101,"PY","PRY",2021,7219641,NA,NA,NA,2022-07-20,0.0645601353308288,"PRY",46,"Big gap"
+"162","West Bank and Gaza","Lower middle income","Middle East & North Africa",469748,"PS","PSE",2021,4922749,NA,NA,NA,2022-07-20,0.0954239186275798,"PSE",33.7,"Adequate"
+"163","French Polynesia","High income","East Asia & Pacific",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"164","Qatar","High income","Middle East & North Africa",250528,"QA","QAT",2021,2930524,NA,NA,NA,2022-07-20,0.0854891480158497,NA,NA,NA
+"165","Romania","Upper middle income","Europe & Central Asia",1808891,"RO","ROU",2021,19115146,NA,NA,NA,2022-07-20,0.094631293948788,"ROU",35.8,"Adequate"
+"166","Russian Federation","Upper middle income","Europe & Central Asia",10726248,"RU","RUS",2021,143446060,NA,NA,"Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.0747754800654685,"RUS",37.5,"Adequate"
+"167","Rwanda","Low income","Sub-Saharan Africa",111786,"RW","RWA",2021,13276517,NA,NA,NA,2022-07-20,0.008419828784914,"RWA",43.7,"Big gap"
+"168","Saudi Arabia","High income","Middle East & North Africa",556236,"SA","SAU",2021,35340680,NA,NA,NA,2022-07-20,0.0157392557245644,NA,NA,NA
+"169","Sudan","Low income","Sub-Saharan Africa",46518,"SD","SDN",2021,44909351,NA,NA,NA,2022-07-20,0.00103581991198225,"SDN",34.2,"Adequate"
+"170","Senegal","Lower middle income","Sub-Saharan Africa",75055,"SN","SEN",2021,17196308,NA,NA,NA,2022-07-20,0.00436459965708918,"SEN",38.1,"Adequate"
+"171","Singapore","High income","East Asia & Pacific",279405,"SG","SGP",2021,5453566,NA,NA,NA,2022-07-20,0.051233449819806,NA,NA,NA
+"172","Solomon Islands","Lower middle income","East Asia & Pacific",24,"SB","SLB",2021,703995,NA,NA,NA,2022-07-20,3.40911512155626e-05,"SLB",37.1,"Adequate"
+"173","Sierra Leone","Low income","Sub-Saharan Africa",7064,"SL","SLE",2021,8141343,NA,NA,NA,2022-07-20,0.000867670112903977,"SLE",35.7,"Adequate"
+"174","El Salvador","Lower middle income","Latin America & Caribbean",121945,"SV","SLV",2021,6518500,NA,NA,NA,2022-07-20,0.0187075247372862,"SLV",38.6,"Adequate"
+"175","San Marino","High income","Europe & Central Asia",8202,"SM","SMR",2021,34010,NA,NA,NA,2022-07-20,0.241164363422523,NA,NA,NA
+"176","Somalia","Low income","Sub-Saharan Africa",23532,"SO","SOM",2021,16359500,NA,NA,NA,2022-07-20,0.00143843026987377,"SOM",36.8,"Adequate"
+"177","Serbia","Upper middle income","Europe & Central Asia",1299339,"RS","SRB",2021,6844078,NA,NA,"Data on Kosovo are excluded. Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.18984865455946,"SRB",35,"Adequate"
+"178","South Sudan","Low income","Sub-Saharan Africa",15242,"SS","SSD",2021,11381377,NA,NA,NA,2022-07-20,0.00133920526488139,"SSD",44.1,"Big gap"
+"179","Sao Tome and Principe","Lower middle income","Sub-Saharan Africa",3897,"ST","STP",2021,223364,NA,NA,NA,2022-07-20,0.0174468580433731,"STP",40.7,"Big gap"
+"180","Suriname","Upper middle income","Latin America & Caribbean",52446,"SR","SUR",2021,591798,NA,NA,NA,2022-07-20,0.0886214552938672,"SUR",57.9,"Severe gap"
+"181","Slovak Republic","High income","Europe & Central Asia",1371082,"SK","SVK",2021,5447247,NA,NA,"Break in series.",2022-07-20,0.251701822957542,"SVK",25,"Relative"
+"182","Slovenia","High income","Europe & Central Asia",464048,"SI","SVN",2021,2107007,NA,NA,NA,2022-07-20,0.22024036939602,"SVN",24.6,"Relative"
+"183","Sweden","High income","Europe & Central Asia",1356667,"SE","SWE",2021,10415811,NA,NA,NA,2022-07-20,0.130250731316073,"SWE",30,"Adequate"
+"184","Eswatini","Lower middle income","Sub-Saharan Africa",66109,"SZ","SWZ",2021,1172369,NA,NA,NA,2022-07-20,0.0563892426360642,"SWZ",54.6,"Severe gap"
+"185","Sint Maarten (Dutch part)","High income","Latin America & Caribbean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"186","Seychelles","High income","Sub-Saharan Africa",24788,"SC","SYC",2021,99202,NA,NA,NA,2022-07-20,0.249873994475918,"SYC",32.1,"Adequate"
+"187","Syrian Arab Republic","Low income","Middle East & North Africa",50278,"SY","SYR",2021,18275704,NA,NA,NA,2022-07-20,0.00275108417164121,"SYR",37.5,"Adequate"
+"188","Turks and Caicos Islands","High income","Latin America & Caribbean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"189","Chad","Low income","Sub-Saharan Africa",5703,"TD","TCD",2021,16914985,NA,NA,NA,2022-07-20,0.000337156669071832,"TCD",37.5,"Adequate"
+"190","Togo","Low income","Sub-Saharan Africa",30163,"TG","TGO",2021,8478242,NA,NA,NA,2022-07-20,0.00355769509763935,"TGO",42.4,"Big gap"
+"191","Thailand","Upper middle income","East Asia & Pacific",2223435,"TH","THA",2021,69950844,NA,NA,NA,2022-07-20,0.0317856779540787,"THA",36.4,"Adequate"
+"192","Tajikistan","Lower middle income","Europe & Central Asia",17493,"TJ","TJK",2021,9749625,NA,NA,NA,2022-07-20,0.00179422285472518,"TJK",34,"Adequate"
+"193","Turkmenistan","Upper middle income","Europe & Central Asia",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"TKM",40.8,"Big gap"
+"194","Timor-Leste","Lower middle income","East Asia & Pacific",19837,"TL","TLS",2021,1343875,NA,NA,NA,2022-07-20,0.014761045484141,"TLS",28.7,"Relative"
+"195","Tonga","Upper middle income","East Asia & Pacific",1,"TO","TON",2021,106759,NA,NA,NA,2022-07-20,9.36689178429922e-06,"TON",37.6,"Adequate"
+"196","Trinidad and Tobago","High income","Latin America & Caribbean",91899,"TT","TTO",2021,1403374,NA,NA,NA,2022-07-20,0.0654843256323688,"TTO",40.3,"Big gap"
+"197","Tunisia","Lower middle income","Middle East & North Africa",726706,"TN","TUN",2021,11935764,NA,NA,NA,2022-07-20,0.0608847493968547,"TUN",32.8,"Adequate"
+"198","Turkey","Upper middle income","Europe & Central Asia",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"199","Tuvalu","Upper middle income","East Asia & Pacific",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"TUV",39.1,"Adequate"
+"200","Tanzania","Lower middle income","Sub-Saharan Africa",29306,"TZ","TZA",2021,61498438,NA,NA,NA,2022-07-20,0.000476532428352083,"TZA",40.5,"Big gap"
+"201","Uganda","Low income","Sub-Saharan Africa",140737,"UG","UGA",2021,47123533,NA,NA,NA,2022-07-20,0.00298655450982421,"UGA",42.8,"Big gap"
+"202","Ukraine","Lower middle income","Europe & Central Asia",3870898,"UA","UKR",2021,43814581,NA,NA,"Estimated by World Bank staff. Extrapolated assuming the same growth rate as previous 6 months.",2022-07-20,0.0883472559055169,"UKR",26.1,"Relative"
+"203","Uruguay","High income","Latin America & Caribbean",413383,"UY","URY",2021,3485152,NA,NA,NA,2022-07-20,0.118612617182837,"URY",39.7,"Adequate"
+"204","United States","High income","North America",55124031,"US","USA",2021,331893745,NA,NA,NA,2022-07-20,0.166089394061946,"USA",41.4,"Big gap"
+"205","Uzbekistan","Lower middle income","Europe & Central Asia",198903,"UZ","UZB",2021,34915100,NA,NA,NA,2022-07-20,0.00569676157307297,"UZB",35.3,"Adequate"
+"206","St. Vincent and the Grenadines","Upper middle income","Latin America & Caribbean",5850,"VC","VCT",2021,111269,NA,NA,NA,2022-07-20,0.0525752905121822,NA,NA,NA
+"207","Venezuela, RB","","Latin America & Caribbean",444635,"VE","VEN",2021,28704947,NA,NA,NA,2022-07-20,0.0154898387375528,"VEN",44.8,"Big gap"
+"208","British Virgin Islands","High income","Latin America & Caribbean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"209","Virgin Islands (U.S.)","High income","Latin America & Caribbean",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"210","Vietnam","Lower middle income","East Asia & Pacific",1731257,"VN","VNM",2021,98168829,NA,NA,NA,2022-07-20,0.017635506276641,"VNM",35.7,"Adequate"
+"211","Vanuatu","Lower middle income","East Asia & Pacific",7,"VU","VUT",2021,314464,NA,NA,NA,2022-07-20,2.22600997252468e-05,"VUT",37.4,"Adequate"
+"212","Samoa","Lower middle income","East Asia & Pacific",3,"WS","WSM",2021,200144,NA,NA,NA,2022-07-20,1.49892077704053e-05,"WSM",38.7,"Adequate"
+"213","Kosovo","Upper middle income","Europe & Central Asia",161484,"XK","XKX",2021,1806279,NA,NA,NA,2022-07-20,0.0894014712012928,"XKX",29,"Relative"
+"214","Yemen, Rep.","Low income","Middle East & North Africa",10126,"YE","YEM",2021,30490639,NA,NA,NA,2022-07-20,0.000332101928070448,"YEM",36.7,"Adequate"
+"215","South Africa","Upper middle income","Sub-Saharan Africa",3458286,"ZA","ZAF",2021,60041996,NA,NA,NA,2022-07-20,0.0575977853900793,"ZAF",63,"Severe gap"
+"216","Zambia","Lower middle income","Sub-Saharan Africa",254274,"ZM","ZMB",2021,18920657,NA,NA,NA,2022-07-20,0.0134389625053718,"ZMB",57.1,"Severe gap"
+"217","Zimbabwe","Lower middle income","Sub-Saharan Africa",213258,"ZW","ZWE",2021,15092171,NA,NA,NA,2022-07-20,0.0141303726282985,"ZWE",44.3,"Big gap"

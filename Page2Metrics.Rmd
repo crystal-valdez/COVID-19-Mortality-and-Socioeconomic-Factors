@@ -1,0 +1,129 @@
+---
+title: "The Different Metrics"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source_code: embed
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+case_countries2 <- read.csv("case_countries2.csv")
+death_countries2 <- read.csv("death_countries2.csv")
+df_covid_pop_density.mort <- read.csv("df_covid_pop_densitymort.csv")
+df_covid_pop_density <- read.csv("df_covid_pop_density.csv")
+df_covid_gini <- read.csv("df_covid_gini.csv")
+df_covid_gini_mort <- read.csv("df_covid_gini_mort.csv")
+literacy_categories_df_deaths <- read.csv("literacy_categories_df_deaths.csv")
+literacy_categories_df <- read.csv("literacy_categories_df.csv")
+```
+
+
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### Cases by Country Income Group
+
+```{r}
+boxplot((case_countries2$cases_per_capita*100000) ~ case_countries2$Income.group, 
+        xlab = "Income Group",
+        ylab = "Cases per 100000",
+        main = "Cases by Country Income Group",
+        sub = "Cases Confirmed",
+        col = "light pink")
+```
+
+
+### Cases by Country Geographical Region
+
+```{r}
+boxplot((case_countries2$cases_per_capita*100000) ~ case_countries2$Region,
+        xlab = "Geographical Region",
+        ylab = "Cases per 100000",
+        main = "Cases by Country Geographical Region",
+        sub = "Cases Confirmed",
+        col = "light blue")
+```
+
+### Cases by Country Gini
+
+```{r}
+boxplot((df_covid_gini$cases_per_capita*100000) ~ df_covid_gini$gini_equaltiy, 
+        xlab = "Gini",
+        ylab = "Cases per 100000",
+        main = "Cases by Country Gini",
+        sub = "Cases Confirmed",
+        col = "light green")
+```
+
+
+### Cases by Country Population Density
+```{r}
+boxplot((df_covid_pop_density$cases_per_capita*100000) ~ df_covid_pop_density$pop.density_categories,
+        xlab = "Population Density",
+        ylab = "Cases per 100000",
+        main = "Cases by Country Population Density",
+        sub = "Cases Confirmed",
+        col = "orange")
+
+```
+
+Row  {.tabset}
+-----------------------------------------------------------------------
+
+
+
+### Deaths by Country Income Group
+
+```{r}
+boxplot((death_countries2$cases_per_capita*100000) ~ death_countries2$Income.group,
+        xlab = "Income Group",
+        ylab = "Deaths per 100000",
+        main = "Deaths by Country Income Group",
+        sub = "Deaths Confirmed",
+        col = "light pink")
+```
+
+
+
+
+### Deaths by Country Geographical Region
+
+```{r}
+boxplot((death_countries2$cases_per_capita*100000) ~ case_countries2$Region,
+        xlab = "Geographical Region",
+        ylab = "Deaths per 100000",
+        main = "Deaths by Country Geographical Region",
+        sub = "Deaths Confirmed",
+        col = "light blue")
+```
+
+
+
+### Deaths by Country Gini
+
+```{r}
+boxplot((df_covid_gini_mort$cases_per_capita*100000) ~ df_covid_gini_mort$gini_equaltiy,
+        xlab = "Gini",
+        ylab = "Deaths per 100000",
+        main = "Deaths by Country Gini",
+        sub = "Deaths Confirmed",
+        col = "light green")
+```
+
+### Deaths by Country Population Density
+```{r}
+boxplot((df_covid_pop_density.mort$deaths_per_capita*100000) ~ df_covid_pop_density.mort$pop.density_categories,
+        xlab = "Population Density",
+        ylab = "Deaths per 100000",
+        main = "Deaths by Country Population Density",
+        sub = "Deaths Confirmed",
+        col = "orange")
+```
+
+
+
+
+
