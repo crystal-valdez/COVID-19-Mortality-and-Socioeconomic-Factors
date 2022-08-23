@@ -130,6 +130,8 @@ confirmed_cases_country$Country[confirmed_cases_country$Country == 'Micronesia']
 
 #Retrieving total amount of confirmed_cases in res_deaths object
 res_deaths <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases/country/deaths")
+
+#creating empty list for country and count
 country_list_deaths_new <- list()
 count_list_deaths_new <- list()
 
@@ -222,6 +224,7 @@ case_countries2$Region <- as.factor(case_countries2$Region)
 # Attaching income and region info to death cases data
 death_countries2 <- left_join(income_region, deaths_countries, by = "Country")
 
+#Converting to factors - establishing income level and region levels 
 death_countries2$Income.group <- as.factor(case_countries2$Income.group)
 death_countries2$Income.group <- ordered(death_countries2$Income.group, levels = c("Low income", 
                                                                                  "Lower middle income", 
@@ -234,93 +237,91 @@ death_countries2$Region <- as.factor(death_countries2$Region)
 #Income level Boxplots 
 #############
 
-# BOXPLOT FOR INCOME CONFRIMED
+# Creating boxplot for number of cases abnd income, setting outliers as exceeding 3500000 cases 
 case_countries2$Number <- as.numeric(case_countries2$Number)
 case_countries2$cases_per_capita <- as.numeric(case_countries2$Number)/as.numeric(case_countries2$SP.POP.TOTL)
-
-# Number of cases
 boxplot(case_countries2$Number ~ case_countries2$Income.group, ylim=c(0,3500000))
 
-# Number of cases per capita 
+# Creating boxplot for number of cases per capita and income 
 boxplot(case_countries2$cases_per_capita ~ case_countries2$Income.group)
 
-# BOXPLOT FOR INCOME DEATH 
+# Creating boxplot for number of deaths and income  
 death_countries2$Number <- as.numeric(death_countries2$Number)
 death_countries2$cases_per_capita <- as.numeric(death_countries2$Number)/as.numeric(death_countries2$SP.POP.TOTL)
-
-# Number of cases 
 boxplot(death_countries2$Number ~ death_countries2$Income.group, ylim=c(0,55000))
 
-# Number of cases per capita 
+# Creating boxplot for number of deaths per capita and income  
 boxplot(death_countries2$cases_per_capita ~ death_countries2$Income.group)
 
-#ANOVA and Tukey-Test for Income-Level information 
+# Performing ANOVA and Tukey-Test for income level 
 one.way_income <- aov(death_countries2$cases_per_capita ~ death_countries2$Income.group, data = death_countries2)
 summary(one.way_income)
 tukey.test_income <- TukeyHSD(one.way_income)
 tukey.test_income
 
-#############
-#Creating categories for Regions level
+#Region level Boxplots 
 #############
 
-# BOXPLOT FOR REGION CONFIRMED # North America has a huge range
+# Creating boxplot for number of cases based on regions and setting outlier limits
 case_countries2$Number <- as.numeric(case_countries2$Number)
 case_countries2$cases_per_capita <- as.numeric(case_countries2$Number)/as.numeric(case_countries2$SP.POP.TOTL)
-
-# Number of cases
 boxplot(case_countries2$Number ~ case_countries2$Region, ylim=c(0,5000000))
 
-# Number of cases per capita 
+# Creating boxplot for number of cases per capita based on regions 
 boxplot(case_countries2$cases_per_capita ~ case_countries2$Region)
 
-# BOXPLOT FOR REGION DEATH # North America has a huge range 
+# Creating boxplot for number of deaths based on regions 
 death_countries2$Number <- as.numeric(death_countries2$Number)
 death_countries2$cases_per_capita <- as.numeric(death_countries2$Number)/as.numeric(death_countries2$SP.POP.TOTL)
 
-# Number of cases
+# Creating boxplot for number of deaths based on regions and setting outlier-limits
 boxplot(death_countries2$Number ~ death_countries2$Region, ylim=c(0,80000))
 
-# Number of cases per capita 
+# Creating boxplot for number of deaths per capita based on regions and setting outlier-limits
 boxplot(death_countries2$cases_per_capita ~ case_countries2$Region)
 
-levels(death_countries2$Region)
+#Gini level (indicator of inequality) Boxplots 
+#############
 
-###########
-# GINI VARIABLE
-###########
-
-# Making categories (Use it if Seb says we need categories to divide data up)
-
-###Gini index < 0.2 represents perfect income equality, 0.2–0.3 relative equality, 
-####0.3–0.4 adequate equality, 0.4–0.5 big income gap, and above 0.5 represents severe income gap.
-
+#reading in data providing gini-values for each country
 gini <- read_excel("gini.xls", skip = 3)
 
-
+# Counting number of NA's to find year with least-amount of NA's to serve as representative score
+# Using 2018 as this year has the greatest amount of non-NA GINI-values  
 na_count <-sapply(gini, function(y) sum(length(which(is.na(y)))))
-na_count <- data.frame(na_count) # USing 2018 as it has the msot info
+na_count <- data.frame(na_count) 
 
-#impute horizontally based on previous-years' values 
-gini <- gini %>% relocate(`Country Name`, .after = last_col())
-gini <- gini %>% relocate(`Country Code`, .after = last_col())
-gini <- gini %>% relocate(`Indicator Name`, .after = last_col())
-gini <- gini %>% relocate(`Indicator Code`, .after = last_col())
+#Moving Country Name, Country Code, Indicator Name and Indicator columns to be the last-columns 
+gini <- gini %>%
+  relocate(`Country Name`, .after = last_col()) %>%
+  relocate(`Country Code`, .after = last_col()) %>%
+  relocate(`Indicator Name`, .after = last_col()) %>%
+  relocate(`Indicator Code`, .after = last_col())
 
+#Imputing to fill in 2018 year information for countries with NA's horizontally based on previous-years' values 
 gini <- gini %>% 
-  t() %>%   # Transpose 
-  na.locf(na.rm=F) %>% # fill columns with previous non NA value
+  # Transposing columns
+  t() %>%  
+  # Filling in columns with previous non-NA values
+  na.locf(na.rm=F) %>% 
+  # Transposing columns back 
   t() 
 gini <- as.data.frame(gini)
 
+#Filtering out columns except for Country Name, Country Code and 2018  
 gini_clean <- gini %>% select(`Country Name`, `Country Code`, `2018`) %>%
   filter(!is.na(`2018`))
 
+#Constructed Gini index categories 
+#< 0.2 represents perfect income equality
+#0.2–0.3 relative equality, 
+#0.3–0.4 adequate equality
+#0.4–0.5 big income gap
+#above 0.5 represents severe income gap.
 
-
-# Making gini categories 
+# Creating column called gini_equaltiy which encodes the categories for gini-values 
 gini_categories <- gini_clean %>%
-  mutate(gini_equaltiy = case_when(
+  mutate(gini_equality = case_when(
     `2018` < 20 ~ "Perfect",
     `2018` <= 30 ~ "Relative",
     `2018` <= 40 ~ "Adequate",
@@ -328,90 +329,87 @@ gini_categories <- gini_clean %>%
     `2018` > 50 ~ "Severe gap"
   ))
 
-# Attaching GINI dataset to confirmed cases datasets
+# Attaching data on gini-levels associated with countries to confirmed cases dataset, called df_covid_gini object
+# Setting df_covid_gini as dataframe and setting type of relevant column-categories 
 df_covid_gini <- left_join(case_countries2,gini_categories,by=c("Country" = "Country Name"))
-
 df_covid_gini <- as.data.frame(df_covid_gini)
 df_covid_gini$Number <- as.numeric(df_covid_gini$Number)
 df_covid_gini$SP.POP.TOTL <- as.numeric(df_covid_gini$SP.POP.TOTL)
-df_covid_gini$gini_equaltiy <- as.factor(df_covid_gini$gini_equaltiy)
-
+df_covid_gini$gini_equality <- as.factor(df_covid_gini$gini_equality)
 df_covid_gini$cases_per_capita <- as.numeric(df_covid_gini$Number)/as.numeric(df_covid_gini$SP.POP.TOTL)
 df_covid_gini$cases_per_capita <- as.numeric(df_covid_gini$cases_per_capita)
 df_covid_gini$`2018` <- as.numeric(df_covid_gini$`2018`) #remember to rename to another  metric-name 
 
-df_covid_gini$gini_equaltiy <- ordered(df_covid_gini$gini_equaltiy, levels = c("Relative", 
+#Ordering categories in df_covid_gini from low to high-gaps 
+df_covid_gini$gini_equality <- ordered(df_covid_gini$gini_equality, levels = c("Relative", 
                                                                                    "Adequate", 
                                                                                    "Big gap",
                                                                                    "Severe gap"))                                         
 
-# Attaching GINI dataset to Mortality cases datasets
-df_covid_gini_mort <- left_join(death_countries2,gini_categories,by=c("Country" = "Country Name"))
 
+# Attaching data on gini-levels associated with countries to confirmed cases dataset, called df_covid_gini_mort object
+# Setting df_covid_gini as dataframe and setting type of relevant column-categories 
+df_covid_gini_mort <- left_join(death_countries2,gini_categories,by=c("Country" = "Country Name"))
 df_covid_gini_mort <- as.data.frame(df_covid_gini_mort)
 df_covid_gini_mort$SP.POP.TOTL <- as.numeric(df_covid_gini_mort$SP.POP.TOTL)
 df_covid_gini_mort$Number <- as.numeric(df_covid_gini_mort$Number)
-df_covid_gini_mort$gini_equaltiy <- as.factor(df_covid_gini_mort$gini_equaltiy)
-
-
+df_covid_gini_mort$gini_equality <- as.factor(df_covid_gini_mort$gini_equality)
 df_covid_gini_mort$deaths_per_capita <- as.numeric(df_covid_gini_mort$Number)/as.numeric(df_covid_gini_mort$SP.POP.TOTL)
 df_covid_gini_mort$`2018` <- as.numeric(df_covid_gini_mort$`2018`)
 df_covid_gini_mort$deaths_per_capita <- as.numeric(df_covid_gini_mort$deaths_per_capita)
 
-df_covid_gini_mort$gini_equaltiy <- ordered(df_covid_gini_mort$gini_equaltiy, levels = c("Relative", 
+#Ordering categories in df_covid_gini from low to high-gaps 
+df_covid_gini_mort$gini_equality <- ordered(df_covid_gini_mort$gini_equality, levels = c("Relative", 
                                                                                "Adequate", 
                                                                                "Big gap",
                                                                                "Severe gap"))                                         
 
 
+# Creating boxplot for number of cases based on gini-level and setting outlier limits
+boxplot(df_covid_gini$Number ~ df_covid_gini$gini_equality, ylim=c(0,15000000))
 
-# BOXPLOT FOR CONFIRMED GINI CASES
+# Creating boxplot for number of cases per capita based on gini-level and setting outlier limits
+boxplot(df_covid_gini$cases_per_capita ~ df_covid_gini$gini_equality)
 
-# Number of cases
-boxplot(df_covid_gini$Number ~ df_covid_gini$gini_equaltiy, ylim=c(0,15000000))
+# Creating boxplot for number of deaths on gini-level and setting outlier limits
+boxplot(df_covid_gini_mort$Number ~ df_covid_gini_mort$gini_equality, ylim=c(0,1000000))
 
-# Number of cases per capita 
-boxplot(df_covid_gini$cases_per_capita ~ df_covid_gini$gini_equaltiy)
+# Creating boxplot for number of deaths per capita on gini-level and setting outlier limits
+boxplot(df_covid_gini_mort$cases_per_capita ~ df_covid_gini_mort$gini_equality)
 
-
-# BOXPLOT FOR DEATH GINI CASES 
-
-# Number of case
-boxplot(df_covid_gini_mort$Number ~ df_covid_gini_mort$gini_equaltiy, ylim=c(0,1000000))
-
-# Number of cases per capita 
-boxplot(df_covid_gini_mort$cases_per_capita ~ df_covid_gini_mort$gini_equaltiy)
-
-one.way <- aov(df_covid_gini_mort$deaths_per_capita ~ df_covid_gini_mort$gini_equaltiy, data = df_covid_gini_mort)
-one.way <- aov(df_covid_gini_mort$deaths_per_capita ~ df_covid_gini_mort$gini_equaltiy, data = df_covid_gini_mort)
-kruskal.test(df_covid_gini_mort$deaths_per_capita ~ df_covid_gini_mort$gini_equaltiy, data = df_covid_gini_mort)
+# Performing ANOVA and Kruskal-Test for gini-level information level
+one.way <- aov(df_covid_gini_mort$deaths_per_capita ~ df_covid_gini_mort$gini_equality, data = df_covid_gini_mort)
 summary(one.way)
+kruskal.test(df_covid_gini_mort$deaths_per_capita ~ df_covid_gini_mort$gini_equality, data = df_covid_gini_mort)
 
 
-###########
-# POPULATION DENSITY VARIABLE
-###########
+#Population Density Boxplots 
+#############
 
-# Making categories (Use it if Seb says we need categories to divide data up)
-# Adding population density 
+# Reading in data providing population density-values for each country
 pop.density <- read_excel("density.xls", skip = 3)
 
-
-#impute horizontally based on previous-years' values 
-pop.density <- pop.density %>% relocate(`Country Name`, .after = last_col())
-pop.density <- pop.density %>% relocate(`Country Code`, .after = last_col())
-pop.density <- pop.density %>% relocate(`Indicator Name`, .after = last_col())
-pop.density <- pop.density %>% relocate(`Indicator Code`, .after = last_col())
+#Moving Country Name, Country Code, Indicator Name and Indicator columns to be the last-columns 
+pop.density <- pop.density %>%
+  relocate(`Country Name`, .after = last_col()) %>%
+  relocate(`Country Code`, .after = last_col()) %>% 
+  relocate(`Indicator Name`, .after = last_col()) %>%
+  relocate(`Indicator Code`, .after = last_col())
 
 pop.density <- pop.density %>% 
-  t() %>%   # Transpose 
-  na.locf(na.rm=F) %>% # fill columns with previous non NA value
+  # Transpose columns 
+  t() %>%   
+  # Fill columns with previous non NA value
+  na.locf(na.rm=F) %>% 
+  # Transpose columns back 
   t() 
 pop.density <- as.data.frame(pop.density)
 
+#Filtering out columns except for Country Name, Country Code and 2018  
 pop.density_clean <- pop.density %>% select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
 
+# Creating column called pop.density_categories which encodes the categories for population density-values 
 pop.density_categories <- pop.density_clean %>%
   mutate(pop.density_categories = case_when(
     `2021` <= 100 ~ "Extremely low",
@@ -420,30 +418,26 @@ pop.density_categories <- pop.density_clean %>%
     `2021` > 500 ~ "High",
   ))
 
-
-# Attaching POP.DENSITY dataset to confirmed cases datasets
+# Joining pop.density dataset to confirmed cases datasets, called the df_covid_pop_density object
+# Setting df_covid_gini as dataframe and setting type of relevant column-categories 
 df_covid_pop_density <- left_join(cases_countries,pop.density_categories,by=c("Country" = "Country Name"))
-
-
 df_covid_pop_density$SP.POP.TOTL <- as.numeric(df_covid_pop_density$SP.POP.TOTL)
 df_covid_pop_density$Number <- as.numeric(df_covid_pop_density$Number)
 df_covid_pop_density$cases_per_capita <- as.numeric(df_covid_pop_density$Number)/as.numeric(df_covid_pop_density$SP.POP.TOTL)
 df_covid_pop_density$`2021` <- as.numeric(df_covid_pop_density$`2021`)
 df_covid_pop_density$pop.density_categories <- as.factor(df_covid_pop_density$pop.density_categories)
-
 df_covid_pop_density <- as.data.frame(df_covid_pop_density)
 
+#Ordering categories in df_covid_pop_density from low to high pop density
 df_covid_pop_density$pop.density_categories <- ordered(df_covid_pop_density$pop.density_categories, levels = c("Extremely low", 
                                                                                          "Low", 
                                                                                          "Moderate",
                                                                                          "High"))                                                                                  
 
 
-
-# Attaching POP.DENSITY dataset to Mortality cases datasets
+# Joining pop.density dataset to deaths datasets, called the df_covid_pop_density.mort object
+# Setting df_covid_pop_density.mort as dataframe and setting type of relevant column-categories 
 df_covid_pop_density.mort <- left_join(deaths_countries,pop.density_categories,by=c("Country" = "Country Name"))
-
-
 df_covid_pop_density.mort <- as.data.frame(df_covid_pop_density.mort)
 df_covid_pop_density.mort$SP.POP.TOTL <- as.numeric(df_covid_pop_density.mort$SP.POP.TOTL)
 df_covid_pop_density.mort$Number <- as.numeric(df_covid_pop_density.mort$Number)
@@ -451,118 +445,119 @@ df_covid_pop_density.mort$`2021` <- as.numeric(df_covid_pop_density.mort$`2021`)
 df_covid_pop_density.mort$deaths_per_capita <- as.numeric(df_covid_pop_density.mort$Number)/as.numeric(df_covid_pop_density.mort$SP.POP.TOTL)
 df_covid_pop_density.mort$`2021` <- as.numeric(df_covid_pop_density.mort$`2021`)
 df_covid_pop_density.mort$pop.density_categories <- as.factor(df_covid_pop_density.mort$pop.density_categories)
-
 df_covid_pop_density.mort <- as.data.frame(df_covid_pop_density.mort)
 
+#Ordering categories in df_covid_pop_density.mort from low to high pop density
 df_covid_pop_density.mort$pop.density_categories <- ordered(df_covid_pop_density$pop.density_categories, levels = c("Extremely low", 
                                                                                              "Low", 
                                                                                              "Moderate",
-                                                                                             "High"
-                                                                                      ))
-# BOXPLOT FOR CONFIRMED POP.DENSITY CASES
+                                                                                             "High"))
 
-# Number of cases
+# Creating boxplot for number of cases based on pop.density_categories, and setting outlier limits 
 boxplot(df_covid_pop_density$Number ~ df_covid_pop_density$pop.density_categories, ylim=c(0,5000000))
 
-# Number of cases per capita 
+# Creating boxplot for number of cases per capita based on pop.density_categories, and setting outlier limits 
 boxplot(df_covid_pop_density$cases_per_capita ~ df_covid_pop_density$pop.density_categories)
 
 
-# BOXPLOT FOR DEATH POP.DENSITY CASES 
-
-# Number of case
+# Creating boxplot for number of deaths based on pop.density_categories, and setting outlier limits 
 boxplot(df_covid_pop_density.mort$Number ~ df_covid_pop_density.mort$pop.density_categories, ylim=c(0,50000))
 
-# Number of deaths per capita 
+# Creating boxplot for number of deaths per capita based on pop.density_categories, and setting outlier limits 
 boxplot(df_covid_pop_density.mort$deaths_per_capita ~ df_covid_pop_density.mort$pop.density_categories)
 
-##ANOVA/KRUSKAl DOESN'T WORK - 
-one.way <- aov(df_covid_pop_density.mort$deaths_per_capita ~ df_covid_pop_density.mort$pop.density_categories, data = df_covid_pop_density.mort)
-summary(one.way)
-
+# Performing ANOVA and Kruskal-Test for population denisty-level information level
+one.way_pop_density_mort <- aov(df_covid_pop_density.mort$deaths_per_capita ~ df_covid_pop_density.mort$pop.density_categories, data = df_covid_pop_density.mort)
+summary(one.way_pop_density_mort)
 kruskal.test(df_covid_pop_density.mort$deaths_per_capita ~ df_covid_pop_density.mort$pop.density_categories, data = df_covid_pop_density.mort)
 
 
+# 
+# ####################################
+# # GDP PER CAP  - not using and not updated 
+# ####################################
+# 
+# # Confirmed cases 
+# GDP_cap <- read_excel("GDP.capita.xls", skip = 3) ###UPLOAD THIS FILE
+# 
+# 
+# #impute horizontally based on previous-years' values 
+# GDP_cap <- GDP_cap %>% relocate(`Country Name`, .after = last_col())
+# GDP_cap <- GDP_cap %>% relocate(`Country Code`, .after = last_col())
+# GDP_cap <- GDP_cap %>% relocate(`Indicator Name`, .after = last_col())
+# GDP_cap <- GDP_cap %>% relocate(`Indicator Code`, .after = last_col())
+# 
+# GDP_cap <- GDP_cap %>% 
+#   t() %>%   # Transpose 
+#   na.locf(na.rm=F) %>% # fill columns with previous non NA value
+#   t() 
+# GDP_cap <- as.data.frame(GDP_cap)
+# 
+# GDP_cap.clean <- GDP_cap %>% select(`Country Name`, `Country Code`, `2021`) %>%
+#   filter(!is.na(`2021`))
+# 
+# 
+# # Side by side df of GDP and confirmed cases
+# df_GDP_conf <- left_join(cases_countries,GDP_cap.clean,by=c("Country" = "Country Name"))
+# 
+# 
+# df_GDP_conf$SP.POP.TOTL <- as.numeric(df_GDP_conf$SP.POP.TOTL)
+# df_GDP_conf$cases_per_capita <- as.numeric(df_GDP_conf$Number)/as.numeric(df_GDP_conf$SP.POP.TOTL)
+# df_GDP_conf$cases_per_capita <- as.numeric(df_GDP_conf$cases_per_capita)
+# df_GDP_conf$Number <- as.numeric(df_GDP_conf$Number)
+# df_GDP_conf$`2021` <- as.numeric(df_GDP_conf$`2021`)
+# df_GDP_conf <- as.data.frame(df_GDP_conf)
+# 
+# 
+# plot(x=log(df_GDP_conf$`2021`), y=log(df_GDP_conf$cases_per_capita), type="plot") 
+# 
+# 
+# 
+# #Mortality plots ###UPLOAD THIS FILE
+# df_GDP_mort <- left_join(deaths_countries,GDP_cap.clean,by=c("Country" = "Country Name"))
+# 
+# df_GDP_mort$Number <- as.numeric(df_GDP_mort$Number)
+# df_GDP_mort$`2021` <- as.numeric(df_GDP_mort$`2021`)
+# df_GDP_mort$deaths_per_capita <- as.numeric(df_GDP_mort$Number)/as.numeric(df_GDP_mort$SP.POP.TOTL)
+# df_GDP_mort$deaths_per_capita <- as.numeric(df_GDP_mort$deaths_per_capita)
+# df_GDP_mort <- as.data.frame(df_GDP_mort)
+# 
+# 
+# 
+# plot(x=log(df_GDP_mort$`2021`), y=log(df_GDP_mort$deaths_per_capita), type="plot") 
+# 
 
-####################################
-# GDP PER CAP  - not using and not updated 
-####################################
-
-# Confirmed cases 
-GDP_cap <- read_excel("GDP.capita.xls", skip = 3) ###UPLOAD THIS FILE
 
 
-#impute horizontally based on previous-years' values 
-GDP_cap <- GDP_cap %>% relocate(`Country Name`, .after = last_col())
-GDP_cap <- GDP_cap %>% relocate(`Country Code`, .after = last_col())
-GDP_cap <- GDP_cap %>% relocate(`Indicator Name`, .after = last_col())
-GDP_cap <- GDP_cap %>% relocate(`Indicator Code`, .after = last_col())
-
-GDP_cap <- GDP_cap %>% 
-  t() %>%   # Transpose 
-  na.locf(na.rm=F) %>% # fill columns with previous non NA value
-  t() 
-GDP_cap <- as.data.frame(GDP_cap)
-
-GDP_cap.clean <- GDP_cap %>% select(`Country Name`, `Country Code`, `2021`) %>%
-  filter(!is.na(`2021`))
-
-
-# Side by side df of GDP and confirmed cases
-df_GDP_conf <- left_join(cases_countries,GDP_cap.clean,by=c("Country" = "Country Name"))
-
-
-df_GDP_conf$SP.POP.TOTL <- as.numeric(df_GDP_conf$SP.POP.TOTL)
-df_GDP_conf$cases_per_capita <- as.numeric(df_GDP_conf$Number)/as.numeric(df_GDP_conf$SP.POP.TOTL)
-df_GDP_conf$cases_per_capita <- as.numeric(df_GDP_conf$cases_per_capita)
-df_GDP_conf$Number <- as.numeric(df_GDP_conf$Number)
-df_GDP_conf$`2021` <- as.numeric(df_GDP_conf$`2021`)
-df_GDP_conf <- as.data.frame(df_GDP_conf)
-
-
-plot(x=log(df_GDP_conf$`2021`), y=log(df_GDP_conf$cases_per_capita), type="plot") 
-
-
-
-#Mortality plots ###UPLOAD THIS FILE
-df_GDP_mort <- left_join(deaths_countries,GDP_cap.clean,by=c("Country" = "Country Name"))
-
-df_GDP_mort$Number <- as.numeric(df_GDP_mort$Number)
-df_GDP_mort$`2021` <- as.numeric(df_GDP_mort$`2021`)
-df_GDP_mort$deaths_per_capita <- as.numeric(df_GDP_mort$Number)/as.numeric(df_GDP_mort$SP.POP.TOTL)
-df_GDP_mort$deaths_per_capita <- as.numeric(df_GDP_mort$deaths_per_capita)
-df_GDP_mort <- as.data.frame(df_GDP_mort)
-
-
-
-plot(x=log(df_GDP_mort$`2021`), y=log(df_GDP_mort$deaths_per_capita), type="plot") 
-
-
-####################################
 # Healthcare expenditure (% of GDP) 
 ####################################
 
-# Confirmed cases   ###UPLOAD THIS FILE
+# Reading in data connecting healthcare expenditure values to countries 
 Health_exp <- read_excel("Health.exp.xls", skip = 3)
 
-#impute horizontally based on previous-years' values 
-Health_exp <- Health_exp %>% relocate(`Country Name`, .after = last_col())
-Health_exp <- Health_exp %>% relocate(`Country Code`, .after = last_col())
-Health_exp <- Health_exp %>% relocate(`Indicator Name`, .after = last_col())
-Health_exp <- Health_exp %>% relocate(`Indicator Code`, .after = last_col())
+#Moving Country Name, Country Code, Indicator Name and Indicator columns to be the last-columns 
+Health_exp <- Health_exp %>%
+  relocate(`Country Name`, .after = last_col())  %>%
+  relocate(`Country Code`, .after = last_col()) %>%
+  relocate(`Indicator Name`, .after = last_col()) %>%
+  relocate(`Indicator Code`, .after = last_col())
 
 Health_exp <- Health_exp %>% 
-  t() %>%   # Transpose 
-  na.locf(na.rm=F) %>% # fill columns with previous non NA value
+  # Transposing columns 
+  t() %>%   
+  # Filling columns with previous non NA value
+  na.locf(na.rm=F) %>% 
+  # Transposing columns back 
   t() 
 Health_exp <- as.data.frame(Health_exp)
 
+#Filtering out columns except for Country Name, Country Code and 2018  
 Health_exp <- Health_exp %>% select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
 
-# Side by side df of GDP and confirmed cases ###UPLOAD THIS FILE
+# Joining health expenditure dataset to confirmed cases datasets, called the df_health_conf object
+# Setting df_health_conf as dataframe and setting type of relevant column-categories 
 df_health_conf <- left_join(cases_countries,Health_exp,by=c("Country" = "Country Name"))
-
 df_health_conf <- as.data.frame(df_health_conf)
 df_health_conf$Number <- as.numeric(df_health_conf$Number)
 df_health_conf$`2021` <- as.numeric(df_health_conf$`2021`)
@@ -571,12 +566,13 @@ df_health_conf$cases_per_capita <- as.numeric(df_health_conf$cases_per_capita)
 df_health_conf$Number <- as.numeric(df_health_conf$Number)
 df_health_conf$`2021` <- as.numeric(df_health_conf$`2021`)
 df_health_conf <- as.data.frame(df_health_conf)
-View(df_health_conf)
-View(health_categories)
-quantile_cases = df_health_conf$`2021`    
 
+
+#Creating quartiles with healthcare expenditure, to construct categoriesbased on Year 2021 data 
+quantile_cases = df_health_conf$`2021`    
 quantile(quantile_cases, na.rm=T)
 
+# Creating column called df_health_conf_categories which encodes the categories for healthcare expenditure values 
 health_categories <- df_health_conf %>%
   mutate(df_health_conf_categories = case_when(
     `2021` <= 1.525117 ~ "Extremely low",
@@ -585,89 +581,96 @@ health_categories <- df_health_conf %>%
     `2021` <= 8.027737 ~ "High",
     `2021` > 8.027737 ~ "Very high"
   ))
-
+#Ordering categories in health_categories dataset from low to high health expenditure
 health_categories$df_health_conf_categories <- ordered(health_categories$df_health_conf_categories, levels = c("Extremely low", 
                                                                                                                "Low", 
                                                                                                                "Moderate",
                                                                                                                "High",
                                                                                                                "Very high"))   
-plot(x=health_categories$df_health_conf_categories, y=health_categories$cases_per_capita, type="plot") 
 
-saveRDS(health_categories, file = "df_health_expenditure_cases.RDS")
-
-# Mortality plots
+# Joining health expenditure dataset to deaths datasets, called the df_health_mort object
+# Setting df_health_conf as dataframe and setting type of relevant column-categories 
 df_health_mort <- left_join(deaths_countries,Health_exp,by=c("Country" = "Country Name"))
-
 df_health_mort <- as.data.frame(df_health_mort)
 df_health_mort$Number <- as.numeric(df_health_mort$Number)
 df_health_mort$`2021` <- as.numeric(df_health_mort$`2021`)
 df_health_mort$deaths_per_capita <- as.numeric(df_health_mort$Number)/as.numeric(df_health_mort$SP.POP.TOTL)
 df_health_mort$deaths_per_capita <- as.numeric(df_health_mort$deaths_per_capita)
 
+#Creating quartiles for health expenditure based on Year 2021 data, used for creating categories 
 quantile_cases_morts_health = df_health_mort$`2021`    
 quantile(quantile_cases_morts_health, na.rm=T)
 
+# Creating column called df_health_mort which encodes the categories for healthcare expenditure values 
 health_categories_death <- df_health_mort %>%
   mutate(df_health_conf_categories = case_when(
     `2021` <= 1.525117 ~ "Extremely low",
     `2021` <= 4.346481 ~ "Low",
     `2021` <= 6.073806 ~ "Moderate",
     `2021` <= 8.027737 ~ "High",
-    `2021` > 8.027737 ~ "Very high"
-  ))
-
+    `2021` > 8.027737 ~ "Very high"))
+#Ordering categories in health_categories_death dataset from low to high health expenditure
 health_categories_death$df_health_conf_categories <- ordered(health_categories_death$df_health_conf_categories, levels = c("Extremely low", 
                                                                                                                            "Low", 
                                                                                                                            "Moderate",
                                                                                                                            "High",
-                                                                                                                           "Very high"))   
-
-
+                                                                                                                           "Very high"))  
 health_categories_death$df_health_conf_categories <- as.factor(health_categories_death$df_health_conf_categories)
+
+# Creating boxplot for number of cases based on pop.density_categories, and setting outlier limits 
+boxplot(health_categories$Number ~ health_categories$df_health_conf_categories)
+
+# Creating boxplot for number of cases per capita based on health_categories
+plot(x=health_categories$df_health_conf_categories, y=health_categories$cases_per_capita, type="plot") 
+# Saving this file as RDS object, will be used in future dashboards 
+saveRDS(health_categories, file = "df_health_expenditure_cases.RDS")
+
+# Creating boxplot for number of deaths based on health expenditure categories
+boxplot(health_categories$Number ~ health_categories$df_health_conf_categories)
+
+# Creating boxplot for number of deaths per capita based on health expenditure categories
 plot(x=health_categories_death$df_health_conf_categories, y=health_categories_death$deaths_per_capita, type="plot") 
-
-
+# Saving this file as RDS object, will be used in future dashboards 
 saveRDS(health_categories_death, file = "df_health_expenditure_deaths.RDS")
 
-
-##ANOVA/KRUSKAl ##2 -- 3 categories are significant 
+#Doing ANOVA and Post-Hoc Tukey Test
 one.way_health <- aov(health_categories_death$deaths_per_capita ~ health_categories_death$df_health_conf_categories, data = health_categories_death)
 summary(one.way_health)
-
+#3 categories are shown to be significant 
 tukey.test_healthexp <- TukeyHSD(one.way_health)
 tukey.test_healthexp
 
-kruskal.test(df_covid_pop_density.mort$deaths_per_capita ~ df_covid_pop_density.mort$pop.density_categories, data = df_covid_pop_density.mort)
 
+# Literacy (education for female above 15 yrs)  
+################################################
 
-
-####################################
-# Literacy (female above 15 yrs) - 
-####################################
-
-# Confirmed cases 
+# Reading in data covering data on unemployed females in each countries
 lit <- read_excel("female_unemployed.xls", 
                   skip = 3)
-View(lit)
+
+#Moving Country Name, Country Code, Indicator Name and Indicator columns to be the last-columns 
+lit <- lit %>% relocate(`Country Name`, .after = last_col()) %>%
+  relocate(`Country Code`, .after = last_col()) %>%
+  relocate(`Indicator Name`, .after = last_col()) %>%
+  relocate(`Indicator Code`, .after = last_col())
 
 #impute horizontally based on previous-years' values 
-lit <- lit %>% relocate(`Country Name`, .after = last_col())
-lit <- lit %>% relocate(`Country Code`, .after = last_col())
-lit <- lit %>% relocate(`Indicator Name`, .after = last_col())
-lit <- lit %>% relocate(`Indicator Code`, .after = last_col())
-
-lit <- lit %>% 
-  t() %>%   # Transpose 
-  na.locf(na.rm=F) %>% # fill columns with previous non NA value
+lit <- lit %>%
+  # Transposing columns
+  t() %>%   
+  #Filling columns with previous non NA value
+  na.locf(na.rm=F) %>%
+  # Transposing columns back 
   t() 
 lit <- as.data.frame(lit)
 
+#Filtering out columns except for Country Name, Country Code and 2021  
 lit <- lit %>% select(`Country Name`, `Country Code`, `2021`) %>%
   filter(!is.na(`2021`))
 
-# Side by side df of GDP and confirmed cases ###UPLOAD THIS FILE
+# Joining literacy education dataset to cases datasets, called  df_lit_conf object
+# Setting df_lit_conf as dataframe and setting type of relevant column-categories 
 df_lit_conf <- left_join(cases_countries,lit,by=c("Country" = "Country Name"))
-View(df_lit_conf)
 df_lit_conf <- as.data.frame(df_lit_conf)
 df_lit_conf$Number <- as.numeric(df_lit_conf$Number)
 df_lit_conf$`2021` <- as.numeric(df_lit_conf$`2021`)
@@ -677,33 +680,29 @@ df_lit_conf$Number <- as.numeric(df_lit_conf$Number)
 df_lit_conf$`2021` <- as.numeric(df_lit_conf$`2021`)
 df_lit_conf <- as.data.frame(df_lit_conf)
 
+#Creating quantiles for df_lit_conf's literacy information for Year 2021 
 quantile_literacy = df_lit_conf$`2021`    
 quantile(quantile_literacy, na.rm=T)
 
+#Creating new column for categories corresponding to literacy data called literacy_categories_new
 literacy_categories_df <- df_lit_conf %>%
   mutate(literacy_categories_new = case_when(
     `2021` <= 0.5200 ~ "Extremely low",
     `2021` <= 3.8950 ~ "Low",
     `2021` <= 6.5400 ~ "Moderate",
     `2021` <= 11.8775 ~ "High",
-    `2021` > 11.8775 ~ "Very high"
-  ))
-
+    `2021` > 11.8775 ~ "Very high"))
 literacy_categories_df$literacy_categories_new <- ordered(literacy_categories_df$literacy_categories_new, levels = c("Extremely low", 
                                                                                                                      "Low", 
                                                                                                                      "Moderate",
                                                                                                                      "High",
                                                                                                                      "Very high"))   
-
 literacy_categories_df$literacy_categories_new <- as.factor(literacy_categories_df$literacy_categories_new)
 
 
-plot(x=literacy_categories_df$literacy_categories_new, y=literacy_categories_df$cases_per_capita, type="plot") 
-
-##deaths
-
+# Joining literacy education dataset to deaths datasets, called  df_lit_conf_deaths object
+# Setting df_lit_conf_deaths as dataframe and setting type of relevant column-categories 
 df_lit_conf_deaths <- left_join(deaths_countries,lit,by=c("Country" = "Country Name"))
-View(df_lit_conf_deaths)
 df_lit_conf_deaths <- as.data.frame(df_lit_conf_deaths)
 df_lit_conf_deaths$Number <- as.numeric(df_lit_conf_deaths$Number)
 df_lit_conf_deaths$`2021` <- as.numeric(df_lit_conf_deaths$`2021`)
@@ -713,37 +712,44 @@ df_lit_conf_deaths$Number <- as.numeric(df_lit_conf_deaths$Number)
 df_lit_conf_deaths$`2021` <- as.numeric(df_lit_conf_deaths$`2021`)
 df_lit_conf_deaths <- as.data.frame(df_lit_conf_deaths)
 
-
-
+#Creating quantiles for quantile_literacy_deaths for Year 2021 
 quantile_literacy_deaths = df_lit_conf_deaths$`2021`    
 quantile(quantile_literacy_deaths, na.rm=T)
 
+#Creating new column for categories corresponding to literacy data called literacy_categories_new_deaths
 literacy_categories_df_deaths <- df_lit_conf_deaths %>%
   mutate(literacy_categories_new_deaths = case_when(
     `2021` <= 0.5200 ~ "Extremely low",
     `2021` <= 3.8950 ~ "Low",
     `2021` <= 6.5400 ~ "Moderate",
     `2021` <= 11.8775 ~ "High",
-    `2021` > 11.8775 ~ "Very high"
-  ))
-
+    `2021` > 11.8775 ~ "Very high"))
 literacy_categories_df_deaths$literacy_categories_new_deaths <- ordered(literacy_categories_df_deaths$literacy_categories_new_deaths, levels = c("Extremely low", 
                                                                                                                                                  "Low", 
                                                                                                                                                  "Moderate",
                                                                                                                                                  "High",
-                                                                                                                                                 "Very high"))   
-
-
+                                                                                                                                                 "Very high"))
 literacy_categories_df_deaths$literacy_categories_new_deaths <- as.factor(literacy_categories_df_deaths$literacy_categories_new_deaths)
 
+
+
+
+# Creating boxplot for number of cases based on literacy education
+plot(x=literacy_categories_df$literacy_categories_new, y=literacy_categories_df$Number, type="plot") 
+
+# Creating boxplot for number of cases per capita based on literacy education
+plot(x=literacy_categories_df$literacy_categories_new, y=literacy_categories_df$cases_per_capita, type="plot") 
+
+# Creating boxplot for number of deaths per capita based on literacy education
+plot(x=literacy_categories_df_deaths$literacy_categories_new_deaths, y=literacy_categories_df_deaths$Number, type="plot") 
+
+# Creating boxplot for number of deaths per capita based on literacy education
 plot(x=literacy_categories_df_deaths$literacy_categories_new_deaths, y=literacy_categories_df_deaths$deaths_per_capita, type="plot") 
 
 
-
-##ANOVA/KRUSKAl ##3  
-one.way <- aov(literacy_categories_df_deaths$deaths_per_capita ~ literacy_categories_df_deaths$literacy_categories_new_deaths, data = literacy_categories_df_deaths)
-summary(one.way)
-
+##Doing ANOVA and Post-Hoc Tukey Test
+one.way_literacy <- aov(literacy_categories_df_deaths$deaths_per_capita ~ literacy_categories_df_deaths$literacy_categories_new_deaths, data = literacy_categories_df_deaths)
+summary(one.way_literacy)
 
 
 
