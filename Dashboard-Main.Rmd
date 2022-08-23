@@ -57,7 +57,6 @@ pops2021_2 <- filter(pops2021_2, !grepl("North America", country))
 pops2021_2 <- filter(pops2021_2, !grepl("Sub", country))  
 pops2021_2 <- filter(pops2021_2, !grepl("Union", country))  
 
-
 #Taking sum of population for all countries to get global world population
 world_pop <- sum(as.numeric(pops2021$SP.POP.TOTL), na.rm = T)
 
@@ -84,30 +83,30 @@ Data was retrieved from Novel Coronavirus COVID-19 API and the World Bank API.
 
 ![](https://www.unicef.org/chad/sites/unicef.org.chad/files/styles/media_large_image/public/World-Bank.jpg){width=40%}           ![](https://covid-19-apis.postman.com/static/covid19-image-2-eba8830c28c59886ad33f5e26f143a76.png){width=50%}
 
-Row {data-height=350}
+Row {data-height=380}
 -------------------------------------------
 ### **World Bank API data**
-
-```{r}
-library(wbstats)
+```{r, fig.cap="This data was last updated July 20, 2022 <br> NYP.GDP.MKTP.CD - indicator of Gross Domestic Product (GDP) in current USD                                                                   <br> iso2c - 2 digit country code                                      <br> iso3c - 3 digit country code"}
 df <- wb_data(
   country = "all",
   indicator = "NY.GDP.MKTP.CD")
+df <- df %>% select(-unit,-obs_status,-footnote,-last_updated)
 DT::datatable(df)
 ```
 
+
 # Socioeconomic Factors 
 
-We chose to evaluate the spread of COVID-29 in relation to a select number of socioeconomic factors. 
+We chose to evaluate the spread of COVID-19 in relation to a select number of socioeconomic factors. 
 
 **Table 1:** Socioeconomic factors.
 
 |Socioeconomic Factor|Measure|Categories|
   |:---:|:---------------:|:--------------:|
-  |Education|Literacy Rate in females above 15 yrs| <= 0.5200: Extremely low <br> <= 3.8950:Low <br> <= 6.5400: Moderate <br> <= 11.8775:High <br> > 11.8775:Very high|
+  |Education|Literacy Rate in females above 15 yrs| <= 0.5: Extremely low <br> <= 3.9:Low <br> <= 6.5: Moderate <br> <= 11.9:High <br> > 11.9:Very high|
   |Income Level|Income in Dollars|Low income, Lower middle income, Upper middle income, High income|
   |Population Density|Population per square kilometer| <= 100: Extremely low <br> <= 250: Low <br> <= 500: Moderate <br> > 500: High|
-  |Health|% of GDP| <= 1.525117: Extremely low <br> <= 4.346481: Low <br> <= 6.07380: Moderate <br> <= 8.027737: High <br> > 8.027737: Very high|
+  |Health|% of GDP| <= 1.5: Extremely low <br> <= 4.3: Low <br> <= 6.1: Moderate <br> <= 8.0: High <br> > 8.0: Very high|
   |Region|Geographical area|East Asia and Pacific, Europe and Central Asia, Latin America & the Caribbean, Middle East and North Africa, North America, South Asia, Sub-Saharan Africa|
   |Income inequality|GINI Index|< 0.2 represents perfect income equality <br> 0.2–0.3: relative equality <br> 0.3–0.4: adequate equality <br> 0.4–0.5: big income gap <br>  above 0.5: severe income gap|
 
