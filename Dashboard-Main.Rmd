@@ -1,0 +1,117 @@
+---
+title: "COVID-19 and Socioeconomic Status"
+author: "Group 5"
+date: 
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    source_code: embed
+---
+
+----------------------
+
+# An Overview of COVID-19
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+Rows {data-height=350}
+---
+
+### **Main objective**
+
+Coronavirus disease (COVID-19) is an infectious disease caused by the SARS-CoV-2 virus.
+
+Our task is to investigate data related to COVID-19 morbidity and mortality, and examine the mortality of COVID-19 in relation to socioeconomic factors. 
+
+**Ratio of Case Types to the Population in 2021** 
+```{r ratios}
+library("wbstats")
+library(httr)
+library(stringr)
+library(tidyr)
+library(jsonlite)
+library(readxl)
+library(dplyr)
+library(plyr)
+library(zoo)
+
+pops2021 <- as.data.frame(wb_data("SP.POP.TOTL", country = "all", start_date = 2021, end_date = 2021))
+
+#Filtering out or removing values with digits in iso2c column, along with NA values
+pops2021_2 <- filter(pops2021, !grepl("[0-9]", iso2c)) 
+pops2021_2 <- pops2021_2[!is.na(pops2021_2$iso2c),]
+pops2021_2 <- pops2021_2 %>% drop_na(iso2c)
+
+#Removing columns from country-column that have select labels
+pops2021_2 <- filter(pops2021_2, !grepl("countries", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("only", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("income", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("total", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("blend", country)) 
+pops2021_2 <- filter(pops2021_2, !grepl("Union", country))
+pops2021_2 <- filter(pops2021_2, !grepl("&", country))
+pops2021_2 <- filter(pops2021_2, !grepl("area", country))  
+pops2021_2 <- filter(pops2021_2, !grepl("members", country))  
+pops2021_2 <- filter(pops2021_2, !grepl("North America", country))  
+pops2021_2 <- filter(pops2021_2, !grepl("Sub", country))  
+pops2021_2 <- filter(pops2021_2, !grepl("Union", country))  
+
+#Taking sum of population for all countries to get global world population
+world_pop <- sum(as.numeric(pops2021$SP.POP.TOTL), na.rm = T)
+
+
+#Copying code from Task 1, afterwards import to RDS object to obtain confirmed, deaths and recovered 
+res <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases?")
+
+#cat(content(res, 'text'))
+
+totalconfirmed_cases <- content(res)$confirmed
+totalconfirmed_deaths <- content(res)$deaths
+totalconfirmed_recovered <- content(res)$recovered
+
+ratios <- matrix(c((world_pop/totalconfirmed_cases), (world_pop/totalconfirmed_deaths), (world_pop/totalconfirmed_recovered)))
+colnames(ratios) <- c('Number cases over population')
+rownames(ratios) <- c('Cases', 'Deaths','Recovered')
+ratios <- as.table(ratios)
+ratios
+```
+
+### **Data Source**
+
+Data was retrieved from Novel Coronavirus COVID-19 API and the World Bank API. 
+
+![](https://www.unicef.org/chad/sites/unicef.org.chad/files/styles/media_large_image/public/World-Bank.jpg){width=40%}           ![](https://covid-19-apis.postman.com/static/covid19-image-2-eba8830c28c59886ad33f5e26f143a76.png){width=50%}
+
+Row {data-height=380}
+-------------------------------------------
+### **World Bank API data**
+```{r, fig.cap="This data was last updated July 20, 2022 <br> NYP.GDP.MKTP.CD - indicator of Gross Domestic Product (GDP) in current USD                                                                   <br> iso2c - 2 digit country code                                      <br> iso3c - 3 digit country code"}
+df <- wb_data(
+  country = "all",
+  indicator = "NY.GDP.MKTP.CD")
+df <- df %>% select(-unit,-obs_status,-footnote,-last_updated)
+DT::datatable(df)
+```
+
+
+# Socioeconomic Factors 
+
+We chose to evaluate the spread of COVID-19 in relation to a select number of socioeconomic factors. 
+
+**Table 1:** Socioeconomic factors.
+
+|Socioeconomic Factor|Measure|Categories|
+  |:---:|:---------------:|:--------------:|
+  |Education|Literacy Rate in females above 15 yrs| <= 0.5: Extremely low <br> <= 3.9:Low <br> <= 6.5: Moderate <br> <= 11.9:High <br> > 11.9:Very high|
+  |Income Level|Income in Dollars|Low income, Lower middle income, Upper middle income, High income|
+  |Population Density|Population per square kilometer| <= 100: Extremely low <br> <= 250: Low <br> <= 500: Moderate <br> > 500: High|
+  |Health|% of GDP| <= 1.5: Extremely low <br> <= 4.3: Low <br> <= 6.1: Moderate <br> <= 8.0: High <br> > 8.0: Very high|
+  |Region|Geographical area|East Asia and Pacific, Europe and Central Asia, Latin America & the Caribbean, Middle East and North Africa, North America, South Asia, Sub-Saharan Africa|
+  |Income inequality|GINI Index|< 0.2 represents perfect income equality <br> 0.2–0.3: relative equality <br> 0.3–0.4: adequate equality <br> 0.4–0.5: big income gap <br>  above 0.5: severe income gap|
+
+# References
+
+1.	How does the World Bank classify countries? – World Bank Data Help Desk. https://datahelpdesk.worldbank.org/knowledgebase/articles/378834-how-does-the-world-bank-classify-countries.
+2.	COVID-19 stats server. COVID-19 stats server https://documenter.getpostman.com/view/5352730/SzYbyxR5.
+3.  R Core Team. (2021). R: A Language and Environment for Statistical Computing. Retrieved from R Foundation for Statistical Computing website: https://www.r-project.org/
