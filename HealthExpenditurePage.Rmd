@@ -1,0 +1,114 @@
+---
+title: "Health Expenditure"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+# COVID cases and Healthcare expenditure worldwide
+
+```{r setup, include=FALSE}
+# remotes::install_github("r-spatial/stars")
+# remotes::install_github("r-spatial/sf")
+
+library(flexdashboard)
+library(ggplot2)
+library(dplyr)
+library(shiny)
+library(tmap)
+library(terra)
+library(stars)
+library(sf)
+
+library(rgeos)
+```
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### Boxplot 
+
+```{r}
+#health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
+
+health_exp_deaths <- readRDS("df_health_expenditure_deaths.RDS")
+
+health_exp_deaths$deaths_per_hundredk <- health_exp_deaths$deaths_per_capita * 100000
+
+health_exp_deaths <- health_exp_deaths %>%
+  filter(!is.na(health_exp_deaths$df_health_conf_categories))
+
+colors <- c("brown2", "green", "darkslategray1", "coral", "bisque" )
+
+box <- ggplot(health_exp_deaths, aes(x = df_health_conf_categories, y = deaths_per_hundredk)) +
+  geom_boxplot(fill = colors) + 
+  labs(y="Deaths per 100000",
+       x="Healthcare Expenditure by % of GDP",   
+       title="COVID mortality rate and Healthcare expenditure by % of GDP")
+
+renderPlot(box)
+```
+
+
+### Scatter Plot
+```{r}
+scatter <- ggplot(health_exp_deaths, aes(x = `2021`, y = deaths_per_hundredk)) + geom_point(aes(col=df_health_conf_categories)) +
+  labs(y="Deaths per 100000",
+       x="Healthcare Expenditure by % of GDP",   
+       title="COVID mortality rate and Healthcare expenditure by % of GDP") +
+  guides(col=guide_legend("Healthcare Expenditure"))
+
+renderPlot(scatter)
+```
+
+
+### Tmap
+```{r}
+# Joining the tmap world data and our mortality data using common iso3 name coloumn
+data("World")
+death_geom <- left_join(health_exp_deaths,World, by = c("iso3c" = "iso_a3"))
+
+# Converting the new dataset into a shape file  
+death_geom <- st_as_sf(death_geom)
+
+# Removing NA's from the sf-df: the coloumn gd was missing data when there were no coordinates.
+death_geom_clean <- death_geom %>%
+  filter(!is.na(gdp_cap_est))
+
+# Settign up a gradient color for mortality
+
+renderTmap({
+    tm_shape(death_geom_clean) + 
+    tm_polygons("income_grp", palette = "-Blues", title = "Income Categories", contrast =0.5, clustering = FALSE) + tm_text("iso3c", size = 0.5) + 
+    tm_shape(death_geom_clean) +
+    tm_bubbles("deaths_per_hundredk",
+               border.col = "black", border.alpha = .5, style="fixed",
+               breaks=c(0, 50,100,150,200,Inf),
+               col="deaths_per_hundredk",
+               n = 6,
+               clustering = FALSE,
+ title.size="Mortality per 100000", title.col="COVID Mortality") +
+    tm_facets(as.layers = TRUE)
+})
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org"
+options(repos = r)
+install.packages("weatherData")
+```
+
