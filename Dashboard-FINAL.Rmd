@@ -29,6 +29,8 @@ Our task is to investigate data related to COVID-19 morbidity and mortality, and
 
 **Ratio of Case Types to the Population in 2021** 
 ```{r ratios}
+
+#importing libraries
 library("wbstats")
 library(httr)
 library(stringr)
@@ -39,6 +41,7 @@ library(dplyr)
 library(plyr)
 library(zoo)
 
+#reading in world-bank data and setting as pops2021 object
 pops2021 <- as.data.frame(wb_data("SP.POP.TOTL", country = "all", start_date = 2021, end_date = 2021))
 
 #Filtering out or removing values with digits in iso2c column, along with NA values
@@ -63,16 +66,15 @@ pops2021_2 <- filter(pops2021_2, !grepl("Union", country))
 #Taking sum of population for all countries to get global world population
 world_pop <- sum(as.numeric(pops2021$SP.POP.TOTL), na.rm = T)
 
-
-#Copying code from Task 1, afterwards import to RDS object to obtain confirmed, deaths and recovered 
+#Taking data from Covid-API and setting as res_object
 res <- VERB("GET", url = "https://covid19-stats-api.herokuapp.com/api/v1/cases?")
 
-#cat(content(res, 'text'))
-
+#Retrieving total amount of confirmed cases, deaths and recovered cases from World Bank datset 
 totalconfirmed_cases <- content(res)$confirmed
 totalconfirmed_deaths <- content(res)$deaths
 totalconfirmed_recovered <- content(res)$recovered
 
+#Determining ratios of total amount of confirmed cases, deaths and recovered cases as compared to global populations 
 ratios <- matrix(c((world_pop/totalconfirmed_cases), (world_pop/totalconfirmed_deaths), (world_pop/totalconfirmed_recovered)))
 colnames(ratios) <- c('Number cases over population')
 rownames(ratios) <- c('Cases', 'Deaths','Recovered')
@@ -101,8 +103,8 @@ DT::datatable(df)
 Socioeconomic Factors {data-orientation=rows}
 ==================================================
 
-We chose to evaluate the spread of COVID-19 in relation to a select number of socioeconomic factors. After preliminary analysis we chose Healthcare Expenditure as % of GDP as our main
-metric.
+We chose to evaluate the spread of COVID-19 in relation to a select number of socioeconomic factors. After preliminary analysis we chose Healthcare Expenditure as % of GDP as the most impactful 
+metric in helping assess covid mortality and case-count data.   
 
 **Table 1:** Socioeconomic factors.
 
@@ -121,17 +123,17 @@ Healthcare Expenditure {data-orientation=columns}
 
 ```{r setup_3, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, fig.width=10, fig.height=8)
+
+#importing libraries 
 library(ggplot2)
 library(dplyr)
 library(terra)
 library(stars)
 library(sf)
-# install.packages("terra")
 library(terra)
 library("raster")
 library(raster)
 library(rgeos)
-
 library(tmap)
 library(ggplot2)
 library(wesanderson)
@@ -144,15 +146,17 @@ Column {.tabset}
 ### Boxplot Analysis of Mortality 
 
 ```{r boxplot_death, echo = FALSE}
-#health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
-
+#Reading in newly-constructed datafile on health-expenditure in different countries, can see data used in Task4.R File  
 health_exp_deaths <- readRDS("df_health_expenditure_deaths.RDS")
 
+#Created a new column called Deaths per 100000 
 health_exp_deaths$`Deaths per 100000` <- health_exp_deaths$deaths_per_capita * 100000
 
+#Filtered out rows with NA-values for the health-expenditure category
 health_exp_deaths <- health_exp_deaths %>%
   filter(!is.na(health_exp_deaths$df_health_conf_categories))
 
+#Creating boxplot for number of deaths per 100 000 based on health-expenditure category type 
 box_1 <- ggplot(health_exp_deaths, aes(x = df_health_conf_categories, y = `Deaths per 100000`, fill = df_health_conf_categories)) +  geom_bar(stat = "identity", na.rm=T) + scale_fill_manual(values = wes_palette("Zissou1")) + labs(y="Deaths per 100000",
        x="Healthcare Expenditure by % of GDP",   
        title="COVID mortality rate and Healthcare expenditure by % of GDP") +
@@ -161,11 +165,11 @@ box_1 <- ggplot(health_exp_deaths, aes(x = df_health_conf_categories, y = `Death
 box_1
 
 ```
-**_NOTE:_** The ANOVA test found there was a significant difference between these categories in impacting COVID mortality. The post-hoc Tukey test found significant differences for High-Low, Very high-Low and High-Moderate categories. 
+**_NOTE:_** The ANOVA test found there was a significant difference between these categories in impacting COVID mortality. The post-hoc Tukey test found significant differences for High-Low, Very high-Low and High-Moderate health expenditure categories. 
 
 
 ```{r anova_mortality_health, include=FALSE}
-##ANOVA/KRUSKAl ##2 -- 3 categories are significant 
+#Performing ANOVA and Post-Hoc Tukey Test for Covid Mortality Data 
 one.way_mort <- aov(health_exp_deaths$deaths_per_capita ~ health_exp_deaths$df_health_conf_categories, data = health_exp_deaths)
 summary(one.way_mort)
 
@@ -176,6 +180,7 @@ tukey.test_healthexp
 
 ### Visual Scatterplot of Mortality
 ```{r scatterplot_death, echo = FALSE}
+#Creating visual scatterplot of mortality-data for additional/alternate visualization of data 
 scatter_1 <- ggplot(health_exp_deaths, aes(x = `2021`, y = `Deaths per 100000`)) + geom_point(aes(col=df_health_conf_categories)) +
   labs(y="Deaths per 100000",
        x="Healthcare Expenditure by % of GDP",   
@@ -199,11 +204,10 @@ death_geom <- st_as_sf(death_geom)
 # Removing NA's from the sf-df: the coloumn gd was missing data when there were no coordinates.
 death_geom_clean <- death_geom %>%
   filter(!is.na(gdp_cap_est))
-# Changing coloumn name for aestheitc reasons
+# Changing column name for aesthetic reasons
 death_geom_clean$`Healthcare Expenditure` <- death_geom_clean$df_health_conf_categories
 
-# Setting up a gradient color for mortality
-
+# Creating an interactive-map providing health-expenditure data and mortality data based on gradient of colors 
 tmap_1 <- tm_shape(death_geom_clean) + 
     tm_polygons("Healthcare Expenditure", palette = "Blues", title = "Healthcare expenditure", contrast =0.5, clustering = FALSE) + tm_text("iso3c", size = 0.5) + 
     tm_shape(death_geom_clean) +
@@ -216,7 +220,7 @@ tmap_1 <- tm_shape(death_geom_clean) +
  title.size="Mortality per 100000", title.col="COVID Mortality") +
     tm_facets(as.layers = TRUE)
 
-# view map with default view options
+#View map with default view options
 tmap_mode("view")
 tmap_1
 
@@ -231,13 +235,17 @@ Column {.tabset}
 
 ```{r boxplot_cases, echo = FALSE}
 
+#Reading in newly-constructed datafile on health-expenditure in different countries, can see data used in Task4.R File  
 health_exp_cases <- readRDS("df_health_expenditure_cases.RDS")
 
+#Created a new column called Deaths per 100000 
 health_exp_cases$`Cases per 100000` <- health_exp_cases$cases_per_capita * 100000
 
+#Filtered out rows with NA-values for the health-expenditure category
 health_exp_cases <- health_exp_cases %>%
   filter(!is.na(health_exp_cases$df_health_conf_categories))
 
+#Creating boxplot for number of deaths per 100 000 based on health-expenditure category type 
 box_2 <- ggplot(health_exp_cases, aes(x=factor(df_health_conf_categories), y=`Cases per 100000`,  fill=factor(df_health_conf_categories)))  +  geom_bar(stat = "identity", na.rm=T) + scale_fill_manual(values = wes_palette("Zissou1")) + labs(y="Cases per 100000",
        x="Healthcare Expenditure by % of GDP",   
        title="COVID confirmed cases rate and Healthcare expenditure by % of GDP") +
@@ -248,7 +256,7 @@ box_2
 **_NOTE:_** The ANOVA test found there was a significant difference between these categories in impacting COVID case count incidence. The post-hoc Tukey test found significant differences for High-Low, Very high-Low and High-Moderate categories and Very high-Moderate categories. 
 
 ```{r anova_cases_health, include=FALSE}
-##ANOVA/KRUSKAl ##2 -- 3 categories are significant 
+#Performing ANOVA and Post-Hoc Tukey Test for Covid Case Data 
 one.way_cases <- aov(health_exp_cases$cases_per_capita ~ health_exp_cases$df_health_conf_categories, data = health_exp_cases)
 summary(one.way_cases)
 
@@ -258,6 +266,7 @@ tukey.test_healthexp_cases
 
 ### Visual Scatterplot of Confirmed Cases
 ```{r scatterplot_cases, echo = FALSE}
+#Creating visual scatterplot of case-count-data for additional/alternate visualization of data 
 scatter_2 <- ggplot(health_exp_cases, aes(x = `2021`, y = `Cases per 100000`)) + geom_point(aes(col=df_health_conf_categories)) +
   labs(y="Cases per 100000",
        x="Healthcare Expenditure by % of GDP",   
@@ -277,14 +286,14 @@ cases_geom <- left_join(health_exp_cases,World, by = c("iso3c" = "iso_a3"))
 # Converting the new dataset into a shape file  
 cases_geom <- st_as_sf(cases_geom)
 
-# Removing NA's from the sf-df: the coloumn gd was missing data when there were no coordinates.
+# Removing NA's from the sf-df: the column gd was missing data when there were no coordinates.
 cases_geom_clean <- cases_geom %>%
   filter(!is.na(gdp_cap_est))
-# Changing coloumn name for aestheitc reasons
+
+# Changing column name for aesthetic reasons
 cases_geom_clean$`Healthcare Expenditure` <- cases_geom_clean$df_health_conf_categories
 
-# Setting up a gradient color for mortality
-
+# Creating an interactive-map providing health-expenditure data and case-count data based on gradient of colors 
 tmap_2 <- tm_shape(cases_geom_clean) + 
     tm_polygons("Healthcare Expenditure", palette = "Blues", title = "Healthcare expenditure", contrast =0.5, clustering = FALSE) + tm_text("iso3c", size = 0.5) + 
     tm_shape(cases_geom_clean) +
@@ -297,7 +306,7 @@ tmap_2 <- tm_shape(cases_geom_clean) +
  title.size="Cases per 100000", title.col="COVID Cases") +
     tm_facets(as.layers = TRUE)
 
-# view map with default view options
+#View map with default view options
 tmap_mode("view")
 tmap_2
 
@@ -309,6 +318,8 @@ Other metrics considered {data-orientation=columns}
 ======================================================
 
 ```{r setup_2, include=FALSE}
+
+#Reading in newly-constructed datafiles for various metrics assessed from Task4.R File  
 case_countries2 <- read.csv("case_countries2.csv")
 death_countries2 <- read.csv("death_countries2.csv")
 df_covid_pop_density.mort <- read.csv("df_covid_pop_densitymort.csv")
@@ -327,6 +338,7 @@ Column {.tabset}
 ### Cases by Country Income Group
 
 ```{r, echo=FALSE}
+#Creating boxplot for number of deaths per 100 000 based on health-expenditure category type 
 boxplot((case_countries2$cases_per_capita*100000) ~ case_countries2$Income.group, 
         xlab = "Income Group",
         ylab = "Cases per 100000",
