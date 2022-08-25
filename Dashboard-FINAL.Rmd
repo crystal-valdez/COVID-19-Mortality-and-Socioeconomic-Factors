@@ -338,7 +338,7 @@ Column {.tabset}
 ### Cases by Country Income Group
 
 ```{r, echo=FALSE}
-#Creating boxplot for number of deaths per 100 000 based on health-expenditure category type 
+#Creating boxplot for number of cases per 100 000 based on country-income category type 
 boxplot((case_countries2$cases_per_capita*100000) ~ case_countries2$Income.group, 
         xlab = "Income Group",
         ylab = "Cases per 100000",
@@ -351,6 +351,7 @@ boxplot((case_countries2$cases_per_capita*100000) ~ case_countries2$Income.group
 ### Cases by Country Geographical Region
 
 ```{r, echo=FALSE}
+#Creating boxplot for number of cases per 100 000 based on geographical region category type 
 boxplot((case_countries2$cases_per_capita*100000) ~ case_countries2$Region,
         xlab = "Geographical Region",
         ylab = "Cases per 100000",
@@ -362,6 +363,7 @@ boxplot((case_countries2$cases_per_capita*100000) ~ case_countries2$Region,
 ### Cases by Country Gini
 
 ```{r, echo=FALSE}
+#Creating boxplot for number of cases per 100 000 based on GINI-index (indicator of inequality) category type 
 boxplot((df_covid_gini$cases_per_capita*100000) ~ df_covid_gini$gini_equaltiy, 
         xlab = "Gini",
         ylab = "Cases per 100000",
@@ -373,6 +375,7 @@ boxplot((df_covid_gini$cases_per_capita*100000) ~ df_covid_gini$gini_equaltiy,
 
 ### Cases by Country Population Density
 ```{r, echo=FALSE}
+#Creating boxplot for number of cases per 100 000 based on population-density category type 
 boxplot((df_covid_pop_density$cases_per_capita*100000) ~ df_covid_pop_density$pop.density_categories,
         xlab = "Population Density",
         ylab = "Cases per 100000",
@@ -390,6 +393,7 @@ Row  {.tabset}
 ### Deaths by Country Income Group
 
 ```{r, echo=FALSE}
+#Creating boxplot for number of deaths per 100 000 based on income density category type 
 boxplot((death_countries2$cases_per_capita*100000) ~ death_countries2$Income.group,
         xlab = "Income Group",
         ylab = "Deaths per 100000",
@@ -404,6 +408,7 @@ boxplot((death_countries2$cases_per_capita*100000) ~ death_countries2$Income.gro
 ### Deaths by Country Geographical Region
 
 ```{r, echo=FALSE}
+#Creating boxplot for number of deaths per 100 000 based on geographical region category type 
 boxplot((death_countries2$cases_per_capita*100000) ~ case_countries2$Region,
         xlab = "Geographical Region",
         ylab = "Deaths per 100000",
@@ -417,6 +422,7 @@ boxplot((death_countries2$cases_per_capita*100000) ~ case_countries2$Region,
 ### Deaths by Country Gini
 
 ```{r, echo=FALSE}
+#Creating boxplot for number of deaths per 100 000 based on GINI index category type 
 boxplot((df_covid_gini_mort$cases_per_capita*100000) ~ df_covid_gini_mort$gini_equaltiy,
         xlab = "Gini",
         ylab = "Deaths per 100000",
@@ -427,6 +433,7 @@ boxplot((df_covid_gini_mort$cases_per_capita*100000) ~ df_covid_gini_mort$gini_e
 
 ### Deaths by Country Population Density
 ```{r, echo=FALSE}
+#Creating boxplot for number of deaths per 100 000 based on population density category type 
 boxplot((df_covid_pop_density.mort$deaths_per_capita*100000) ~ df_covid_pop_density.mort$pop.density_categories,
         xlab = "Population Density",
         ylab = "Deaths per 100000",
