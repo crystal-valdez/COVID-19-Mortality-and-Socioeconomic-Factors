@@ -1,5 +1,5 @@
 # Final-Papiha-Alana-Crystal-Deweena
-Final Project with Papiha, Alana, Crystal and Deweena 
+Our task is to investigate data related to COVID-19 morbidity and mortality, and examine the mortality of COVID-19 in relation to socioeconomic factors. 
 
 Note on tmap: 
 - The tmap worked for some of us, but others needed to do additional steps for it to work, if faced with an error these steps may help:
